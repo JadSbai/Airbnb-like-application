@@ -8,9 +8,11 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    public Controller controller;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("map.fxml"));
         primaryStage.setTitle("This is JJDL v15: Jad's branch");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
