@@ -35,20 +35,6 @@ public class Main extends Application {
     }
 
 
-    private List<Integer> getPriceRange(int min, int max)
-    {
-        ArrayList<Integer> priceRange = new ArrayList<>();
-
-        for (int i = min; i <= max; i =(int) (i +((max- min)) * 0.1))
-        {
-            Integer integer = i;
-            priceRange.add(integer);
-        }
-
-        return priceRange;
-    }
-
-
 
     public static void main(String[] args) {
         launch(args);

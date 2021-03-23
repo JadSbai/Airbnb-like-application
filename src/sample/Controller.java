@@ -44,9 +44,6 @@ public class Controller {
     public static final int MAX_VALUE = 600;
     public static final int MIN_VALUE = 100;
 
-    @FXML
-    private Button HAMM;
-
     //TODO styling, if statements
 
     public void initialize() {
@@ -119,29 +116,26 @@ public class Controller {
             alert.showAndWait();
         }
 
-        @FXML
-        private void printInstructions(ActionEvent e)
-        {
-            Label label = new Label("Instructions...");
-            Button okButton = new Button("OK");
-            okButton.setOnAction(this::okAction);
-            okButton.getStyleClass().add("buttons");
+    @FXML
+    private void printInstructions(ActionEvent e)
+    {
+        Label label = new Label("Instructions...");
+        Button okButton = new Button("OK");
+        okButton.setOnAction(this::okAction);
+        okButton.getStyleClass().add("buttons");
 
-            VBox infoBox = new VBox(label, okButton);
-            infoBox.getStyleClass().add("vboxes");
+        VBox infoBox = new VBox(label, okButton);
+        infoBox.getStyleClass().add("vboxes");
 
-            mainPane.getChildren().clear();
-            mainPane.getChildren().add(infoBox);
-        }
-
-        private void okAction(ActionEvent e)
-        {
-            mainPane.getChildren().clear();
-            mainPane.getChildren().add(welcomeVBox);
-        }
-
-    public void boroughSearch(ActionEvent event){
-        String boroughAbreviation = ((Button) event.getSource()).getText();
+        mainPane.getChildren().clear();
+        mainPane.getChildren().add(infoBox);
     }
+
+    private void okAction(ActionEvent e)
+    {
+        mainPane.getChildren().clear();
+        mainPane.getChildren().add(welcomeVBox);
+    }
+
 }
 
