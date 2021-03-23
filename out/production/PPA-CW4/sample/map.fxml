@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="633.0" stylesheets="@hexagons.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button layoutX="120.0" layoutY="70.0" mnemonicParsing="false" prefHeight="99.0" prefWidth="99.0" styleClass="hexagon-button" text="HAMM" />
+      <Button layoutX="224.0" layoutY="70.0" mnemonicParsing="false" prefHeight="99.0" prefWidth="99.0" styleClass="hexagon-button" text="HAMM" />
+      <Button layoutX="172.0" layoutY="149.0" mnemonicParsing="false" prefHeight="99.0" prefWidth="99.0" styleClass="hexagon-button" text="HAMM" />
+   </children>
+</Pane>

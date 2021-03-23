@@ -44,19 +44,18 @@ public class Controller {
     public static final int MAX_VALUE = 600;
     public static final int MIN_VALUE = 100;
 
+    @FXML
+    private Button HAMM;
+
     //TODO styling, if statements
 
     public void initialize() {
-
-
 
         leftButton.setDisable(true);
         rightButton.setDisable(true);
 
         minimumPrice.setItems(FXCollections.observableArrayList(getPriceRange(MIN_VALUE, MAX_VALUE)));
         maximumPrice.setItems(FXCollections.observableArrayList(getPriceRange(MIN_VALUE, MAX_VALUE)));
-
-        searchButton.setOnAction(this::searchAction);
 
     }
 
@@ -68,6 +67,7 @@ public class Controller {
         return priceRange;
     }
 
+    @FXML
     private void searchAction(ActionEvent e) {
 
         boolean valid = (getIntFromBox(minimumPrice) && getIntFromBox(maximumPrice));
@@ -139,5 +139,9 @@ public class Controller {
             mainPane.getChildren().clear();
             mainPane.getChildren().add(welcomeVBox);
         }
+
+    public void boroughSearch(ActionEvent event){
+        String boroughAbreviation = ((Button) event.getSource()).getText();
+    }
 }
 
