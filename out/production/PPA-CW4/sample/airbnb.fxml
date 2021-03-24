@@ -64,7 +64,7 @@
                               <ComboBox fx:id="minimumPrice" promptText="-" />
                               <Label text="To:" />
                               <ComboBox fx:id="maximumPrice" promptText="-" />
-                              <Button fx:id="searchButton" mnemonicParsing="false" text="Search!" />
+                              <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchAction" text="Search!" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" right="5.0" top="5.0" />

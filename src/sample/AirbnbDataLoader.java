@@ -11,6 +11,11 @@ import java.net.URISyntaxException;
 
 public class AirbnbDataLoader {
 
+    ArrayList<AirbnbListing> listings;
+
+    public AirbnbDataLoader(){
+        listings = new ArrayList<AirbnbListing>();
+    }
     /**
      * Return an ArrayList containing the rows in the AirBnB London data set csv file.
      */
@@ -53,6 +58,16 @@ public class AirbnbDataLoader {
         }
         System.out.println("Success! Number of loaded records: " + listings.size());
         return listings;
+    }
+
+    public ArrayList<AirbnbListing> loadFromBoruogh(String borough){
+        ArrayList<AirbnbListing> boroughListings = new ArrayList<>();
+        for (AirbnbListing listing : listings) {
+            if (listing.getNeighbourhood().equals(borough)){
+                boroughListings.add(listing);
+            }
+        }
+        return boroughListings;
     }
 
     /**
