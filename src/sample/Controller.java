@@ -48,15 +48,11 @@ public class Controller {
 
     public void initialize() {
 
-
-
         leftButton.setDisable(true);
         rightButton.setDisable(true);
 
         minimumPrice.setItems(FXCollections.observableArrayList(getPriceRange(MIN_VALUE, MAX_VALUE)));
         maximumPrice.setItems(FXCollections.observableArrayList(getPriceRange(MIN_VALUE, MAX_VALUE)));
-
-        searchButton.setOnAction(this::searchAction);
 
     }
 
@@ -68,6 +64,7 @@ public class Controller {
         return priceRange;
     }
 
+    @FXML
     private void searchAction(ActionEvent e) {
 
         boolean valid = (getIntFromBox(minimumPrice) && getIntFromBox(maximumPrice));
@@ -119,25 +116,26 @@ public class Controller {
             alert.showAndWait();
         }
 
-        @FXML
-        private void printInstructions(ActionEvent e)
-        {
-            Label label = new Label("Instructions...");
-            Button okButton = new Button("OK");
-            okButton.setOnAction(this::okAction);
-            okButton.getStyleClass().add("buttons");
+    @FXML
+    private void printInstructions(ActionEvent e)
+    {
+        Label label = new Label("Instructions...");
+        Button okButton = new Button("OK");
+        okButton.setOnAction(this::okAction);
+        okButton.getStyleClass().add("buttons");
 
-            VBox infoBox = new VBox(label, okButton);
-            infoBox.getStyleClass().add("vboxes");
+        VBox infoBox = new VBox(label, okButton);
+        infoBox.getStyleClass().add("vboxes");
 
-            mainPane.getChildren().clear();
-            mainPane.getChildren().add(infoBox);
-        }
+        mainPane.getChildren().clear();
+        mainPane.getChildren().add(infoBox);
+    }
 
-        private void okAction(ActionEvent e)
-        {
-            mainPane.getChildren().clear();
-            mainPane.getChildren().add(welcomeVBox);
-        }
+    private void okAction(ActionEvent e)
+    {
+        mainPane.getChildren().clear();
+        mainPane.getChildren().add(welcomeVBox);
+    }
+
 }
 
