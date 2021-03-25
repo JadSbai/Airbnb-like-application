@@ -2,28 +2,29 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.shape.Polygon;
 
+import static sample.Controller.MAX_VALUE;
+
 public class MapController {
 
-    @FXML
+
     private GridPane map;
 
-    @FXML
-    private Button HAMM;
+    public MapController(){}
 
-    @FXML
-    private Button EALI;
 
     public void initialize(){
-        createHoneyComb(10, 10, 20);
+
     }
 
-    public static GridPane createHoneyComb(int rows, int columns, double size) {
+    public GridPane createHoneyComb(int rows, int columns, double size) {
         double[] points = new double[12];
         for (int i = 0; i < 12; i += 2) {
             double angle = Math.PI * (0.5 + i / 6d);
@@ -39,7 +40,7 @@ public class MapController {
         rc2.setFillHeight(true);
 
         double width = Math.sqrt(0.75) * size;
-        ColumnConstraints cc = new ColumnConstraints(width / 2);
+        ColumnConstraints cc = new ColumnConstraints(width/2);
         cc.setFillWidth(true);
 
         for (int i = 0; i < columns; i++) {
@@ -52,22 +53,18 @@ public class MapController {
             int count = columns - offset;
             for (int c = 0; c < count; c++) {
                 Button b = new Button();
-                b.setPrefSize(width, size);
+                b.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+                b.setMinSize(0,0);
+                b.setMaxSize(10000, 10000);
                 b.setShape(polygon);
+                b.setVisible(false);
                 result.add(b, 2 * c + offset, 2 * r, 2, 3);
             }
         }
         result.getRowConstraints().add(rc1);
+        result.setPrefSize(1000, 1000);
+        result.setMinSize(0,0);
+        result.setMaxSize(10000, 10000);
         return result;
-    }
-
-    public GridPane getGridPane()
-        {
-            return map;
-        }
-
-    @FXML
-    public void boroughSearch(ActionEvent event){
-        String boroughAbreviation = ((Button) event.getSource()).getText();
     }
 }
