@@ -23,6 +23,8 @@ public class MainController {
 
     private MapController mapController;
 
+
+
     private Pane welcomeRoot;
     private Pane mapRoot;
     //private Pane statisticsRoot;
