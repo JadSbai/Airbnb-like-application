@@ -5,7 +5,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@hexagons.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/15.0.1" fx:controller="sample.MapController">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@hexagons.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MapController">
   <content>
     <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0">
          <children>
@@ -19,7 +19,7 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="400.0" layoutY="75.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="WALT" AnchorPane.topAnchor="75.0">
+            <Button layoutX="400.0" layoutY="75.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="WALT" AnchorPane.topAnchor="75.0">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -29,7 +29,7 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="200.0" layoutY="75.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BARN">
+            <Button layoutX="200.0" layoutY="75.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BARN">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -39,12 +39,12 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="300.0" layoutY="75.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HRGY">
+            <Button layoutX="300.0" layoutY="75.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HRGY">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="350.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="ENFI" AnchorPane.topAnchor="0.0">
+            <Button layoutX="350.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="ENFI" AnchorPane.topAnchor="0.0">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -54,12 +54,12 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="50.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HRRW">
+            <Button layoutX="50.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HRRW">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="150.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BREN">
+            <Button layoutX="150.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BREN">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -69,12 +69,12 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="250.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="CAMD">
+            <Button layoutX="250.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="CAMD">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="350.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="ISLI">
+            <Button layoutX="350.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="ISLI">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -84,57 +84,57 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="450.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HACK">
+            <Button layoutX="450.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HACK">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="100.0" layoutY="225.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="EALI">
+            <Button layoutX="100.0" layoutY="225.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="EALI">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutY="225.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HILL">
+            <Button layoutY="225.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HILL">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="200.0" layoutY="225.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="KENS">
+            <Button layoutX="200.0" layoutY="225.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="KENS">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="300.0" layoutY="225.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="WSTM">
+            <Button layoutX="300.0" layoutY="225.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="WSTM">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="400.0" layoutY="225.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="TOWH">
+            <Button layoutX="400.0" layoutY="225.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="TOWH">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="50.0" layoutY="300.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HOUN">
+            <Button layoutX="50.0" layoutY="300.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HOUN">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="150.0" layoutY="300.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HAMM">
+            <Button layoutX="150.0" layoutY="300.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HAMM">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="250.0" layoutY="300.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="WAND">
+            <Button layoutX="250.0" layoutY="300.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="WAND">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="350.0" layoutY="300.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="CITY">
+            <Button layoutX="350.0" layoutY="300.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="CITY">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="450.0" layoutY="300.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="GWCH">
+            <Button layoutX="450.0" layoutY="300.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="GWCH">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -149,52 +149,52 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="550.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="REDB">
+            <Button layoutX="550.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="REDB">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="500.0" layoutY="225.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="NEWH">
+            <Button layoutX="500.0" layoutY="225.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="NEWH">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="650.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HAVE">
+            <Button layoutX="650.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HAVE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="600.0" layoutY="225.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BARK">
+            <Button layoutX="600.0" layoutY="225.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BARK">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="550.0" layoutY="300.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BEXL">
+            <Button layoutX="550.0" layoutY="300.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BEXL">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="100.0" layoutY="375.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="RICH">
+            <Button layoutX="100.0" layoutY="375.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="RICH">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="200.0" layoutY="375.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="MERT">
+            <Button layoutX="200.0" layoutY="375.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="MERT">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="300.0" layoutY="375.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="LAMB">
+            <Button layoutX="300.0" layoutY="375.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="LAMB">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="400.0" layoutY="375.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="STHW">
+            <Button layoutX="400.0" layoutY="375.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="STHW">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="500.0" layoutY="375.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="LEWS">
+            <Button layoutX="500.0" layoutY="375.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="LEWS">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -204,22 +204,22 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="450.0" layoutY="450.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BROM">
+            <Button layoutX="450.0" layoutY="450.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BROM">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="350.0" layoutY="450.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="CROY">
+            <Button layoutX="350.0" layoutY="450.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="CROY">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="250.0" layoutY="450.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="SUTT">
+            <Button layoutX="250.0" layoutY="450.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="SUTT">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button layoutX="150.0" layoutY="450.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="KING">
+            <Button layoutX="150.0" layoutY="450.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="KING">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
