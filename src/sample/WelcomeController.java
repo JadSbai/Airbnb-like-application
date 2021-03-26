@@ -23,6 +23,7 @@ public class WelcomeController {
     private ComboBox minimumPrice;
     @FXML
     private ComboBox maximumPrice;
+
     @FXML
     private Button searchButton;
 
