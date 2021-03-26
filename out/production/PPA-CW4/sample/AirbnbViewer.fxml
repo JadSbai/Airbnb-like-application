@@ -3,11 +3,12 @@
 <?import javafx.scene.Scene?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.stage.Stage?>
 
-<Stage title="AirBnB Viewer">
+<Stage title="AirBnB Viewer" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <scene>
         <Scene>
             <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
@@ -18,7 +19,7 @@
                             <Label text="Sort by:" />
                         </items>
                     </ToolBar>
-                    <VBox fx:id="listOfProperties" />
+               <ListView fx:id="listView" prefWidth="400.0" />
                 </children>
             </VBox>
         </Scene>

@@ -21,25 +21,24 @@ import static sample.Controller.MAX_VALUE;
 public class Main extends Application {
 
 
-    //Controller controller;
+    Controller controller;
     MapController mapController;
 
 
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        //mapController = new MapController();
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("airbnb.fxml"));
-        FXMLLoader map = new FXMLLoader(getClass().getResource("map.fxml"));
-        ScrollPane root = map.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("airbnb.fxml"));
+        //FXMLLoader map = new FXMLLoader(getClass().getResource("map.fxml"));
+        Pane root = loader.load();
         primaryStage.setTitle("Airbnb London");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         //scene.getStylesheets().add(getClass().getResource("WelcomePanelStyle.css").toURI().toString());
         primaryStage.show();
 
-        mapController = map.getController();
-        mapController.initialize();
+        //mapController = map.getController();
+        //mapController.initialize();
 
         //controller = loader.getController();
         //controller.initialize();
