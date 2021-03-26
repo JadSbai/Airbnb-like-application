@@ -47,7 +47,7 @@ public class WelcomeController {
 
     //TODO styling, if statements
 
-    public void initialize(Button leftArrow, Button rightArrow, Label priceLabel) throws IOException {
+    public void initialize(Button leftArrow, Button rightArrow, Label priceLabel){
 
         this.leftArrow = leftArrow;
         this.rightArrow = rightArrow;

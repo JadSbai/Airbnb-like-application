@@ -26,6 +26,9 @@ public class MainController {
     private Label currentPriceRangeLabel;
 
     @FXML
+    private Button signInButton;
+
+    @FXML
     private Circle profileCircle;
 
     private Account account;
@@ -39,16 +42,17 @@ public class MainController {
     private Pane signInWindow;
 
     private MapController mapController;
+    
+    private AccountController accountController;
 
     private Pane welcomeRoot;
     private Pane mapRoot;
     //private Pane statisticsRoot;
 
-    private AccountController accountController;
+//TODO: looping arraylist with buttons, sign in text automatically selected so u cannot read textfield,
+// @FXML initialise
 
-//TODO; looping arraylist with buttons
-
-    public void initialize() throws IOException {
+    public void initialize(MainController mainController) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome.fxml"));
         welcomeRoot = loader.load();
         mainPane.setCenter(welcomeRoot);
@@ -59,11 +63,17 @@ public class MainController {
         //statisticsRoot = loader.load();
         welcomeController.initialize(leftButton, rightButton, currentPriceRangeLabel);
 
-        signedInBar = FXMLLoader.load(getClass().getResource("signed_in.fxml"));
-        signedOutBar = FXMLLoader.load(getClass().getResource("signed_out.fxml"));
+        loader = new FXMLLoader(getClass().getResource("signed_in.fxml"));
+        loader.setController(mainController);
+        signedInBar = loader.load();
+
+        loader = new FXMLLoader(getClass().getResource("signed_out.fxml"));
+        loader.setController(mainController);
+        signedOutBar = loader.load();
+
         accountBar.setRight(signedOutBar);
 
-        
+
 
     }
 
@@ -104,6 +114,11 @@ public class MainController {
         {
             accountBar.setRight(signedOutBar);
         }
+    }
+    
+    public AccountController getAccountController()
+    {
+        return accountController;
     }
 
 
