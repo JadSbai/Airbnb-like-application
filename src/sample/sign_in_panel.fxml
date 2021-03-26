@@ -17,7 +17,7 @@
       </Label>
       <TextField promptText="Email:" />
       <PasswordField promptText="Password:" />
-      <Button mnemonicParsing="false" text="Sign in" />
+      <Button mnemonicParsing="false" onAction="#signInAction" text="Sign in" />
       <Hyperlink text="Don't have an account? Create one." />
    </children>
    <padding>

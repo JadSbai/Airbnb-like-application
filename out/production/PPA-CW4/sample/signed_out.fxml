@@ -6,7 +6,7 @@
 
 <HBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AccountController">
    <children>
-      <Button mnemonicParsing="false" onAction="#signInAction" text="Sign in" />
+      <Button mnemonicParsing="false" onAction="#signIn" text="Sign in" />
       <Button mnemonicParsing="false" onAction="#createAccount" text="Create Account" />
    </children>
    <padding>
