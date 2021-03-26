@@ -9,8 +9,6 @@ import javafx.scene.layout.*;
 public class Main extends Application {
 
 
-    MainController controller;
-    //MapController mapController;
 
 
     @Override
@@ -25,12 +23,8 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         scene.getStylesheets().add(getClass().getResource("WelcomePanelStyle.css").toURI().toString());
         primaryStage.show();
-
-        //mapController = map.getController();
-        //mapController.initialize();
-
-        //controller = loader.getController();
-        //controller.initialize();
+        MainController controller = loader.getController();
+        controller.initialize();
 
 
 

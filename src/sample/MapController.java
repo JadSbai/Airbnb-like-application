@@ -40,7 +40,7 @@ public class MapController {
         rc2.setFillHeight(true);
 
         double width = Math.sqrt(0.75) * size;
-        ColumnConstraints cc = new ColumnConstraints(width/2);
+        ColumnConstraints cc = new ColumnConstraints(width / 2);
         cc.setFillWidth(true);
 
         for (int i = 0; i < columns; i++) {
@@ -61,6 +61,11 @@ public class MapController {
         result.getRowConstraints().add(rc1);
         return result;
     }
+
+    public GridPane getGridPane()
+        {
+            return map;
+        }
 
     @FXML
     public void boroughSearch(ActionEvent event){
