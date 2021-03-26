@@ -19,12 +19,12 @@ public class MapController {
     public void boroughSearch(ActionEvent event) throws IOException {
         String boroughAbbreviation = ((Button) event.getSource()).getText();
 
-        FXMLLoader propertyList = new FXMLLoader(getClass().getResource("AirbnbViewer.fxml"));
+        FXMLLoader propertyList = new FXMLLoader(getClass().getResource("AirbnbViewerList.fxml"));
         Stage stage = propertyList.load();
         stage.setTitle("AirBnB's in " + boroughAbbreviation);
         stage.show();
 
-        //PropertyListController listOfProperties = propertyList.getController();
-        //listOfProperties.initialize(boroughAbbreviation);
+        PropertyListController listOfProperties = propertyList.getController();
+        listOfProperties.initialize(boroughAbbreviation);
     }
 }

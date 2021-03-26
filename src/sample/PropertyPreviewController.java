@@ -12,11 +12,7 @@ public class PropertyPreviewController {
     @FXML
     private Label price;
 
-    public void initialize(){
-
-    }
-
-    public PropertyPreviewController(AirbnbListing airbnbListing){
+    public void initialize(AirbnbListing airbnbListing){
         this.hostName.setText(airbnbListing.getHost_name());
         this.price.setText("£" + airbnbListing.getPrice() +" / night");
     }

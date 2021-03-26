@@ -30,8 +30,8 @@ public class PropertyListController {
 
         for(AirbnbListing listing: listings){
             FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
-            Pane propertyPane = preview.load();
-            listView.getItems().add(propertyPane);
+            //Pane propertyPane = preview.load();
+            //listView.getItems().add(propertyPane);
             count++;
         }
         System.out.println(count);
