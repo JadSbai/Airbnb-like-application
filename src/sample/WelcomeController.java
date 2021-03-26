@@ -3,6 +3,7 @@ package sample;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.event.ActionEvent;
@@ -11,11 +12,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 
 import javax.swing.text.LabelView;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import java.lang.reflect.Array;
 
-public class Controller {
+public class WelcomeController {
 
     @FXML
     private ComboBox minimumPrice;
@@ -27,29 +29,32 @@ public class Controller {
     private int minPrice;
     private int maxPrice;
 
-    @FXML
-    private Label currentPriceRangeLabel;
+    private Button rightArrow;
+    private Button leftArrow;
+    private Label priceLabel;
 
     @FXML
-    private Button leftButton;
-    @FXML
-    private Button rightButton;
+    private BorderPane welcomeBorderPane;
 
     @FXML
     private VBox welcomeVBox;
 
     @FXML
-    private StackPane mainPane;
+    private StackPane stackPane;
 
     public static final int MAX_VALUE = 600;
     public static final int MIN_VALUE = 100;
 
     //TODO styling, if statements
 
-    public void initialize() {
+    public void initialize(Button leftArrow, Button rightArrow, Label priceLabel) throws IOException {
 
-        leftButton.setDisable(true);
-        rightButton.setDisable(true);
+        this.leftArrow = leftArrow;
+        this.rightArrow = rightArrow;
+        this.priceLabel = priceLabel;
+
+        leftArrow.setDisable(true);
+        rightArrow.setDisable(true);
 
         minimumPrice.setItems(FXCollections.observableArrayList(getPriceRange(MIN_VALUE, MAX_VALUE)));
         maximumPrice.setItems(FXCollections.observableArrayList(getPriceRange(MIN_VALUE, MAX_VALUE)));
@@ -75,9 +80,9 @@ public class Controller {
         }
         if (valid && maxPrice >= minPrice)
         {
-            currentPriceRangeLabel.setText("Price range: " + minPrice + "-" + maxPrice);
-            rightButton.setDisable(false);
-            leftButton.setDisable(false);
+            priceLabel.setText("Price range: " + minPrice + "-" + maxPrice);
+            rightArrow.setDisable(false);
+            leftArrow.setDisable(false);
         }
         else if(valid)
         {
@@ -127,14 +132,19 @@ public class Controller {
         VBox infoBox = new VBox(label, okButton);
         infoBox.getStyleClass().add("vboxes");
 
-        mainPane.getChildren().clear();
-        mainPane.getChildren().add(infoBox);
+        stackPane.getChildren().clear();
+        stackPane.getChildren().add(infoBox);
     }
 
     private void okAction(ActionEvent e)
     {
-        mainPane.getChildren().clear();
-        mainPane.getChildren().add(welcomeVBox);
+        stackPane.getChildren().clear();
+        stackPane.getChildren().add(welcomeVBox);
+    }
+
+    public BorderPane getBorderPane()
+    {
+        return welcomeBorderPane;
     }
 
 }
