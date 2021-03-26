@@ -12,6 +12,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 import javafx.scene.layout.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class Main extends Application {
 
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws IOException {
 
         //mapController = new MapController();
         //FXMLLoader loader = new FXMLLoader(getClass().getResource("airbnb.fxml"));
