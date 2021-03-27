@@ -15,10 +15,10 @@
             <Insets bottom="20.0" />
          </padding>
       </Label>
-      <TextField promptText="Email:" />
-      <PasswordField promptText="Password:" />
+      <TextField fx:id="signInEmail" promptText="Email:" />
+      <PasswordField fx:id="signInPassword" promptText="Password:" />
       <Button mnemonicParsing="false" onAction="#signInAction" text="Sign in" />
-      <Hyperlink text="Don't have an account? Create one." />
+      <Hyperlink onAction="#createAccountLink" text="Don't have an account? Create one." />
    </children>
    <padding>
       <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
