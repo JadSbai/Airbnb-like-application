@@ -23,10 +23,9 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         scene.getStylesheets().add(getClass().getResource("WelcomePanelStyle.css").toURI().toString());
         primaryStage.show();
+
         MainController controller = loader.getController();
         controller.initialize();
-
-
 
     }
 

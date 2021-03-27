@@ -14,14 +14,15 @@ public class AirbnbDataLoader {
     ArrayList<AirbnbListing> listings;
 
     public AirbnbDataLoader(){
-        listings = new ArrayList<AirbnbListing>();
+        listings = load();
     }
+
     /**
      * Return an ArrayList containing the rows in the AirBnB London data set csv file.
      */
     public ArrayList<AirbnbListing> load() {
         System.out.print("Begin loading Airbnb london dataset...");
-        ArrayList<AirbnbListing> listings = new ArrayList<AirbnbListing>();
+        ArrayList<AirbnbListing> listings = new ArrayList<>();
         try{
             URL url = getClass().getResource("airbnb-london.csv");
             CSVReader reader = new CSVReader(new FileReader(new File(url.toURI()).getAbsolutePath()));
@@ -60,10 +61,10 @@ public class AirbnbDataLoader {
         return listings;
     }
 
-    public ArrayList<AirbnbListing> loadFromBoruogh(String borough){
+    public ArrayList<AirbnbListing> loadFromBoruogh(String boroughAbbrevation){
         ArrayList<AirbnbListing> boroughListings = new ArrayList<>();
         for (AirbnbListing listing : listings) {
-            if (listing.getNeighbourhood().equals(borough)){
+            if (listing.getAbbreviatedNeighbourhood().equals(boroughAbbrevation)){
                 boroughListings.add(listing);
             }
         }
