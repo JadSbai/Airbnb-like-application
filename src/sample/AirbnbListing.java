@@ -83,7 +83,7 @@ public class AirbnbListing {
         boroughAbbreviation.put("Havering", "HAVE");
         boroughAbbreviation.put("Hillingdon", "HILL");
         boroughAbbreviation.put("Ealing", "EALI");
-        boroughAbbreviation.put("Kinsington and Chelsea", "KENS");
+        boroughAbbreviation.put("Kensington and Chelsea", "KENS");
         boroughAbbreviation.put("Westminster", "WSTM");
         boroughAbbreviation.put("Tower Hamlets", "TOWH");
         boroughAbbreviation.put("Newham", "NEWH");

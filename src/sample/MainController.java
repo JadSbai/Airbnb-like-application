@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -33,7 +34,7 @@ public class MainController {
     private BorderPane accountBar;
 
     private Pane welcomeRoot;
-    private Pane mapRoot;
+    private ScrollPane mapRoot;
     //private Pane statisticsRoot;
 
 //TODO: looping arraylist with buttons, sign in text automatically selected so u cannot read textfield,
