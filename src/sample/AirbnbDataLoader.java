@@ -14,7 +14,7 @@ public class AirbnbDataLoader {
     ArrayList<AirbnbListing> listings;
 
     public AirbnbDataLoader(){
-        listings = load();
+        this.listings = load();
     }
 
     /**
@@ -61,10 +61,10 @@ public class AirbnbDataLoader {
         return listings;
     }
 
-    public ArrayList<AirbnbListing> loadFromBoruogh(String boroughAbbrevation){
+    public ArrayList<AirbnbListing> loadFromBorough(String boroughAbbreviation){
         ArrayList<AirbnbListing> boroughListings = new ArrayList<>();
         for (AirbnbListing listing : listings) {
-            if (listing.getAbbreviatedNeighbourhood().equals(boroughAbbrevation)){
+            if (listing.getAbbreviatedNeighbourhood().equals(boroughAbbreviation)){
                 boroughListings.add(listing);
             }
         }

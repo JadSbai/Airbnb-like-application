@@ -11,7 +11,7 @@
 <Stage xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.PropertyListController">
     <scene>
         <Scene>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
                 <children>
                     <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
                         <items>
@@ -19,7 +19,7 @@
                             <Label text="Sort by:" />
                         </items>
                     </ToolBar>
-               <ListView fx:id="listView" prefWidth="400.0" />
+               <ListView fx:id="listView" prefHeight="700.0" prefWidth="400.0" />
                 </children>
             </VBox>
         </Scene>

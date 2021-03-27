@@ -17,24 +17,21 @@ public class PropertyListController {
     @FXML
     private ListView listView;
 
-    public PropertyListController(){
 
-    }
+    public void initialize(ArrayList<AirbnbListing> boroughListings, int minPrice, int maxPrice) throws IOException {
 
-    public void initialize(String boroughAbbreviation) throws IOException {
-        AirbnbDataLoader loader = new AirbnbDataLoader();
-        listings = loader.loadFromBoruogh(boroughAbbreviation);
+        System.out.println("" + minPrice + maxPrice);
 
-        int count = 0;
-
-
-        for(AirbnbListing listing: listings){
-            FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
-            //Pane propertyPane = preview.load();
-            //listView.getItems().add(propertyPane);
-            count++;
+        for(AirbnbListing listing: boroughListings){
+            int listingPrice = listing.getPrice();
+            if(listingPrice>minPrice && listingPrice<maxPrice) {
+                FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
+                Pane propertyPane = preview.load();
+                PropertyPreviewController propertyPreviewController = preview.getController();
+                propertyPreviewController.initialize(listing);
+                listView.getItems().add(propertyPane);
+            }
         }
-        System.out.println(count);
 
     }
 

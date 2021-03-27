@@ -43,8 +43,9 @@ public class WelcomeController {
     @FXML
     private StackPane stackPane;
 
-    public static final int MAX_VALUE = 600;
-    public static final int MIN_VALUE = 100;
+    private static final int MAX_VALUE = 600;
+    private static final int MIN_VALUE = 0;
+
 
     //TODO styling, if statements
 
@@ -95,8 +96,7 @@ public class WelcomeController {
         }
     }
 
-    private boolean getIntFromBox(ComboBox box)
-    {
+    private boolean getIntFromBox(ComboBox box) {
         return (box.getValue() instanceof Integer);
     }
 
@@ -148,5 +148,12 @@ public class WelcomeController {
         return welcomeBorderPane;
     }
 
+
+    public int getMaxPrice() {
+        return maxPrice;
+    }
+    public int getMinPrice() {
+        return minPrice;
+    }
 }
 
