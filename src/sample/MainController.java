@@ -22,8 +22,7 @@ public class MainController {
     @FXML
     private Label currentPriceRangeLabel;
 
-
-    private WelcomeController welcomeController;
+    private MapController mapController;
 
     private Pane welcomeRoot;
     private ScrollPane mapRoot;
@@ -34,24 +33,23 @@ public class MainController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome.fxml"));
         welcomeRoot = loader.load();
         mainPane.setCenter(welcomeRoot);
-        welcomeController = loader.getController();
+        WelcomeController welcomeController = loader.getController();
         welcomeController.initialize(leftButton, rightButton, currentPriceRangeLabel);
 
-        loader = new FXMLLoader(getClass().getResource("map.fxml"));
+        loader = new FXMLLoader(getClass().getResource("Map.fxml"));
         mapRoot = loader.load();
-        MapController mapController = loader.getController();
+        mapController = loader.getController();
         mapController.initialize(welcomeController);
 
         //loader = new FXMLLoader(getClass().getResource("statistics.fxml"));
         //statisticsRoot = loader.load();
 
-
     }
 
     @FXML
     private void leftButtonAction(ActionEvent e) throws IOException {
-
         if(mainPane.getCenter() == welcomeRoot){
+            mapController.setColor();
             mainPane.setCenter(mapRoot);
         }
         else if(mainPane.getCenter() == mapRoot){
@@ -66,8 +64,8 @@ public class MainController {
 
     @FXML
     private void rightButtonAction(ActionEvent e) throws IOException {
-
         if(mainPane.getCenter() == welcomeRoot){
+            mapController.setColor();
             mainPane.setCenter(mapRoot);
         }
         else if(mainPane.getCenter() == mapRoot){

@@ -61,10 +61,11 @@ public class AirbnbDataLoader {
         return listings;
     }
 
-    public ArrayList<AirbnbListing> loadFromBorough(String boroughAbbreviation){
+    public ArrayList<AirbnbListing> loadFromBoroughAtPrice(String boroughAbbreviation, int minPrice, int maxPrice){
         ArrayList<AirbnbListing> boroughListings = new ArrayList<>();
         for (AirbnbListing listing : listings) {
-            if (listing.getAbbreviatedNeighbourhood().equals(boroughAbbreviation)){
+            int listingPrice = listing.getPrice();
+            if (listing.getAbbreviatedNeighbourhood().equals(boroughAbbreviation) && listingPrice>minPrice && listingPrice<maxPrice){
                 boroughListings.add(listing);
             }
         }

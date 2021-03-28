@@ -8,20 +8,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.stage.Stage?>
 
-<Stage xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.PropertyListController">
+<Stage height="700.0" width="400.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.PropertyListController">
     <scene>
         <Scene>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
-                <children>
-                    <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
-                        <items>
-                            <ChoiceBox />
-                            <Label text="Sort by:" />
-                        </items>
-                    </ToolBar>
-               <ListView fx:id="listView" prefHeight="700.0" prefWidth="400.0" />
-                </children>
-            </VBox>
-        </Scene>
-    </scene>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
+                    <children>
+                        <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+                            <items>
+                                <ChoiceBox />
+                                <Label text="Sort by:" />
+                            </items>
+                        </ToolBar>
+                        <ListView fx:id="listView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1500.0" />
+                    </children>
+                </VBox>
+        </Scene></scene>
 </Stage>
