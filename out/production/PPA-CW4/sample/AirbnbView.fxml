@@ -18,25 +18,25 @@
 <Stage xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.PropertyViewController">
    <scene>
       <Scene stylesheets="@MapPanelStyle.css">
-          <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+          <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" />
               </columnConstraints>
               <rowConstraints>
-                  <RowConstraints maxHeight="193.0" minHeight="10.0" prefHeight="131.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="321.0" minHeight="10.0" prefHeight="269.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="193.0" minHeight="10.0" prefHeight="107.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="345.0" minHeight="10.0" prefHeight="343.0" vgrow="SOMETIMES" />
               </rowConstraints>
               <children>
-               <GridPane>
+               <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                  <columnConstraints>
-                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="511.0" minWidth="10.0" prefWidth="511.0" />
-                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="89.0" />
+                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="511.0" />
+                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="89.0" />
                  </columnConstraints>
                  <rowConstraints>
                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                  </rowConstraints>
                   <children>
-                     <VBox prefHeight="81.0" prefWidth="366.0">
+                     <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="81.0" prefWidth="366.0">
                         <children>
                            <Label fx:id="propertyType" text="Private room in Westminster" textFill="#000000b2">
                               <padding>
@@ -45,7 +45,7 @@
                            </Label>
                            <Label fx:id="nameAndHost" text="The Best House - John Doe">
                               <padding>
-                                 <Insets bottom="5.0" left="20.0" top="5.0" />
+                                 <Insets bottom="10.0" left="20.0" top="5.0" />
                               </padding>
                               <font>
                                  <Font size="22.0" />
@@ -58,11 +58,11 @@
                            </Line>
                         </children>
                      </VBox>
-                     <VBox alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+                     <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                         <children>
                            <CheckBox fx:id="saveBox" mnemonicParsing="false" onAction="#saveFavourites" styleClass="save-box" text="Save">
                               <padding>
-                                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                 <Insets right="25.0" top="25.0" />
                               </padding>
                            </CheckBox>
                         </children>
@@ -71,14 +71,14 @@
                </GridPane>
                <GridPane GridPane.rowIndex="1">
                  <columnConstraints>
-                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="296.0" minWidth="10.0" prefWidth="285.0" />
+                   <ColumnConstraints hgrow="NEVER" maxWidth="328.0" minWidth="-Infinity" prefWidth="295.0" />
                  </columnConstraints>
                  <rowConstraints>
                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                  </rowConstraints>
                   <children>
-                     <VBox prefHeight="200.0" prefWidth="100.0">
+                     <VBox prefHeight="323.0" prefWidth="284.0">
                         <children>
                            <Hyperlink fx:id="locationLink" onAction="#viewMap" text="Open in Google Maps">
                               <padding>
@@ -122,8 +122,11 @@
                                        <Font size="12.0" />
                                     </font>
                                  </Label>
-                                 <DatePicker prefHeight="27.0" prefWidth="119.0" />
+                                 <DatePicker fx:id="inDatePicker" onAction="#setInDate" prefHeight="27.0" prefWidth="100.0" />
                               </children>
+                              <padding>
+                                 <Insets left="15.0" top="20.0" />
+                              </padding>
                            </VBox>
                            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                               <children>
@@ -135,12 +138,18 @@
                                        <Font size="12.0" />
                                     </font>
                                  </Label>
-                                 <DatePicker prefHeight="27.0" prefWidth="119.0" />
+                                 <DatePicker fx:id="outDatePicker" onAction="#setOutDate" prefHeight="27.0" prefWidth="100.0" />
                               </children>
+                              <padding>
+                                 <Insets left="15.0" top="20.0" />
+                              </padding>
                            </VBox>
                         </children>
                      </GridPane>
                   </children>
+                  <padding>
+                     <Insets bottom="20.0" right="20.0" />
+                  </padding>
                </GridPane>
               </children>
           </GridPane>
