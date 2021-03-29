@@ -3,16 +3,11 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -26,18 +21,15 @@ public class MainController {
     private Button rightButton;
     @FXML
     private Label currentPriceRangeLabel;
-
-    @FXML
-    private Circle profileCircle;
-
     @FXML
     private BorderPane accountBar;
+
+    private MapController mapController;
 
     private Pane welcomeRoot;
     private ScrollPane mapRoot;
     //private Pane statisticsRoot;
 
-//TODO: looping arraylist with buttons, sign in text automatically selected so u cannot read textfield,
 
 
     public void initialize() throws IOException {
@@ -47,6 +39,8 @@ public class MainController {
         WelcomeController welcomeController = loader.getController();
         loader = new FXMLLoader(getClass().getResource("map.fxml"));
         mapRoot = loader.load();
+        this.mapController = loader.getController();
+        mapController.initialize(welcomeController);
         //loader = new FXMLLoader(getClass().getResource("statistics.fxml"));
         //statisticsRoot = loader.load();
         welcomeController.initialize(leftButton, rightButton, currentPriceRangeLabel);
@@ -58,12 +52,10 @@ public class MainController {
         accountController.initialize(this, accountController, signedOutBar);
 
         accountBar.setRight(accountController.getSignedOutBar());
-
-
     }
 
     @FXML
-    private void leftButtonAction(ActionEvent e){
+    private void leftButtonAction(ActionEvent e) throws IOException {
         if(mainPane.getCenter() == welcomeRoot){
             mainPane.setCenter(mapRoot);
         }
@@ -78,7 +70,7 @@ public class MainController {
 
 
     @FXML
-    private void rightButtonAction(ActionEvent e){
+    private void rightButtonAction(ActionEvent e) throws IOException {
         if(mainPane.getCenter() == welcomeRoot){
             mainPane.setCenter(mapRoot);
         }
@@ -90,11 +82,10 @@ public class MainController {
         //}
     }
 
-
-
-
-
-    public BorderPane getAccountBar() {
+    public BorderPane getAccountBar()
+    {
         return accountBar;
     }
+
+
 }
