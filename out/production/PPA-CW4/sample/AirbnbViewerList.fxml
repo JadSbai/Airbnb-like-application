@@ -12,15 +12,11 @@
     <scene>
         <Scene>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
-                    <children>
-                        <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
-                            <items>
-                                <ChoiceBox />
-                                <Label text="Sort by:" />
-                            </items>
-                        </ToolBar>
-                        <ListView fx:id="listView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1500.0" />
-                    </children>
-                </VBox>
+                <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+                    <ChoiceBox />
+                    <Label text="Sort by:" />
+                </ToolBar>
+                <ListView fx:id="listView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1500.0" />
+            </VBox>
         </Scene></scene>
 </Stage>

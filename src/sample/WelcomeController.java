@@ -35,7 +35,7 @@ public class WelcomeController {
     @FXML
     private StackPane stackPane;
 
-    private static final int MAX_VALUE = 600;
+    private static final int MAX_VALUE = 500;
     private static final int MIN_VALUE = 0;
 
 

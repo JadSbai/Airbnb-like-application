@@ -21,6 +21,8 @@ public class MainController {
     private Button rightButton;
     @FXML
     private Label currentPriceRangeLabel;
+    @FXML
+    private BorderPane accountBar;
 
     private MapController mapController;
 
@@ -29,27 +31,32 @@ public class MainController {
     //private Pane statisticsRoot;
 
 
+
     public void initialize() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome.fxml"));
         welcomeRoot = loader.load();
         mainPane.setCenter(welcomeRoot);
         WelcomeController welcomeController = loader.getController();
-        welcomeController.initialize(leftButton, rightButton, currentPriceRangeLabel);
-
-        loader = new FXMLLoader(getClass().getResource("Map.fxml"));
+        loader = new FXMLLoader(getClass().getResource("map.fxml"));
         mapRoot = loader.load();
-        mapController = loader.getController();
+        this.mapController = loader.getController();
         mapController.initialize(welcomeController);
-
         //loader = new FXMLLoader(getClass().getResource("statistics.fxml"));
         //statisticsRoot = loader.load();
+        welcomeController.initialize(leftButton, rightButton, currentPriceRangeLabel);
 
+        loader = new FXMLLoader(getClass().getResource("signed_out.fxml"));
+        Pane signedOutBar = loader.load();
+        AccountController accountController = loader.getController();
+
+        accountController.initialize(this, accountController, signedOutBar);
+
+        accountBar.setRight(accountController.getSignedOutBar());
     }
 
     @FXML
     private void leftButtonAction(ActionEvent e) throws IOException {
         if(mainPane.getCenter() == welcomeRoot){
-            mapController.setColor();
             mainPane.setCenter(mapRoot);
         }
         else if(mainPane.getCenter() == mapRoot){
@@ -65,7 +72,6 @@ public class MainController {
     @FXML
     private void rightButtonAction(ActionEvent e) throws IOException {
         if(mainPane.getCenter() == welcomeRoot){
-            mapController.setColor();
             mainPane.setCenter(mapRoot);
         }
         else if(mainPane.getCenter() == mapRoot){
@@ -74,6 +80,11 @@ public class MainController {
         //else{
          //   mainPane.setCenter(statisticsRoot);
         //}
+    }
+
+    public BorderPane getAccountBar()
+    {
+        return accountBar;
     }
 
 
