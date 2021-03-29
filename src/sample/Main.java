@@ -14,9 +14,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
-        //FXMLLoader map = new FXMLLoader(getClass().getResource("map.fxml"));
         Pane root = loader.load();
         primaryStage.setTitle("Airbnb London");
         Scene scene = new Scene(root);

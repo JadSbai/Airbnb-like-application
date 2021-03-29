@@ -1,11 +1,9 @@
 package sample;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import com.opencsv.CSVReader;
 import java.net.URISyntaxException;
 
@@ -14,7 +12,7 @@ public class AirbnbDataLoader {
     ArrayList<AirbnbListing> listings;
 
     public AirbnbDataLoader(){
-        listings = load();
+        this.listings = load();
     }
 
     /**
@@ -61,10 +59,11 @@ public class AirbnbDataLoader {
         return listings;
     }
 
-    public ArrayList<AirbnbListing> loadFromBoruogh(String boroughAbbrevation){
+    public ArrayList<AirbnbListing> loadFromBoroughAtPrice(String boroughAbbreviation, int minPrice, int maxPrice){
         ArrayList<AirbnbListing> boroughListings = new ArrayList<>();
         for (AirbnbListing listing : listings) {
-            if (listing.getAbbreviatedNeighbourhood().equals(boroughAbbrevation)){
+            int listingPrice = listing.getPrice();
+            if (listing.getAbbreviatedNeighbourhood().equals(boroughAbbreviation) && listingPrice>minPrice && listingPrice<maxPrice){
                 boroughListings.add(listing);
             }
         }
