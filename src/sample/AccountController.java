@@ -174,7 +174,7 @@ public class AccountController
 
     private void saveAllSettingsAndData()
     {
-        System.out.println("All account settings and data usage successfully saved");
+        System.out.println("All account settings and data successfully saved");
     }
 
     private boolean checkValidityOfCreateAccountFields(String username, String email, String password, String confirmPassword)
@@ -298,6 +298,7 @@ public class AccountController
     {
         // load all info related to the specified account in the fields of the profile button.
         accountBar.setRight(signedInBar);
+        isAccountWindowOpen = false;
 
     }
 
