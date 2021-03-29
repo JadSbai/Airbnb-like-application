@@ -57,7 +57,6 @@ public class MapController {
                 hexTransparency = "0" + hexTransparency;
             }
             String colour = "#FF5A60";
-            double colour2 = (((boroughSize*0.001)/maxSize) * 1000);
             borough.setStyle("-fx-background-color: " + colour + hexTransparency + ";");
         }
     }

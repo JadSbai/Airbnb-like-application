@@ -5,10 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.event.ActionEvent;
-
 import javafx.scene.layout.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class WelcomeController {
@@ -41,7 +39,7 @@ public class WelcomeController {
     private static final int MIN_VALUE = 0;
 
 
-    public void initialize(Button leftArrow, Button rightArrow, Label priceLabel) throws IOException {
+    public void initialize(Button leftArrow, Button rightArrow, Label priceLabel) {
 
         this.leftArrow = leftArrow;
         this.rightArrow = rightArrow;
