@@ -1,28 +1,20 @@
 package sample;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.event.ActionEvent;
-
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 
-import javax.swing.text.LabelView;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import java.lang.reflect.Array;
 
 public class WelcomeController {
 
     @FXML
-    private ComboBox minimumPrice;
+    private ComboBox<Integer> minimumPrice;
     @FXML
-    private ComboBox maximumPrice;
+    private ComboBox<Integer> maximumPrice;
 
     @FXML
     private Button searchButton;
@@ -43,12 +35,11 @@ public class WelcomeController {
     @FXML
     private StackPane stackPane;
 
-    public static final int MAX_VALUE = 600;
-    public static final int MIN_VALUE = 100;
+    private static final int MAX_VALUE = 600;
+    private static final int MIN_VALUE = 0;
 
-    //TODO styling, if statements
 
-    public void initialize(Button leftArrow, Button rightArrow, Label priceLabel) throws IOException {
+    public void initialize(Button leftArrow, Button rightArrow, Label priceLabel) {
 
         this.leftArrow = leftArrow;
         this.rightArrow = rightArrow;
@@ -62,7 +53,7 @@ public class WelcomeController {
 
     }
 
-    public ArrayList<Integer> getPriceRange(int min, int max) {
+    private ArrayList<Integer> getPriceRange(int min, int max) {
         ArrayList<Integer> priceRange = new ArrayList<>();
         for (int i = min; i <= max; i = (int) (i + ((max - min)) * 0.1)) {
             priceRange.add(i);
@@ -76,8 +67,8 @@ public class WelcomeController {
         boolean valid = (getIntFromBox(minimumPrice) && getIntFromBox(maximumPrice));
         if (valid)
         {
-            minPrice = (int) minimumPrice.getValue();
-            maxPrice = (int) maximumPrice.getValue();
+            minPrice = minimumPrice.getValue();
+            maxPrice = maximumPrice.getValue();
         }
         if (valid && maxPrice >= minPrice)
         {
@@ -95,9 +86,8 @@ public class WelcomeController {
         }
     }
 
-    private boolean getIntFromBox(ComboBox box)
-    {
-        return (box.getValue() instanceof Integer);
+    private boolean getIntFromBox(ComboBox<Integer> box) {
+        return (box.getValue() != null);
     }
 
 
@@ -148,5 +138,11 @@ public class WelcomeController {
         return welcomeBorderPane;
     }
 
+    public int getMaxPrice() {
+        return maxPrice;
+    }
+    public int getMinPrice() {
+        return minPrice;
+    }
 }
 
