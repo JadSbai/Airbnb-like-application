@@ -7,10 +7,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -291,6 +293,10 @@ public class AccountController
         return true;
     }
 
+    private void accountButtonAction(ActionEvent e)
+    {
+
+    }
 
 
 
