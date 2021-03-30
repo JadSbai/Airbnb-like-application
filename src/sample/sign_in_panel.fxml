@@ -8,15 +8,20 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="15.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" spacing="5.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label text="Please sign into your AirBnb London account.">
          <padding>
             <Insets bottom="20.0" />
          </padding>
       </Label>
+      <Label fx:id="emailSignInErrorLabel" textFill="#da1515" />
       <TextField fx:id="signInEmail" promptText="Email:" />
-      <PasswordField fx:id="signInPassword" promptText="Password:" />
+      <Label fx:id="passwordSignInErrorLabel" textFill="#da1515" />
+      <PasswordField fx:id="signInPassword" promptText="Password:">
+         <VBox.margin>
+            <Insets bottom="15.0" />
+         </VBox.margin></PasswordField>
       <Button mnemonicParsing="false" onAction="#signInAction" text="Sign in" />
       <Hyperlink onAction="#createAccountLink" text="Don't have an account? Create one." />
    </children>
