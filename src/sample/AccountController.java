@@ -3,10 +3,15 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -14,6 +19,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
+
+
+
+
+
 
 /**
  * This class is in charge of all the GUI's containers and controls related to the creation and usage of an AirBnB account.
@@ -79,6 +91,16 @@ public class AccountController
     @FXML
     private Label passwordSignInErrorLabel;
 
+    @FXML
+    private VBox subPane;
+
+    @FXML
+    private Circle profileCircle;
+
+
+
+
+
 
     // Other fields:
 
@@ -105,6 +127,7 @@ public class AccountController
     private MapController mapController;
     // WelcomeController object of the application
     private WelcomeController welcomeController;
+
 
     /**
      * The constructor initializes all the non-FXML fields, loads all the account related fxml files, sets their controller and displays the resulting stage.
@@ -138,6 +161,11 @@ public class AccountController
         createAccountPanelLoader.setController(accountController);
         Pane createAccountPanel = createAccountPanelLoader.load();
         createAccountScene = new Scene(createAccountPanel);
+
+        Image image = new Image("/sample/pfp/nopfp.png");
+        this.profileCircle.setFill(new ImagePattern(image));
+
+
 
         accountStage = new Stage();
     }
@@ -576,6 +604,16 @@ public class AccountController
         createAccountEmail.setText("");
         createAccountPassword.setText("");
         createAccountConfirmPassword.setText("");
+    }
+
+    @FXML
+    private void profileClicked(MouseEvent e) {
+        if (e.getButton() == MouseButton.PRIMARY) {
+            subPane.setPadding(new Insets(70,40,0,0));
+            subPane.setVisible(!subPane.isVisible());
+
+        }
+
     }
 
     /**

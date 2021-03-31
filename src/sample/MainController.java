@@ -36,6 +36,7 @@ public class MainController {
     private Pane welcomeRoot;
     private ScrollPane mapRoot;
     //private Pane statisticsRoot;
+    private AccountController accountController;
 
 
 
@@ -54,10 +55,9 @@ public class MainController {
 
         loader = new FXMLLoader(getClass().getResource("signed_out.fxml"));
         Pane signedOutBar = loader.load();
-        AccountController accountController = loader.getController();
+        accountController = loader.getController();
 
         accountController.initialize(this, accountController, signedOutBar, mapController);
-
         accountBar.setRight(accountController.getSignedOutBar());
     }
 
@@ -94,5 +94,7 @@ public class MainController {
         return accountBar;
     }
 
-
+    public AccountController getAccountController() {
+        return accountController;
+    }
 }

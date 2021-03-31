@@ -2,6 +2,7 @@ package sample;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.layout.*;
@@ -29,8 +30,14 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
         // The root of panel is retrieved from the fxml file
         Pane root = loader.load();
-        // The scene is set with the retrieved root
+        MainController mainController = loader.getController();
+        FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("accountPopUpMenu.fxml"));
+        popUpLoader.setController(mainController.getAccountController());
+        VBox popUpRoot = popUpLoader.load();
+        root.getChildren().add(popUpRoot);
+
         primaryStage.setTitle("Airbnb London");
+        // The scene is set with the retrieved root
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         scene.getStylesheets().add(getClass().getResource("WelcomePanelStyle.css").toURI().toString());

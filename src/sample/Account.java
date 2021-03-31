@@ -2,6 +2,10 @@ package sample;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import javafx.scene.image.Image;
+
+
+
 
 /**
  * This class manipulates all the personal data related to an AirBnB account.
@@ -15,6 +19,9 @@ public class Account {
     private String username;
     private String password;
     private ArrayList<AirbnbListing> listOfFavouriteProperties;
+    private Image profilePicture;
+
+
 
     /**
      * The constructor initializes all the account fields.
@@ -93,8 +100,20 @@ public class Account {
         }
     }
 
-    public void addToListOfFavouriteProperties(AirbnbListing listing) {
+    public void addToListOfFavouriteProperties(AirbnbListing listing)
+    {
         listOfFavouriteProperties.add(listing);
+    }
+
+    public Image getProfilePicture()
+    {
+        return profilePicture;
+    }
+
+
+    public void setProfilePicture(Image pfp)
+    {
+        profilePicture = pfp;
     }
 }
 
