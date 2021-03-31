@@ -101,9 +101,9 @@ public class AccountController
     private boolean isAccountWindowOpen;
     // Tracks the current account being manipulated by the application
     private Account currentAccount;
-
+    // MapController object of the application
     private MapController mapController;
-
+    // WelcomeController object of the application
     private WelcomeController welcomeController;
 
     /**
@@ -150,6 +150,7 @@ public class AccountController
     private void signIn(ActionEvent e)
     {
         if(!isAccountWindowOpen) {
+            resetSignInSceneFields();
             accountStage.setScene(signInScene);
             accountStage.setTitle("Sign in");
             accountStage.show();
@@ -163,6 +164,8 @@ public class AccountController
         else{
             // Throws an alert to signal that a window is already open
             warningAlert("An account window is already open", "window already open");
+            accountStage.close();
+            accountStage.show();
         }
 
     }
@@ -175,6 +178,7 @@ public class AccountController
     private void createAccount(ActionEvent e)
     {
         if(!isAccountWindowOpen){
+            resetCreateAccountFields();
             accountStage.setScene(createAccountScene);
             accountStage.setTitle("Create a new account");
             accountStage.show();
@@ -186,6 +190,8 @@ public class AccountController
         }
         else{
             warningAlert("An account window is already open", "window already open");
+            accountStage.close();
+            accountStage.show();
 
         }
     }
@@ -232,8 +238,9 @@ public class AccountController
     /**
      * This method retrieves the contents of the "create account" window's text fields.
      * It then checks whether they are valid according to certain restrictions
-     * If the fields are valid, it creates and loads (via a method call) a new account with the given credentials and updates the appropriate fields.
-     * The stage is then closed
+     * If the fields are valid, it creates a new account with the given credentials and updates the appropriate fields.
+     * The account stage is closed
+     * If a price range has been entered, then it loads the account's specific map view GUI elements.
      * @param e The event (button click) that triggers the method call
      */
     @FXML
@@ -248,10 +255,10 @@ public class AccountController
             listOfAccounts.add(newAccount);
             accountsMap.put(email, newAccount);
             currentAccount = newAccount;
-            accountStage.close();
             isAccountWindowOpen = false;
             mapController.setCurrentAccount(currentAccount);
             accountBar.setRight(signedInBar);
+            accountStage.close();
 
             if(welcomeController.isSearched()){
                 loadAccount(currentAccount);
@@ -264,8 +271,9 @@ public class AccountController
     /**
      * This method retrieves the contents of the "sign in" window's text fields.
      * It then checks whether they are valid according to certain restrictions
-     * If the fields are valid, it loads the corresponding account.
+     * If the fields are valid, it loads the account's data and settings.
      * The stage is then closed
+     * If a price range has been entered, then it loads the account's specific map view GUI elements.
      * @param e The event (button click) that triggers the method call
      */
     @FXML
@@ -275,12 +283,11 @@ public class AccountController
 
         if(checkValidityOfSignInFields(email, password)){
             currentAccount = getAccount(email);
-            accountStage.close();
             isAccountWindowOpen = false;
             mapController.setCurrentAccount(currentAccount);
             accountBar.setRight(signedInBar);
             loadDataAndSettings(currentAccount);
-
+            accountStage.close();
 
             if(welcomeController.isSearched()){
                 loadAccount(currentAccount);
@@ -290,18 +297,22 @@ public class AccountController
     }
 
     /**
-     * This method saves all data and settings of the current account
+     * This method saves all data and settings of the current account and signs it out
      * It then sets the top of the main frame to the "signed out" layout
+     * If a price range has been entered, then it loads the default map view GUI elements
      * @param e The event (button click) that triggers the method call
      */
     @FXML
     private void signOutAction(ActionEvent e) throws IOException {
         saveAllSettingsAndData();
+        currentAccount = null;
+        mapController.setCurrentAccount(null);
+        accountBar.setRight(signedOutBar);
+
         if(welcomeController.isSearched()){
             setDefaultSettingsAndData();
         }
-        currentAccount = null;
-        accountBar.setRight(signedOutBar);
+
     }
 
     /**
@@ -324,6 +335,7 @@ public class AccountController
 
     /**
      * This method sets all the settings and data of the account to default values
+     * It also loads the default map view GUI elements
      */
     private void setDefaultSettingsAndData() throws IOException {
         mapController.loadCurrentAccount(null);
@@ -536,7 +548,7 @@ public class AccountController
     }
 
     /**
-     * This method loads all GUI related info proper to the account (state of the save button ...)
+     * This method loads all GUI-related elements that are proper to the account (state of the save button ...)
      * @param account The account to be loaded
      */
     private void loadAccount(Account account) throws IOException {
@@ -550,6 +562,20 @@ public class AccountController
     private void loadDataAndSettings(Account account)
     {
         // Loads all data and settings apart from GUI elements related to the map (i.e., save button...)
+    }
+
+    private void resetSignInSceneFields()
+    {
+        signInEmail.setText("");
+        signInPassword.setText("");
+    }
+
+    private void resetCreateAccountFields()
+    {
+        createAccountUsername.setText("");
+        createAccountEmail.setText("");
+        createAccountPassword.setText("");
+        createAccountConfirmPassword.setText("");
     }
 
     /**

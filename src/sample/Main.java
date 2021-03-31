@@ -35,6 +35,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         scene.getStylesheets().add(getClass().getResource("WelcomePanelStyle.css").toURI().toString());
         primaryStage.show();
+        primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));
 
     }
 
