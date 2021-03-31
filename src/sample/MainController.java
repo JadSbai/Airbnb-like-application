@@ -30,6 +30,9 @@ public class MainController {
     private Button rightButton;
     @FXML
     private Label currentPriceRangeLabel;
+
+    private MapController mapController;
+
     @FXML
     private BorderPane accountBar;
 
@@ -45,13 +48,15 @@ public class MainController {
         welcomeRoot = loader.load();
         mainPane.setCenter(welcomeRoot);
         WelcomeController welcomeController = loader.getController();
-        loader = new FXMLLoader(getClass().getResource("map.fxml"));
+        welcomeController.initialize(leftButton, rightButton, currentPriceRangeLabel);
+
+        loader = new FXMLLoader(getClass().getResource("Map.fxml"));
         mapRoot = loader.load();
-        MapController mapController = loader.getController();
+        mapController = loader.getController();
         mapController.initialize(welcomeController);
+
         //loader = new FXMLLoader(getClass().getResource("statistics.fxml"));
         //statisticsRoot = loader.load();
-        welcomeController.initialize(leftButton, rightButton, currentPriceRangeLabel);
 
         loader = new FXMLLoader(getClass().getResource("signed_out.fxml"));
         Pane signedOutBar = loader.load();
@@ -64,6 +69,7 @@ public class MainController {
     @FXML
     private void leftButtonAction(ActionEvent e) {
         if(mainPane.getCenter() == welcomeRoot){
+            mapController.setColor();
             mainPane.setCenter(mapRoot);
         }
         else if(mainPane.getCenter() == mapRoot){
@@ -79,6 +85,7 @@ public class MainController {
     @FXML
     private void rightButtonAction(ActionEvent e) {
         if(mainPane.getCenter() == welcomeRoot){
+            mapController.setColor();
             mainPane.setCenter(mapRoot);
         }
         else if(mainPane.getCenter() == mapRoot){

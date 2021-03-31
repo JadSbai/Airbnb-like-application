@@ -38,11 +38,14 @@ public class PropertyPreviewController {
     public void openProperty(MouseEvent e) throws IOException {
         FXMLLoader property = new FXMLLoader(getClass().getResource("AirbnbView.fxml"));
         Stage stage = property.load();
-        if(listing.getHost_name().endsWith("s")){
-            stage.setTitle(listing.getHost_name() + "' Airbnb");
+
+        String hostName = listing.getHost_name();
+        if(hostName.endsWith("s")){
+            stage.setTitle(hostName + "' Airbnb");
         }else{
-            stage.setTitle(listing.getHost_name() + "'s Airbnb");
+            stage.setTitle(hostName + "'s Airbnb");
         }
+
         stage.show();
 
         viewController = property.getController();
