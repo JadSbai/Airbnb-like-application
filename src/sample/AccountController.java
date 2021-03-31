@@ -98,6 +98,12 @@ public class AccountController
     @FXML
     private Circle profileCircle;
 
+    @FXML
+    private Circle profileCircle2;
+
+    @FXML
+    private Label accountUsername;
+
 
 
 
@@ -129,15 +135,16 @@ public class AccountController
     // WelcomeController object of the application
     private WelcomeController welcomeController;
 
+    private Image defaultProfileImage;
+
 
     /**
      * The constructor initializes all the non-FXML fields, loads all the account related fxml files, sets their controller and displays the resulting stage.
-     * @param accountController The account controller object passed from the MainController
      * @param mainController The main controller object passed from the Main controller class
      * @param signedOutBar The signed Out Pane that was set in the MainController class
      * @throws IOException if the designated files are not loaded successfully
      */
-    public void initialize(MainController mainController, AccountController accountController, Pane signedOutBar, MapController mapController) throws IOException
+    public void initialize(MainController mainController, Pane signedOutBar, MapController mapController) throws IOException
     {
         accountBar = mainController.getAccountBar();
         listOfAccounts = new ArrayList<>();
@@ -147,24 +154,23 @@ public class AccountController
         isAccountWindowOpen = false;
         this.mapController = mapController;
         welcomeController = mapController.getWelcomeController();
+        defaultProfileImage = new Image("/sample/pfp/nopfp.png");
+
 
 
         FXMLLoader signedInLoader = new FXMLLoader(getClass().getResource("signed_in.fxml"));
-        signedInLoader.setController(accountController);
+        signedInLoader.setController(this);
         signedInBar = signedInLoader.load();
 
         FXMLLoader signInPanelLoader = new FXMLLoader(getClass().getResource("sign_in_panel.fxml"));
-        signInPanelLoader.setController(accountController);
+        signInPanelLoader.setController(this);
         Pane signInPanel = signInPanelLoader.load();
         signInScene = new Scene(signInPanel);
 
         FXMLLoader createAccountPanelLoader = new FXMLLoader(getClass().getResource("create_account_panel.fxml"));
-        createAccountPanelLoader.setController(accountController);
+        createAccountPanelLoader.setController(this);
         Pane createAccountPanel = createAccountPanelLoader.load();
         createAccountScene = new Scene(createAccountPanel);
-
-        Image image = new Image("/sample/pfp/nopfp.png");
-        this.profileCircle.setFill(new ImagePattern(image));
 
         accountStage = new Stage();
     }
@@ -282,6 +288,8 @@ public class AccountController
             listOfAccounts.add(newAccount);
             accountsMap.put(email, newAccount);
             currentAccount = newAccount;
+            currentAccount.setProfilePicture(defaultProfileImage);
+            setAccountUsername(username);
             isAccountWindowOpen = false;
             mapController.setCurrentAccount(currentAccount);
             accountBar.setRight(signedInBar);
@@ -310,6 +318,8 @@ public class AccountController
 
         if(checkValidityOfSignInFields(email, password)){
             currentAccount = getAccount(email);
+            setProfileCircles(currentAccount.getProfilePicture());
+            setAccountUsername(currentAccount.getUsername());
             isAccountWindowOpen = false;
             mapController.setCurrentAccount(currentAccount);
             accountBar.setRight(signedInBar);
@@ -332,9 +342,12 @@ public class AccountController
     @FXML
     private void signOutAction(ActionEvent e) throws IOException {
         saveAllSettingsAndData();
+        setProfileCircles(defaultProfileImage);
+        setAccountUsername("");
         currentAccount = null;
         mapController.setCurrentAccount(null);
         accountBar.setRight(signedOutBar);
+        subPane.setVisible(false);
 
         if(welcomeController.isSearched()){
             setDefaultSettingsAndData();
@@ -588,7 +601,7 @@ public class AccountController
      */
     private void loadDataAndSettings(Account account)
     {
-        // Loads all data and settings apart from GUI elements related to the map (i.e., save button...)
+        accountUsername.setText(account.getUsername());
     }
 
     private void resetSignInSceneFields()
@@ -609,7 +622,6 @@ public class AccountController
     private void profileClicked(MouseEvent e) {
         if (e.getButton() == MouseButton.PRIMARY) {
             subPane.setVisible(!subPane.isVisible());
-
         }
 
     }
@@ -640,6 +652,23 @@ public class AccountController
     }
 
     public void formatPopUpMenu() {
-        StackPane.setMargin(subPane, new Insets(70,40,0,0));
+        StackPane.setMargin(subPane, new Insets(70,0,0,0));
+    }
+
+    public void setProfileCircles(Image newImage) {
+        profileCircle.setFill(new ImagePattern(newImage));
+        profileCircle2.setFill(new ImagePattern(newImage));
+    }
+
+    public void setAccountUsername(String newUsername) {
+        accountUsername.setText(newUsername);
+    }
+
+    public Account getCurrentAccount() {
+        return currentAccount;
+    }
+
+    public Image getDefaultProfileImage() {
+        return defaultProfileImage;
     }
 }

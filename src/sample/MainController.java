@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
@@ -42,10 +43,12 @@ public class MainController {
 
     public void initialize() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome.fxml"));
+
         welcomeRoot = loader.load();
-        mainPane.setCenter(welcomeRoot);
         WelcomeController welcomeController = loader.getController();
+        mainPane.setCenter(welcomeRoot);
         loader = new FXMLLoader(getClass().getResource("map.fxml"));
+
         mapRoot = loader.load();
         MapController mapController = loader.getController();
         mapController.initialize(welcomeController);
@@ -57,7 +60,8 @@ public class MainController {
         Pane signedOutBar = loader.load();
         accountController = loader.getController();
 
-        accountController.initialize(this, accountController, signedOutBar, mapController);
+
+        accountController.initialize(this, signedOutBar, mapController);
         accountBar.setRight(accountController.getSignedOutBar());
     }
 
