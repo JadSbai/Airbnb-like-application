@@ -10,20 +10,28 @@ import java.util.ArrayList;
 
 public class PropertyListController {
 
+    private PropertyPreviewController propertyPreviewController;
+
     @FXML
     private ListView<Pane> listView;
 
 
-    public void initialize(ArrayList<AirbnbListing> boroughListings) throws IOException {
+    public void initialize(ArrayList<AirbnbListing> boroughListings, Account currentAccount) throws IOException {
 
         for(AirbnbListing listing: boroughListings){
             FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
             Pane propertyPane = preview.load();
-            PropertyPreviewController propertyPreviewController = preview.getController();
-            propertyPreviewController.initialize(listing);
+            propertyPreviewController = preview.getController();
+            propertyPreviewController.initialize(listing, currentAccount);
             listView.getItems().add(propertyPane);
         }
 
+    }
+
+    public void reload(ArrayList<AirbnbListing> boroughListings, Account currentAccount) throws IOException {
+        for(AirbnbListing listing: boroughListings) {
+            propertyPreviewController.reload(listing, currentAccount);
+        }
     }
 
 

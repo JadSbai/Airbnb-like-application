@@ -2,22 +2,35 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="15.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" spacing="5.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label text="Please create your AirBnB London account.">
          <padding>
             <Insets bottom="20.0" />
          </padding>
       </Label>
+      <Label fx:id="usernameCreateAccountErrorLabel" textFill="#da1515" />
       <TextField fx:id="createAccountUsername" promptText="Username:" />
+      <Label fx:id="emailCreateAccountErrorLabel" textFill="#da1515" />
       <TextField fx:id="createAccountEmail" promptText="Email:" />
+      <Label fx:id="passwordCreateAccountErrorLabel" textFill="#da1515" wrapText="true" />
       <PasswordField fx:id="createAccountPassword" promptText="Password:" />
-      <PasswordField fx:id="createAccountConfirmPassword" promptText="confirmPassword:" />
+      <Label fx:id="confirmPasswordCreateAccountErrorLabel" textFill="#da1515" />
+      <PasswordField fx:id="createAccountConfirmPassword" promptText="Confirm password:">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin></PasswordField>
+      <Hyperlink fx:id="whatIsAStrongPasswordLink" onAction="#whatIsAStrongPasswordAction" text="What's a strong password ?" textOverrun="CENTER_ELLIPSIS">
+         <padding>
+            <Insets bottom="15.0" />
+         </padding>
+      </Hyperlink>
       <Button mnemonicParsing="false" onAction="#createAccountAction" text="Create the account" />
    </children>
    <padding>
