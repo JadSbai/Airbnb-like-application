@@ -11,6 +11,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -164,8 +165,6 @@ public class AccountController
 
         Image image = new Image("/sample/pfp/nopfp.png");
         this.profileCircle.setFill(new ImagePattern(image));
-
-
 
         accountStage = new Stage();
     }
@@ -609,7 +608,6 @@ public class AccountController
     @FXML
     private void profileClicked(MouseEvent e) {
         if (e.getButton() == MouseButton.PRIMARY) {
-            subPane.setPadding(new Insets(70,40,0,0));
             subPane.setVisible(!subPane.isVisible());
 
         }
@@ -639,5 +637,9 @@ public class AccountController
      */
     public Pane getSignedOutBar() {
         return signedOutBar;
+    }
+
+    public void formatPopUpMenu() {
+        StackPane.setMargin(subPane, new Insets(70,40,0,0));
     }
 }
