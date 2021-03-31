@@ -1,11 +1,14 @@
 package sample;
 
 
+import javafx.scene.image.Image;
+
 public class Account {
 
     private final String email;
     private String username;
     private String password;
+    private Image profilePicture;
 
     public Account(String username, String email, String password)
     {
@@ -27,12 +30,22 @@ public class Account {
         return password;
     }
 
+    public Image getProfilePicture()
+    {
+        return profilePicture;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setProfilePicture(Image pfp)
+    {
+        profilePicture = pfp;
     }
 }
 

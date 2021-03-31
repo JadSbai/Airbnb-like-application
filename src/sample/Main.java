@@ -16,6 +16,9 @@ public class Main extends Application {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
         Pane root = loader.load();
+        MainController mainController = loader.getController();
+        //root.getChildren().add(FXMLLoader.load(getClass().getResource("accountPopUpMenu.fxml")));
+
         primaryStage.setTitle("Airbnb London");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);

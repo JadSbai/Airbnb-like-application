@@ -9,6 +9,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
+import javax.swing.*;
 import java.io.IOException;
 
 public class MainController {
@@ -23,11 +24,17 @@ public class MainController {
     private Label currentPriceRangeLabel;
     @FXML
     private BorderPane accountBar;
+    @FXML
+    private Pane subPane;
 
     private MapController mapController;
 
     private Pane welcomeRoot;
     private ScrollPane mapRoot;
+
+
+
+
     //private Pane statisticsRoot;
 
 
@@ -49,7 +56,8 @@ public class MainController {
         Pane signedOutBar = loader.load();
         AccountController accountController = loader.getController();
 
-        accountController.initialize(this, accountController, signedOutBar);
+        accountController.initialize(this, accountController, signedOutBar, subPane);
+
 
         accountBar.setRight(accountController.getSignedOutBar());
     }
@@ -87,5 +95,5 @@ public class MainController {
         return accountBar;
     }
 
-
 }
+

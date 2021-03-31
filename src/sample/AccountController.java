@@ -5,11 +5,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -55,13 +60,19 @@ public class AccountController
 
     private boolean isAccountWindowOpen;
 
+    private Pane subPane;
+
     @FXML
-    public void initialize(MainController mainController, AccountController accountController, Pane signedOutBar) throws IOException {
+    private Circle profileCircle;
+
+    @FXML
+    public void initialize(MainController mainController, AccountController accountController, Pane signedOutBar, Pane subPane) throws IOException {
         this.mainController = mainController;
         accountBar = mainController.getAccountBar();
         listOfAccounts = new ArrayList<>();
         accountsMap = new HashMap<>();
         this.signedOutBar = signedOutBar;
+
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("signed_in.fxml"));
         loader.setController(accountController);
@@ -76,6 +87,12 @@ public class AccountController
         createAccountPanelLoader.setController(accountController);
         Pane createAccountPanel = createAccountPanelLoader.load();
         createAccountScene = new Scene(createAccountPanel);
+
+
+        Image image = new Image("/sample/pfp/nopfp.png");
+        profileCircle.setFill(new ImagePattern(image));
+
+        this.subPane = subPane;
 
         accountStage = new Stage();
     }
@@ -163,7 +180,6 @@ public class AccountController
             loadAccount(getAccount(email));
             accountStage.close();
         }
-
 
     }
 
@@ -293,18 +309,27 @@ public class AccountController
         return true;
     }
 
-    private void accountButtonAction(ActionEvent e)
-    {
-
-    }
-
-
-
     private void loadAccount(Account account)
     {
         // load all info related to the specified account in the fields of the profile button.
         accountBar.setRight(signedInBar);
         isAccountWindowOpen = false;
+
+    }
+
+    @FXML
+    private void profileClicked(MouseEvent e)
+    {
+        if (e.getButton() == MouseButton.PRIMARY)
+        {
+            subPane.setVisible(!subPane.isVisible());
+        }
+
+
+    }
+
+    private void accountDropDownMenu()
+    {
 
     }
 
