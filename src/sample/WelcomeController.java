@@ -37,6 +37,7 @@ public class WelcomeController {
 
     private static final int MAX_VALUE = 500;
     private static final int MIN_VALUE = 0;
+    private boolean isSearched;
 
 
     public void initialize(Button leftArrow, Button rightArrow, Label priceLabel) {
@@ -47,6 +48,8 @@ public class WelcomeController {
 
         leftArrow.setDisable(true);
         rightArrow.setDisable(true);
+
+        isSearched = false;
 
         minimumPrice.setItems(FXCollections.observableArrayList(getPriceRange(MIN_VALUE, MAX_VALUE)));
         maximumPrice.setItems(FXCollections.observableArrayList(getPriceRange(MIN_VALUE, MAX_VALUE)));
@@ -70,15 +73,17 @@ public class WelcomeController {
             minPrice = minimumPrice.getValue();
             maxPrice = maximumPrice.getValue();
         }
-        if (valid && maxPrice >= minPrice)
+        if (valid && maxPrice > minPrice)
         {
             priceLabel.setText("Price range: " + minPrice + "-" + maxPrice);
             rightArrow.setDisable(false);
             leftArrow.setDisable(false);
+            setSearched(true);
+
         }
         else if(valid)
         {
-            invalidOptions("Minimum price may not exceed maximum.", "Invalid price range!");
+            invalidOptions("Minimum price may not exceed or equal maximum price.", "Invalid price range!");
         }
         else
         {
@@ -143,6 +148,14 @@ public class WelcomeController {
     }
     public int getMinPrice() {
         return minPrice;
+    }
+
+    public boolean isSearched() {
+        return isSearched;
+    }
+
+    public void setSearched(boolean searched) {
+        isSearched = searched;
     }
 }
 

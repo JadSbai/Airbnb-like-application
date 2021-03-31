@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -27,20 +29,31 @@ public class PropertyViewController {
     private DatePicker inDatePicker;
     @FXML
     private DatePicker outDatePicker;
+    @FXML
+    private Hyperlink locationLink;
+    @FXML
+    private Label favouriteTextLabel;
 
     private LocalDate inDate, outDate;
 
-
-    private boolean isFavourite;
-
-    @FXML
-    private Hyperlink locationLink;
+    private Account currentAccount;
 
 
-    public void initialize(AirbnbListing listing){
+
+
+    public void initialize(AirbnbListing listing, Account account){
+        favouriteTextLabel.setText("");
         this.listing = listing;
         this.isAvailable = !(listing.getAvailability365()==0);
-        this.isFavourite = false;
+        this.currentAccount = account;
+        if(currentAccount == null){
+            listing.setFavourite(false);
+            setSaveBox(false);
+        }
+        else{
+            initializeFavourites();
+        }
+
 
         this.nameAndHost.setText(listing.getName() + " - " + listing.getHost_name());
         this.propertyType.setText(listing.getRoom_type() + " in " + listing.getNeighbourhood());
@@ -51,8 +64,18 @@ public class PropertyViewController {
         } else {
             this.reviews.setText(numberOfReviews + " reviews");
         }
+    }
 
-
+    public void reload(AirbnbListing listing, Account account)
+    {
+        currentAccount = account;
+        if(currentAccount == null){
+            listing.setFavourite(false);
+            setSaveBox(false);
+        }
+        else{
+            initializeFavourites();
+        }
     }
 
     @FXML
@@ -97,8 +120,59 @@ public class PropertyViewController {
     }
 
     @FXML
-    public void saveFavourites(){
-        isFavourite = !isFavourite;
+    public void saveFavourites()
+    {
+        if(currentAccount == null){
+            setSaveBox(false);
+            warningAlert("If you want to save this property into your favourites, you must first sign in to your account. If you don't have an account, create one", "Not signed in");
+        }
+        else {
+            listing.setFavourite(!listing.isFavourite());
+
+            ArrayList<AirbnbListing> listOfFavourites = currentAccount.getListOfFavouriteProperties();
+            if (listing.isFavourite()) {
+                addToFavourites(listing);
+            }
+            else {
+                removeFromFavourites(listing);
+            }
+        }
+
+
+    }
+
+    private void initializeFavourites()
+    {
+        boolean isFavourite = false;
+        ArrayList<AirbnbListing> listOfFavourites = currentAccount.getListOfFavouriteProperties();
+        for(AirbnbListing property : listOfFavourites){
+            if(listing == property){
+                property.setFavourite(true);
+                isFavourite = true;
+                break;
+            }
+        }
+        setSaveBox(isFavourite);
+
+    }
+
+    private void setSaveBox(boolean isFavourite)
+    {
+        saveBox.setSelected(isFavourite);
+    }
+
+    private void addToFavourites(AirbnbListing listing)
+    {
+        currentAccount.addToListOfFavouriteProperties(listing);
+        favouriteTextLabel.setText("This property has been added to your favourites");
+        setSaveBox(true);
+    }
+
+    private void removeFromFavourites(AirbnbListing listing)
+    {
+        currentAccount.removeFromListOfFavouriteProperties(listing);
+        favouriteTextLabel.setText("This property has been removed from your favourites");
+        setSaveBox(false);
     }
 
     private void calculatePrice(){
@@ -118,4 +192,21 @@ public class PropertyViewController {
         alert.showAndWait();
     }
 
+    /**
+     * This method creates and displays an alert of type WARNING
+     * @param warning The warning to be displayed
+     * @param warningTitle The title of the warning
+     */
+    private void warningAlert(String warning, String warningTitle)
+    {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(warningTitle);
+        alert.setHeaderText(null);
+        alert.setContentText(warning);
+        alert.showAndWait();
+    }
+
+    public CheckBox getSaveBox() {
+        return saveBox;
+    }
 }

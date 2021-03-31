@@ -21,12 +21,17 @@ public class PropertyPreviewController {
     @FXML
     private Label minimumNights;
 
-    public void initialize(AirbnbListing listing){
+    private Account account;
+
+    private PropertyViewController viewController;
+
+    public void initialize(AirbnbListing listing, Account account){
         this.listing = listing;
         this.hostName.setText(listing.getHost_name());
         this.price.setText("£" + listing.getPrice() +" / night");
         this.reviews.setText("" + listing.getNumberOfReviews());
         this.minimumNights.setText("Min. nights: " + listing.getMinimumNights());
+        this.account = account;
     }
 
     @FXML
@@ -40,7 +45,14 @@ public class PropertyPreviewController {
         }
         stage.show();
 
-        PropertyViewController viewController = property.getController();
-        viewController.initialize(listing);
+        viewController = property.getController();
+        viewController.initialize(listing, account);
+    }
+
+    public void reload(AirbnbListing listing, Account account) throws IOException {
+        FXMLLoader property = new FXMLLoader(getClass().getResource("AirbnbView.fxml"));
+        Stage stage = property.load();
+        viewController = property.getController();
+        viewController.reload(listing, account);
     }
 }

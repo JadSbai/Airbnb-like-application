@@ -9,9 +9,17 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
-import javax.swing.*;
 import java.io.IOException;
 
+
+/**
+ * This class is in charge of all the GUI's containers and controls related to the creation and usage of an AirBnB account.
+ * It tracks the text fields' values and updates the main window's top part according to the current state of the account (signed in or signed out)
+ * It also manages all secondary window's meant for signing in or creating an AirBnB account
+ * It also manages the different accounts created so far in the app
+ * @author Jacqueline Ilie, Liam Clark Gutiérrez, Dexter Trower and Jad Sbaï
+ * @version 29/03/2021
+ */
 public class MainController {
 
     @FXML
@@ -24,20 +32,11 @@ public class MainController {
     private Label currentPriceRangeLabel;
     @FXML
     private BorderPane accountBar;
-    @FXML
-    private Pane subPane;
-
-    private MapController mapController;
 
     private Pane welcomeRoot;
     private ScrollPane mapRoot;
-
-    private AccountController accountController;
-
-
-
-
     //private Pane statisticsRoot;
+    private AccountController accountController;
 
 
 
@@ -48,7 +47,7 @@ public class MainController {
         WelcomeController welcomeController = loader.getController();
         loader = new FXMLLoader(getClass().getResource("map.fxml"));
         mapRoot = loader.load();
-        this.mapController = loader.getController();
+        MapController mapController = loader.getController();
         mapController.initialize(welcomeController);
         //loader = new FXMLLoader(getClass().getResource("statistics.fxml"));
         //statisticsRoot = loader.load();
@@ -58,9 +57,7 @@ public class MainController {
         Pane signedOutBar = loader.load();
         accountController = loader.getController();
 
-        accountController.initialize(this, accountController, signedOutBar, subPane);
-
-
+        accountController.initialize(this, accountController, signedOutBar, mapController);
         accountBar.setRight(accountController.getSignedOutBar());
     }
 
@@ -97,5 +94,7 @@ public class MainController {
         return accountBar;
     }
 
+    public AccountController getAccountController() {
+        return accountController;
+    }
 }
-

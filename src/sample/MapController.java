@@ -15,6 +15,9 @@ public class MapController {
 
     private WelcomeController welcomeController;
     private AirbnbDataLoader dataLoader;
+    private Account currentAccount;
+    private PropertyListController listOfProperties;
+    private ArrayList<AirbnbListing> boroughListings;
 
     @FXML
     private Button ENFI, BARN, HRGY, WALT, HRRW, BREN, CAMD, ISLI, HACK, REDB, HAVE, HILL, EALI, KENS, WSTM, TOWH, NEWH, BARK, HOUN, HAMM, WAND, CITY, GWCH, BEXL, RICH, MERT, LAMB, STHW, LEWS, KING, SUTT, CROY, BROM;
@@ -31,15 +34,15 @@ public class MapController {
     @FXML
     public void boroughSearch(ActionEvent event) throws IOException {
         String boroughAbbreviation = ((Button) event.getSource()).getText();
-        ArrayList<AirbnbListing> boroughListings = dataLoader.loadFromBoroughAtPrice(boroughAbbreviation, welcomeController.getMinPrice(), welcomeController.getMaxPrice());
+        boroughListings = dataLoader.loadFromBoroughAtPrice(boroughAbbreviation, welcomeController.getMinPrice(), welcomeController.getMaxPrice());
 
         FXMLLoader propertyList = new FXMLLoader(getClass().getResource("AirbnbViewerList.fxml"));
         Stage stage = propertyList.load();
         stage.setTitle("AirBnB's in " + boroughAbbreviation);
         stage.show();
 
-        PropertyListController listOfProperties = propertyList.getController();
-        listOfProperties.initialize(boroughListings);
+        listOfProperties = propertyList.getController();
+        listOfProperties.initialize(boroughListings, currentAccount);
     }
 
     public void setColor(){
@@ -60,5 +63,20 @@ public class MapController {
             String colour = "#FF5A60";
             borough.setStyle("-fx-background-color: " + colour + hexTransparency + ";");
         }
+    }
+
+
+    public void loadCurrentAccount(Account currentAccount) throws IOException {
+        setCurrentAccount(currentAccount);
+        listOfProperties.reload(boroughListings, currentAccount);
+    }
+
+    public void setCurrentAccount(Account currentAccount)
+    {
+        this.currentAccount = currentAccount;
+    }
+
+    public WelcomeController getWelcomeController() {
+        return welcomeController;
     }
 }

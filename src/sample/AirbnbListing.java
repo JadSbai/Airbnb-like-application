@@ -67,6 +67,8 @@ public class AirbnbListing {
      */
     private final int availability365;
 
+    private boolean isFavourite;
+
     private static final HashMap<String, String> boroughAbbreviation;
     static {
         boroughAbbreviation = new HashMap<>();
@@ -126,6 +128,7 @@ public class AirbnbListing {
         this.reviewsPerMonth = reviewsPerMonth;
         this.calculatedHostListingsCount = calculatedHostListingsCount;
         this.availability365 = availability365;
+        this.isFavourite = false;
     }
 
     public String getId() {
@@ -211,6 +214,14 @@ public class AirbnbListing {
                 ", calculatedHostListingsCount=" + calculatedHostListingsCount +
                 ", availability365=" + availability365 +
                 '}';
+    }
+
+    public boolean isFavourite() {
+        return isFavourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        isFavourite = favourite;
     }
 }
 
