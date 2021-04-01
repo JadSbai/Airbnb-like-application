@@ -129,5 +129,5 @@ Project Link: [https://github.com/github_username/repo_name](https://github.kcl.
   <br /> Many design choices such the availability tab, date picker or save button as well as the colour and general
   look and feel are inspired by Airbnb.co.uk.
 * [KCL Informatics, PPA](): Some preexisting code including part of the AirbnbListing and AirbnbDataLoader classes was already
-  provided and credits go to the informatics department and King's College London and Michael Kolling. Likewise the 
+  provided and credits go to the informatics department and King's College London and Michael Kolling. Likewise, the 
   layout (not the implementation) of the hexagon map of boroughs was also provided.
