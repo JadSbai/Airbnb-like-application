@@ -14,13 +14,30 @@ import javafx.scene.image.Image;
  */
 public class Account {
 
-    // Account fields
+    /**
+     * The account's email
+     */
     private final String email;
-    private String username;
-    private String password;
-    private ArrayList<AirbnbListing> listOfFavouriteProperties;
-    private Image profilePicture;
 
+    /**
+     * The account's username
+     */
+    private String username;
+
+    /**
+     * The account's password
+     */
+    private String password;
+
+    /**
+     * The account's list of favourite properties
+     */
+    private ArrayList<AirbnbListing> listOfFavouriteProperties;
+
+    /**
+     * The account's profile picture
+     */
+    private Image profilePicture;
 
 
     /**
@@ -87,30 +104,46 @@ public class Account {
         return listOfFavouriteProperties;
     }
 
-    public void removeFromListOfFavouriteProperties(AirbnbListing listing) {
+    /**
+     * This method removes the specified property from the account's list of favourites
+     * @param listing The property to be removed from the list
+     */
+    public void removeFromListOfFavouriteProperties(AirbnbListing listing)
+    {
+        // Use of an iterator object to avoid index errors in the list
         Iterator<AirbnbListing> iterator = listOfFavouriteProperties.iterator();
         AirbnbListing property = null;
         while (iterator.hasNext()) {
             property = iterator.next();
             if (property == listing) {
                 iterator.remove();
-                // Print "This property has been removed from your favourites"
                 break;
             }
         }
     }
 
+    /**
+     * This method adds the specified property to the account's list of favourites
+     * @param listing The property to be added
+     */
     public void addToListOfFavouriteProperties(AirbnbListing listing)
     {
         listOfFavouriteProperties.add(listing);
     }
 
+    /**
+     * This method returns the account's current profile picture
+     * @return The profile picture
+     */
     public Image getProfilePicture()
     {
         return profilePicture;
     }
 
-
+    /**
+     * This method sets the account's profile picture to the one specified
+     * @param pfp The new profile picture
+     */
     public void setProfilePicture(Image pfp)
     {
         profilePicture = pfp;
