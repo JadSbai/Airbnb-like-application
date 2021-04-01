@@ -2,7 +2,9 @@ package sample;
 
 import javafx.scene.layout.Pane;
 
-
+/**
+ * 
+ */
 public class EntryString implements Comparable<EntryString> {
     private final String key;
     private final Pane value;

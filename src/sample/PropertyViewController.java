@@ -34,10 +34,9 @@ public class PropertyViewController {
 
     @FXML
     private GridPane dateSelectPane;
+
     @FXML
-    private DatePicker inDatePicker;
-    @FXML
-    private DatePicker outDatePicker;
+    private DatePicker inDatePicker, outDatePicker;
 
     private LocalDate inDate, outDate;
 
@@ -54,36 +53,52 @@ public class PropertyViewController {
     private Account currentAccount;
 
 
-    public void initialize(AirbnbListing listing, Account account){
-        favouriteTextLabel.setText("");
+    public void initialize(AirbnbListing listing, Account account) {
         this.listing = listing;
+
+        setHeader();
+        setAvailability();
+        setReviews();
+
+        favouriteTextLabel.setText("");
+
         this.currentAccount = account;
-        if(currentAccount == null){
+        if (currentAccount == null) {
             listing.setFavourite(false);
             setSaveBox(false);
-        }
-        else{
+        } else {
             initializeFavourites();
         }
 
+        this.priceAndNights.setText("£" + listing.getPrice() + " / night");
+    }
 
-        this.nameAndHost.setText(listing.getName() + " - " + listing.getHost_name());
+    /**
+     * Set the text for the header of the listing's view. Shows room type, neighbourhood, name (description) of the
+     * property and host name.
+     */
+    private void setHeader() {
         this.propertyType.setText(listing.getRoom_type() + " in " + listing.getNeighbourhood());
+        this.nameAndHost.setText(listing.getName() + " - " + listing.getHost_name());
+    }
 
+    /**
+     * Set the number of reviews of the property. Shows "review" instead of "reviews" if only 1.
+     */
+    private void setReviews() {
         int numberOfReviews = listing.getNumberOfReviews();
+
         if (numberOfReviews==1) {
             this.reviews.setText(numberOfReviews + " review");
         } else {
             this.reviews.setText(numberOfReviews + " reviews");
         }
-
-        this.priceAndNights.setText("£" + listing.getPrice() + " / night");
-
-        setAvailability();
-
-
     }
 
+    /**
+     * Sets the availability of the property including an icon. Disables the date selector pane if the property is
+     * unavailable
+     */
     private void setAvailability() {
         int daysAvailable = listing.getAvailability365();
 
@@ -91,7 +106,7 @@ public class PropertyViewController {
             availability.setText("Unavailable");
             availabilityText.setText("This property is unavailable.");
 
-            File file = new File("src/sample/Icons/NotAvailable.png");
+            File file = new File("src/sample/Images/NotAvailable.png");
             Image image = new Image(file.toURI().toString());
             availabilityIcon.setImage(image);
 
@@ -100,18 +115,19 @@ public class PropertyViewController {
             availability.setText("Rare find");
             availabilityText.setText("This property is usually booked.");
 
-            File file = new File("src/sample/Icons/RareFind.png");
+            File file = new File("src/sample/Images/RareFind.png");
             Image image = new Image(file.toURI().toString());
             availabilityIcon.setImage(image);
         } else {
             availability.setText("Available");
             availabilityText.setText("This property is available.");
 
-            File file = new File("src/sample/Icons/Available.png");
+            File file = new File("src/sample/Images/Available.png");
             Image image = new Image(file.toURI().toString());
             availabilityIcon.setImage(image);
         }
     }
+
     public void reload(AirbnbListing listing, Account account)
     {
         currentAccount = account;
@@ -124,18 +140,26 @@ public class PropertyViewController {
         }
     }
 
+    /**
+     * @param event created when link to open in google maps is clicked
+     * @throws URISyntaxException {@link URISyntaxException;} in some circumstance
+     * @throws IOException {@link IOException} in some circumstance
+     */
     @FXML
-    public void viewMap(ActionEvent e) throws URISyntaxException, IOException {
+    public void viewMap(ActionEvent event) throws URISyntaxException, IOException {
         double latitude = listing.getLatitude();
         double longitude = listing.getLongitude();
 
         URI uri = new URI("https://www.google.com/maps/place/" + latitude + "," + longitude);
         java.awt.Desktop.getDesktop().browse(uri);
-
     }
 
+    /**
+     * Method to take a check-in day for an airbnb reservation. Error messages will appear if the date is invalid.
+     * @param event created when date is input into the date picker "check in"
+     */
     @FXML
-    public void setInDate(ActionEvent e){
+    public void setInDate(ActionEvent event){
         LocalDate yesterday = LocalDate.now();
         yesterday = yesterday.minusDays(1);
         inDate = inDatePicker.getValue();
@@ -150,8 +174,12 @@ public class PropertyViewController {
         }
     }
 
+    /**
+     * Method to take a check-out day for an airbnb reservation. Error messages will appear if the date is invalid.
+     * @param event created when date is input into the date picker "check out"
+     */
     @FXML
-    public void setOutDate(ActionEvent e){
+    public void setOutDate(ActionEvent event){
         LocalDate today = LocalDate.now();
         outDate = outDatePicker.getValue();
         if(today.isBefore(outDate) && inDate!=null && inDate.isBefore(outDate)) {
@@ -199,7 +227,6 @@ public class PropertyViewController {
             }
         }
         setSaveBox(isFavourite);
-
     }
 
     private void setSaveBox(boolean isFavourite)
@@ -221,23 +248,28 @@ public class PropertyViewController {
         setSaveBox(false);
     }
 
+    /**
+     * Method called when a correct set of dates has been chosen. Sets price of labels considering the
+     */
     private void calculatePrice(){
         int numberOfNights = (int) DAYS.between(inDate, outDate);
         int minNumberOfNights = listing.getMinimumNights();
-        int price = listing.getPrice();
-        int subTotalPrice = price*numberOfNights;
-        int serviceFee = (int) Math.round(subTotalPrice*0.2);
-        int totalPrice = subTotalPrice+serviceFee;
 
         if(numberOfNights < minNumberOfNights){
             invalidOptions("Minimum number of nights for this property is " + minNumberOfNights + " you selected " + numberOfNights, "Insufficient nights");
         } else {
+            int price = listing.getPrice();
+            int subTotalPrice = price*numberOfNights;
+            int serviceFee = (int) Math.round(subTotalPrice*0.2);
+            int totalPrice = subTotalPrice+serviceFee;
+
             priceAndNights.setText("£" + price + " x " + numberOfNights + " nights");
             subtotal.setText("£" + subTotalPrice);
             serviceFeeValue.setText("£" + serviceFee);
             totalPriceLabel.setText("£" + totalPrice);
+
+            reserveButton.setDisable(false);
         }
-        reserveButton.setDisable(false);
     }
 
     private void invalidOptions(String error, String errorTitle)
