@@ -125,11 +125,11 @@ public class PropertyViewController {
         if(currentAccount == null){
             setSaveBox(false);
             warningAlert("If you want to save this property into your favourites, you must first sign in to your account. If you don't have an account, create one", "Not signed in");
+
         }
         else {
             listing.setFavourite(!listing.isFavourite());
 
-            ArrayList<AirbnbListing> listOfFavourites = currentAccount.getListOfFavouriteProperties();
             if (listing.isFavourite()) {
                 addToFavourites(listing);
             }
@@ -137,8 +137,6 @@ public class PropertyViewController {
                 removeFromFavourites(listing);
             }
         }
-
-
     }
 
     private void initializeFavourites()
@@ -153,7 +151,6 @@ public class PropertyViewController {
             }
         }
         setSaveBox(isFavourite);
-
     }
 
     private void setSaveBox(boolean isFavourite)
@@ -204,6 +201,7 @@ public class PropertyViewController {
         alert.setHeaderText(null);
         alert.setContentText(warning);
         alert.showAndWait();
+
     }
 
     public CheckBox getSaveBox() {

@@ -9,6 +9,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
@@ -41,7 +42,7 @@ public class MainController {
 
 
 
-    public void initialize() throws IOException {
+    public void initialize(Pane mainRoot) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome.fxml"));
 
         welcomeRoot = loader.load();
@@ -56,9 +57,17 @@ public class MainController {
         //statisticsRoot = loader.load();
         welcomeController.initialize(leftButton, rightButton, currentPriceRangeLabel);
 
+        FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("accountPopUpMenu.fxml"));
+        VBox popUpRoot = popUpLoader.load();
+        accountController = popUpLoader.getController();
+        mainRoot.getChildren().add(popUpRoot);
+
         loader = new FXMLLoader(getClass().getResource("signed_out.fxml"));
+        loader.setController(accountController);
         Pane signedOutBar = loader.load();
-        accountController = loader.getController();
+
+
+
 
 
         accountController.initialize(this, signedOutBar, mapController);

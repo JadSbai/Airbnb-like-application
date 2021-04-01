@@ -172,6 +172,10 @@ public class AccountController
         Pane createAccountPanel = createAccountPanelLoader.load();
         createAccountScene = new Scene(createAccountPanel);
 
+        formatPopUpMenu();
+        setProfileCircles(defaultProfileImage);
+        setAccountUsername("");
+
         accountStage = new Stage();
     }
 
@@ -183,6 +187,10 @@ public class AccountController
     private void signIn(ActionEvent e)
     {
         if(!isAccountWindowOpen) {
+            if(welcomeController.isSearched()){
+                closeAllPropertyWindows();
+            }
+
             resetSignInSceneFields();
             accountStage.setScene(signInScene);
             accountStage.setTitle("Sign in");
@@ -211,6 +219,11 @@ public class AccountController
     private void createAccount(ActionEvent e)
     {
         if(!isAccountWindowOpen){
+
+            if(welcomeController.isSearched()){
+                closeAllPropertyWindows();
+            }
+
             resetCreateAccountFields();
             accountStage.setScene(createAccountScene);
             accountStage.setTitle("Create a new account");
@@ -345,6 +358,7 @@ public class AccountController
         setProfileCircles(defaultProfileImage);
         setAccountUsername("");
         currentAccount = null;
+        closeAllPropertyWindows();
         mapController.setCurrentAccount(null);
         accountBar.setRight(signedOutBar);
         subPane.setVisible(false);
@@ -608,6 +622,8 @@ public class AccountController
     {
         signInEmail.setText("");
         signInPassword.setText("");
+        emailSignInErrorLabel.setText("");
+        passwordSignInErrorLabel.setText("");
     }
 
     private void resetCreateAccountFields()
@@ -616,6 +632,10 @@ public class AccountController
         createAccountEmail.setText("");
         createAccountPassword.setText("");
         createAccountConfirmPassword.setText("");
+        usernameCreateAccountErrorLabel.setText("");
+        emailCreateAccountErrorLabel.setText("");
+        passwordCreateAccountErrorLabel.setText("");
+        confirmPasswordCreateAccountErrorLabel.setText("");
     }
 
     @FXML
@@ -624,6 +644,11 @@ public class AccountController
             subPane.setVisible(!subPane.isVisible());
         }
 
+    }
+
+    private void closeAllPropertyWindows()
+    {
+        mapController.closeAllPropertyListStages();
     }
 
     /**

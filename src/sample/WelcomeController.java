@@ -38,6 +38,7 @@ public class WelcomeController {
     private static final int MAX_VALUE = 500;
     private static final int MIN_VALUE = 0;
     private boolean isSearched;
+    private boolean isNewSearch;
 
 
     public void initialize(Button leftArrow, Button rightArrow, Label priceLabel) {
@@ -68,10 +69,17 @@ public class WelcomeController {
     private void searchAction(ActionEvent e) {
 
         boolean valid = (getIntFromBox(minimumPrice) && getIntFromBox(maximumPrice));
+        boolean isNewPrice = false;
+        isNewSearch = false;
         if (valid)
         {
+            int temp1 = minPrice;
+            int temp2 = maxPrice;
             minPrice = minimumPrice.getValue();
             maxPrice = maximumPrice.getValue();
+            if(temp1 != minPrice || temp2 != maxPrice){
+                isNewPrice = true;
+            }
         }
         if (valid && maxPrice > minPrice)
         {
@@ -79,6 +87,9 @@ public class WelcomeController {
             rightArrow.setDisable(false);
             leftArrow.setDisable(false);
             setSearched(true);
+            if(isNewPrice){
+                isNewSearch = true;
+            }
 
         }
         else if(valid)
@@ -156,6 +167,15 @@ public class WelcomeController {
 
     public void setSearched(boolean searched) {
         isSearched = searched;
+    }
+
+
+    public boolean isNewSearch() {
+        return isNewSearch;
+    }
+
+    public void setNewSearch(boolean newSearch) {
+        isNewSearch = newSearch;
     }
 }
 

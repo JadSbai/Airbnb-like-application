@@ -35,5 +35,7 @@ public class PropertyListController {
     }
 
 
-
+    public PropertyPreviewController getPropertyPreviewController() {
+        return propertyPreviewController;
+    }
 }

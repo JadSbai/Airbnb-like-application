@@ -25,6 +25,10 @@ public class PropertyPreviewController {
 
     private PropertyViewController viewController;
 
+    private Stage propertyStage;
+
+    private boolean isPropertyWindowOpen;
+
     public void initialize(AirbnbListing listing, Account account){
         this.listing = listing;
         this.hostName.setText(listing.getHost_name());
@@ -32,27 +36,47 @@ public class PropertyPreviewController {
         this.reviews.setText("" + listing.getNumberOfReviews());
         this.minimumNights.setText("Min. nights: " + listing.getMinimumNights());
         this.account = account;
+        isPropertyWindowOpen = false;
     }
 
     @FXML
-    public void openProperty(MouseEvent e) throws IOException {
-        FXMLLoader property = new FXMLLoader(getClass().getResource("AirbnbView.fxml"));
-        Stage stage = property.load();
-        if(listing.getHost_name().endsWith("s")){
-            stage.setTitle(listing.getHost_name() + "' Airbnb");
-        }else{
-            stage.setTitle(listing.getHost_name() + "'s Airbnb");
-        }
-        stage.show();
+    public void openProperty(MouseEvent e) throws IOException
+    {
+        if(!isPropertyWindowOpen) {
 
-        viewController = property.getController();
-        viewController.initialize(listing, account);
+            FXMLLoader property = new FXMLLoader(getClass().getResource("AirbnbView.fxml"));
+            propertyStage = property.load();
+
+            if(listing.getHost_name().endsWith("s")){
+                propertyStage.setTitle(listing.getHost_name() + "' Airbnb");
+            }else{
+                propertyStage.setTitle(listing.getHost_name() + "'s Airbnb");
+            }
+            propertyStage.show();
+
+            isPropertyWindowOpen = true;
+            propertyStage.setOnCloseRequest(event -> {
+                        isPropertyWindowOpen = false;
+                    }
+            );
+
+            viewController = property.getController();
+            viewController.initialize(listing, account);
+        }
+        else{
+             propertyStage.close();
+             propertyStage.show();
+        }
     }
 
     public void reload(AirbnbListing listing, Account account) throws IOException {
         FXMLLoader property = new FXMLLoader(getClass().getResource("AirbnbView.fxml"));
-        Stage stage = property.load();
+        propertyStage = property.load();
         viewController = property.getController();
         viewController.reload(listing, account);
+    }
+
+    public Stage getPropertyStage() {
+        return propertyStage;
     }
 }

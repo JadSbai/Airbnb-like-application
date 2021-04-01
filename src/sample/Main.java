@@ -33,15 +33,10 @@ public class Main extends Application {
         // The root of panel is retrieved from the fxml file
         StackPane root = loader.load();
         MainController mainController = loader.getController();
+        mainController.initialize(root);
+
         AccountController accountController = mainController.getAccountController();
 
-        FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("accountPopUpMenu.fxml"));
-        popUpLoader.setController(accountController);
-        VBox popUpRoot = popUpLoader.load();
-        root.getChildren().add(popUpRoot);
-        accountController.formatPopUpMenu();
-        accountController.setProfileCircles(accountController.getDefaultProfileImage());
-        accountController.setAccountUsername("");
 
         primaryStage.setTitle("Airbnb London");
         // The scene is set with the retrieved root
