@@ -34,8 +34,12 @@ public class PropertyPreviewController {
         this.account = account;
     }
 
+    /**
+     * @param event created when clicking anywhere on the pane. Opens the listing previewed.
+     * @throws IOException {@link java.io.IOException} in some circumstance
+     */
     @FXML
-    public void openProperty(MouseEvent e) throws IOException {
+    public void openProperty(MouseEvent event) throws IOException {
         FXMLLoader property = new FXMLLoader(getClass().getResource("AirbnbView.fxml"));
         Stage stage = property.load();
 

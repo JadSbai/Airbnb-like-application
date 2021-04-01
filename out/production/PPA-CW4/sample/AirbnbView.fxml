@@ -1,68 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Scene?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Hyperlink?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.shape.SVGPath?>
-<?import javafx.scene.text.Font?>
-<?import javafx.stage.Stage?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.stage.*?>
 
-<Stage xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.PropertyViewController">
+<Stage xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.PropertyViewController">
    <scene>
       <Scene stylesheets="@PropertyViewStyle.css">
-         <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="450.0"
-                   prefWidth="650.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+         <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="450.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
             <columnConstraints>
-               <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0"/>
+               <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" />
             </columnConstraints>
             <rowConstraints>
-               <RowConstraints maxHeight="193.0" minHeight="10.0" prefHeight="112.0" vgrow="SOMETIMES"/>
-               <RowConstraints maxHeight="345.0" minHeight="10.0" prefHeight="338.0" vgrow="SOMETIMES"/>
+               <RowConstraints maxHeight="193.0" minHeight="10.0" prefHeight="112.0" vgrow="SOMETIMES" />
+               <RowConstraints maxHeight="345.0" minHeight="10.0" prefHeight="338.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0"
-                                     prefWidth="515.0"/>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="0.0"
-                                     prefWidth="85.0"/>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="515.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="85.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
-               <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="81.0"
-                     prefWidth="522.0">
+               <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="81.0" prefWidth="522.0">
                   <Label fx:id="propertyType" text="Private room in Westminster" textFill="#000000b2">
                      <padding>
-                        <Insets left="20.0" top="25.0"/>
+                        <Insets left="20.0" top="25.0" />
                      </padding>
                   </Label>
                   <Label fx:id="nameAndHost" text="The Best House - John Doe">
                      <padding>
-                        <Insets bottom="10.0" left="20.0" top="5.0"/>
+                        <Insets bottom="10.0" left="20.0" top="5.0" />
                      </padding>
                      <font>
-                        <Font size="22.0"/>
+                        <Font size="22.0" />
                      </font>
                   </Label>
                   <Line endX="30.0" stroke="#0000004d">
                      <VBox.margin>
-                        <Insets left="20.0"/>
+                        <Insets left="20.0" />
                      </VBox.margin>
                   </Line>
                </VBox>
-               <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                     nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+               <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                   <CheckBox fx:id="saveBox" mnemonicParsing="false" onAction="#saveFavourites" styleClass="save-box" text="Save">
                      <padding>
                         <Insets right="25.0" top="20.0" />
@@ -77,234 +63,211 @@
             </GridPane>
             <GridPane prefWidth="650.0" GridPane.rowIndex="1">
                <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0"
-                                     prefWidth="285.0"/>
-                  <ColumnConstraints hgrow="NEVER" maxWidth="328.0" minWidth="-Infinity" prefWidth="295.0"/>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="285.0" />
+                  <ColumnConstraints hgrow="NEVER" maxWidth="328.0" minWidth="-Infinity" prefWidth="295.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0"
-                                  vgrow="SOMETIMES"/>
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <padding>
-                  <Insets bottom="20.0" right="20.0"/>
+                  <Insets bottom="20.0" right="20.0" />
                </padding>
                <VBox prefHeight="323.0" prefWidth="335.0">
                   <GridPane prefHeight="66.0" prefWidth="335.0">
                      <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="90.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0"
-                                           prefWidth="241.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="90.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="241.0" />
                      </columnConstraints>
                      <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
-                     <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0"
-                           GridPane.columnIndex="1">
-                        <Label fx:id="availability" scaleShape="false" styleClass="availability-label"
-                               text="Availability">
+                     <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+                        <Label fx:id="availability" scaleShape="false" styleClass="availability-label" text="Availability">
                            <padding>
-                              <Insets bottom="7.0" left="15.0"/>
+                              <Insets bottom="7.0" left="15.0" />
                            </padding>
                            <font>
-                              <Font size="18.0"/>
+                              <Font size="18.0" />
                            </font>
                         </Label>
                         <Label fx:id="availabilityText" text="Label">
                            <padding>
-                              <Insets left="15.0"/>
+                              <Insets left="15.0" />
                            </padding>
                            <font>
-                              <Font size="12.0"/>
+                              <Font size="12.0" />
                            </font>
                         </Label>
                      </VBox>
                      <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="71.0">
-                        <ImageView fx:id="availabilityIcon" fitHeight="55.0" fitWidth="55.0"
-                                   pickOnBounds="true" preserveRatio="true"/>
+                        <ImageView fx:id="availabilityIcon" fitHeight="55.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true" />
                      </VBox>
                   </GridPane>
                   <Hyperlink fx:id="locationLink" onAction="#viewMap" text="Open in Google Maps">
                      <padding>
-                        <Insets left="20.0" top="20.0"/>
+                        <Insets left="20.0" top="20.0" />
                      </padding>
                      <graphic>
-                        <SVGPath
-                                content="M12 0c-3.148 0-6 2.553-6 5.702 0 3.148 2.602 6.907 6 12.298 3.398-5.391 6-9.15 6-12.298 0-3.149-2.851-5.702-6-5.702zm0 8c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2zm4 14.5c0 .828-1.79 1.5-4 1.5s-4-.672-4-1.5 1.79-1.5 4-1.5 4 .672 4 1.5zM12 0c-3.148 0-6 2.553-6 5.702 0 3.148 2.602 6.907 6 12.298 3.398-5.391 6-9.15 6-12.298 0-3.149-2.851-5.702-6-5.702zm0 8c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2zm4 14.5c0 .828-1.79 1.5-4 1.5s-4-.672-4-1.5 1.79-1.5 4-1.5 4 .672 4 1.5z"
-                                fill="#0e232e"/>
+                        <SVGPath content="M12 0c-3.148 0-6 2.553-6 5.702 0 3.148 2.602 6.907 6 12.298 3.398-5.391 6-9.15 6-12.298 0-3.149-2.851-5.702-6-5.702zm0 8c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2zm4 14.5c0 .828-1.79 1.5-4 1.5s-4-.672-4-1.5 1.79-1.5 4-1.5 4 .672 4 1.5zM12 0c-3.148 0-6 2.553-6 5.702 0 3.148 2.602 6.907 6 12.298 3.398-5.391 6-9.15 6-12.298 0-3.149-2.851-5.702-6-5.702zm0 8c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2zm4 14.5c0 .828-1.79 1.5-4 1.5s-4-.672-4-1.5 1.79-1.5 4-1.5 4 .672 4 1.5z" fill="#0e232e" />
                      </graphic>
                   </Hyperlink>
                   <Label fx:id="reviews" text="69 reviews">
                      <padding>
-                        <Insets left="20.0" top="5.0"/>
+                        <Insets left="20.0" top="5.0" />
                      </padding>
                      <font>
-                        <Font size="12.0"/>
+                        <Font size="12.0" />
                      </font>
                      <graphic>
-                        <SVGPath
-                                content="M9.5 14.25l-5.584 2.936 1.066-6.218L.465 6.564l6.243-.907L9.5 0l2.792 5.657 6.243.907-4.517 4.404 1.066 6.218M9.5 14.25l-5.584 2.936 1.066-6.218L.465 6.564l6.243-.907L9.5 0l2.792 5.657 6.243.907-4.517 4.404 1.066 6.218"
-                                fill="#ff5a60" scaleX="0.8" scaleY="0.8" scaleZ="0.8"/>
+                        <SVGPath content="M9.5 14.25l-5.584 2.936 1.066-6.218L.465 6.564l6.243-.907L9.5 0l2.792 5.657 6.243.907-4.517 4.404 1.066 6.218M9.5 14.25l-5.584 2.936 1.066-6.218L.465 6.564l6.243-.907L9.5 0l2.792 5.657 6.243.907-4.517 4.404 1.066 6.218" fill="#ff5a60" scaleX="0.8" scaleY="0.8" scaleZ="0.8" />
                      </graphic>
                   </Label>
                </VBox>
-               <StackPane prefHeight="150.0" prefWidth="233.0" styleClass="date-select-pane-container"
-                          GridPane.columnIndex="1">
+               <StackPane prefHeight="150.0" prefWidth="233.0" styleClass="date-select-pane-container" GridPane.columnIndex="1">
                   <padding>
-                     <Insets bottom="-5.0" left="-5.0" right="-5.0" top="-5.0"/>
+                     <Insets bottom="-5.0" left="-5.0" right="-5.0" top="-5.0" />
                   </padding>
-                  <GridPane styleClass="date-select-pane">
+                  <GridPane fx:id="dateSelectPane" styleClass="date-select-pane">
                      <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
-                        <RowConstraints maxHeight="288.0" minHeight="10.0" prefHeight="259.0" vgrow="SOMETIMES"/>
-                        <RowConstraints maxHeight="157.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES"/>
+                        <RowConstraints maxHeight="288.0" minHeight="10.0" prefHeight="259.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="157.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <GridPane prefHeight="270.0" prefWidth="283.0">
                         <columnConstraints>
-                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="142.0" minWidth="10.0"
-                                              prefWidth="142.0"/>
-                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="141.0" minWidth="10.0"
-                                              prefWidth="141.0"/>
+                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="142.0" minWidth="10.0" prefWidth="142.0" />
+                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="141.0" minWidth="10.0" prefWidth="141.0" />
                         </columnConstraints>
                         <rowConstraints>
-                           <RowConstraints maxHeight="106.0" minHeight="10.0" prefHeight="94.0"
-                                           vgrow="SOMETIMES"/>
-                           <RowConstraints maxHeight="222.0" minHeight="10.0" prefHeight="126.0"
-                                           vgrow="SOMETIMES"/>
-                           <RowConstraints maxHeight="127.0" minHeight="10.0" prefHeight="49.0"
-                                           vgrow="SOMETIMES"/>
+                           <RowConstraints maxHeight="106.0" minHeight="10.0" prefHeight="94.0" vgrow="SOMETIMES" />
+                           <RowConstraints maxHeight="222.0" minHeight="10.0" prefHeight="126.0" vgrow="SOMETIMES" />
+                           <RowConstraints maxHeight="127.0" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
                         </rowConstraints>
                         <VBox prefHeight="200.0" prefWidth="100.0" styleClass="check-in-pane">
                            <padding>
-                              <Insets left="20.0" top="20.0"/>
+                              <Insets left="20.0" top="20.0" />
                            </padding>
                            <Label alignment="BASELINE_RIGHT" text="CHECK-IN">
                               <padding>
-                                 <Insets bottom="5.0" right="20.0"/>
+                                 <Insets bottom="5.0" right="20.0" />
                               </padding>
                               <font>
-                                 <Font size="12.0"/>
+                                 <Font size="12.0" />
                               </font>
                            </Label>
-                           <DatePicker fx:id="inDatePicker" onAction="#setInDate" prefHeight="27.0"
-                                       prefWidth="100.0">
+                           <DatePicker fx:id="inDatePicker" onAction="#setInDate" prefHeight="27.0" prefWidth="100.0">
                               <VBox.margin>
-                                 <Insets/>
+                                 <Insets />
                               </VBox.margin>
                            </DatePicker>
                         </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0" styleClass="check-out-pane"
-                              GridPane.columnIndex="1">
+                        <VBox prefHeight="200.0" prefWidth="100.0" styleClass="check-out-pane" GridPane.columnIndex="1">
                            <padding>
-                              <Insets left="20.0" top="20.0"/>
+                              <Insets left="20.0" top="20.0" />
                            </padding>
                            <Label alignment="BASELINE_RIGHT" text="CHECK-OUT">
                               <padding>
-                                 <Insets bottom="5.0" right="20.0"/>
+                                 <Insets bottom="5.0" right="20.0" />
                               </padding>
                               <font>
-                                 <Font size="12.0"/>
+                                 <Font size="12.0" />
                               </font>
                            </Label>
-                           <DatePicker fx:id="outDatePicker" onAction="#setOutDate" prefHeight="27.0"
-                                       prefWidth="100.0"/>
+                           <DatePicker fx:id="outDatePicker" onAction="#setOutDate" prefHeight="27.0" prefWidth="100.0" />
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                            <Label fx:id="priceAndNights" text="£69 / night" underline="true">
                               <padding>
-                                 <Insets left="20.0" top="20.0"/>
+                                 <Insets left="20.0" top="20.0" />
                               </padding>
                               <font>
-                                 <Font size="15.0"/>
+                                 <Font size="15.0" />
                               </font>
                            </Label>
                            <Label layoutX="10.0" layoutY="10.0" text="Cleaning fee" underline="true">
                               <padding>
-                                 <Insets left="20.0" top="15.0"/>
+                                 <Insets left="20.0" top="15.0" />
                               </padding>
                               <font>
-                                 <Font size="15.0"/>
+                                 <Font size="15.0" />
                               </font>
                            </Label>
                            <Label text="Service fee" underline="true">
                               <padding>
-                                 <Insets left="20.0" top="15.0"/>
+                                 <Insets left="20.0" top="15.0" />
                               </padding>
                               <font>
-                                 <Font size="15.0"/>
+                                 <Font size="15.0" />
                               </font>
                            </Label>
                         </VBox>
-                        <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0"
-                              GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <Label fx:id="subtotal" text="£--">
                               <padding>
-                                 <Insets left="20.0" top="20.0"/>
+                                 <Insets left="20.0" top="20.0" />
                               </padding>
                               <font>
-                                 <Font size="15.0"/>
+                                 <Font size="15.0" />
                               </font>
                               <VBox.margin>
-                                 <Insets right="20.0"/>
+                                 <Insets right="20.0" />
                               </VBox.margin>
                            </Label>
                            <Label text="£0" wrapText="true">
                               <padding>
-                                 <Insets left="20.0" top="15.0"/>
+                                 <Insets left="20.0" top="15.0" />
                               </padding>
                               <font>
-                                 <Font size="15.0"/>
+                                 <Font size="15.0" />
                               </font>
                               <VBox.margin>
-                                 <Insets right="20.0"/>
+                                 <Insets right="20.0" />
                               </VBox.margin>
                            </Label>
                            <Label fx:id="serviceFeeValue" text="£--">
                               <padding>
-                                 <Insets left="20.0" top="15.0"/>
+                                 <Insets left="20.0" top="15.0" />
                               </padding>
                               <font>
-                                 <Font size="15.0"/>
+                                 <Font size="15.0" />
                               </font>
                               <VBox.margin>
-                                 <Insets right="20.0"/>
+                                 <Insets right="20.0" />
                               </VBox.margin>
                            </Label>
                            <Line endX="80.0">
                               <VBox.margin>
-                                 <Insets right="10.0" top="15.0"/>
+                                 <Insets right="10.0" top="15.0" />
                               </VBox.margin>
                            </Line>
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
                            <Label text="Total" underline="true">
                               <padding>
-                                 <Insets left="20.0" top="15.0"/>
+                                 <Insets left="20.0" top="15.0" />
                               </padding>
                               <font>
-                                 <Font size="15.0"/>
+                                 <Font size="15.0" />
                               </font>
                            </Label>
                         </VBox>
-                        <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0"
-                              GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <Label fx:id="totalPriceLabel" text="£--">
                               <padding>
-                                 <Insets right="20.0" top="15.0"/>
+                                 <Insets right="20.0" top="15.0" />
                               </padding>
                               <font>
-                                 <Font size="15.0"/>
+                                 <Font size="15.0" />
                               </font>
                            </Label>
                         </VBox>
                      </GridPane>
                      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
-                        <Button fx:id="reserveButton" disable="true" mnemonicParsing="false"
-                                onAction="#reserveProperty" prefHeight="43.0" prefWidth="114.0"
-                                styleClass="reserve-button" text="Reserve">
+                        <Button fx:id="reserveButton" disable="true" mnemonicParsing="false" onAction="#reserveProperty" prefHeight="43.0" prefWidth="114.0" styleClass="reserve-button" text="Reserve">
                            <font>
-                              <Font size="17.0"/>
+                              <Font size="17.0" />
                            </font>
                         </Button>
                      </VBox>
