@@ -70,7 +70,7 @@ public class WelcomeController {
 
         boolean valid = (getIntFromBox(minimumPrice) && getIntFromBox(maximumPrice));
         boolean isNewPrice = false;
-        isNewSearch = false;
+
         if (valid)
         {
             int temp1 = minPrice;
@@ -80,23 +80,25 @@ public class WelcomeController {
             if(temp1 != minPrice || temp2 != maxPrice){
                 isNewPrice = true;
             }
+            else{
+                invalidOptions("Please input an new price range before searching", "Same price range !");
+            }
         }
-        if (valid && maxPrice > minPrice)
+        if (valid && maxPrice > minPrice && isNewPrice)
         {
             priceLabel.setText("Price range: " + minPrice + "-" + maxPrice);
-            rightArrow.setDisable(false);
-            leftArrow.setDisable(false);
-            setSearched(true);
-            if(isNewPrice){
-                isNewSearch = true;
+            isNewSearch = true;
+            if(!isSearched){
+                rightArrow.setDisable(false);
+                leftArrow.setDisable(false);
+                setSearched(true);
             }
-
         }
-        else if(valid)
+        else if(valid && isNewPrice)
         {
             invalidOptions("Minimum price may not exceed or equal maximum price.", "Invalid price range!");
         }
-        else
+        else if(!valid)
         {
             invalidOptions("Please input a price range first.", "Invalid price range!");
         }

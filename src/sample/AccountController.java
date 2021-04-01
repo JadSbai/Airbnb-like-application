@@ -696,4 +696,12 @@ public class AccountController
     public Image getDefaultProfileImage() {
         return defaultProfileImage;
     }
+
+    public MapController getMapController() {
+        return mapController;
+    }
+
+    public WelcomeController getWelcomeController() {
+        return welcomeController;
+    }
 }

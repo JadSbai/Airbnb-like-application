@@ -48,7 +48,6 @@ public class MapController {
         String boroughAbbreviation = ((Button) event.getSource()).getText();
 
         if(welcomeController.isNewSearch()){
-            closeAllPropertyListStages();
             reloadBoroughListings(boroughAbbreviation);
             welcomeController.setNewSearch(false);
         }

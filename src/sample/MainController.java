@@ -93,6 +93,9 @@ public class MainController {
     private void rightButtonAction(ActionEvent e) throws IOException {
         if(mainPane.getCenter() == welcomeRoot){
             mainPane.setCenter(mapRoot);
+            if(accountController.getWelcomeController().isNewSearch()){
+                accountController.getMapController().closeAllPropertyListStages();
+            }
         }
         else if(mainPane.getCenter() == mapRoot){
             mainPane.setCenter(welcomeRoot);

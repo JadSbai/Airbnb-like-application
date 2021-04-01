@@ -35,9 +35,6 @@ public class Main extends Application {
         MainController mainController = loader.getController();
         mainController.initialize(root);
 
-        AccountController accountController = mainController.getAccountController();
-
-
         primaryStage.setTitle("Airbnb London");
         // The scene is set with the retrieved root
         Scene scene = new Scene(root);
