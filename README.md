@@ -55,17 +55,16 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+Our Airbnb viewer provides wide functionality to browse, view and save airbnb's in London, extending functionality 
+to use as much data as possible provided in the csv file.
 
-Here's a blank template to get started:
-**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`github_username`, `repo_name`, `twitter_handle`, `email`, `project_title`, `project_description`
+We used SceneBuilder to design the project and css for optimal styling and aesthetic.
 
 
 ### Built With
 
 * [Java & JavaFX]()
-* [FXML]()
+* [SceneBuilder - FXML]()
 * [CSS]()
 
 
@@ -126,8 +125,9 @@ Project Link: [https://github.com/github_username/repo_name](https://github.kcl.
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* [Airbnb.co.uk](): 
-* [Michael Kolling](): 
-* []()
-* []()
-* []()
+* [Airbnb.co.uk](airbnb.co.uk): the data for the airbnb's was taken from publicly available airbnb listings.
+  <br /> Many design choices such the availability tab, date picker or save button as well as the colour and general
+  look and feel are inspired by Airbnb.co.uk.
+* [KCL Informatics, PPA](): Some preexisting code including part of the AirbnbListing and AirbnbDataLoader classes was already
+  provided and credits go to the informatics department and King's College London and Michael Kolling. Likewise the 
+  layout (not the implementation) of the hexagon map of boroughs was also provided.
