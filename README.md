@@ -5,7 +5,7 @@
 <br />
 <p align="center">
   <a href="https://github.kcl.ac.uk/k20020900/PPA-CW4">
-    <img src="src/sample/Images/AirbnbLogo.png" alt="Logo" width="265" height="300">
+    <img src="src/sample/Images/AirbnbLogo.png" alt="Logo" width="80" height="90">
   </a>
 
 <h3 align="center">London Airbnb Viewer</h3>
