@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
@@ -16,6 +15,5 @@
             <Circle fx:id="profileCircle" fill="WHITE" onMouseClicked="#profileClicked" radius="25.0" stroke="BLACK" strokeType="INSIDE" />
          </children>
       </VBox>
-      <Button mnemonicParsing="false" onAction="#signOutAction" text="Sign out" />
    </children>
 </HBox>

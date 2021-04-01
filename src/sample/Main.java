@@ -4,11 +4,13 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Stack;
 
 /**
  * This class is the main class of the project. It sets up the application and launches it.
@@ -29,12 +31,9 @@ public class Main extends Application {
         // We use the FXMLLoader class to load the fxml files created with the SceneBuilder
         FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
         // The root of panel is retrieved from the fxml file
-        Pane root = loader.load();
+        StackPane root = loader.load();
         MainController mainController = loader.getController();
-        FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("accountPopUpMenu.fxml"));
-        popUpLoader.setController(mainController.getAccountController());
-        VBox popUpRoot = popUpLoader.load();
-        root.getChildren().add(popUpRoot);
+        mainController.initialize(root);
 
         primaryStage.setTitle("Airbnb London");
         // The scene is set with the retrieved root
