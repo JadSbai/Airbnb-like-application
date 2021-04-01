@@ -187,9 +187,6 @@ public class AccountController
     private void signIn(ActionEvent e)
     {
         if(!isAccountWindowOpen) {
-            if(welcomeController.isSearched()){
-                closeAllPropertyWindows();
-            }
 
             resetSignInSceneFields();
             accountStage.setScene(signInScene);
@@ -219,10 +216,6 @@ public class AccountController
     private void createAccount(ActionEvent e)
     {
         if(!isAccountWindowOpen){
-
-            if(welcomeController.isSearched()){
-                closeAllPropertyWindows();
-            }
 
             resetCreateAccountFields();
             accountStage.setScene(createAccountScene);
@@ -309,6 +302,7 @@ public class AccountController
             accountStage.close();
 
             if(welcomeController.isSearched()){
+                closeAllPropertyWindows();
                 loadAccount(currentAccount);
             }
 
@@ -340,6 +334,7 @@ public class AccountController
             accountStage.close();
 
             if(welcomeController.isSearched()){
+                closeAllPropertyWindows();
                 loadAccount(currentAccount);
             }
 
