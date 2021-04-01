@@ -137,7 +137,7 @@ public class AccountController
      * @param signedOutBar The signed Out Pane that was set in the MainController class
      * @throws IOException if the designated files are not loaded successfully
      */
-    public void initialize(MainController mainController, AccountController accountController, Pane signedOutBar, MapController mapController) throws IOException
+    public void initialize(MainController mainController, Pane signedOutBar, MapController mapController) throws IOException
     {
         accountBar = mainController.getAccountBar();
         listOfAccounts = new ArrayList<>();
@@ -150,16 +150,16 @@ public class AccountController
 
 
         FXMLLoader signedInLoader = new FXMLLoader(getClass().getResource("signed_in.fxml"));
-        signedInLoader.setController(accountController);
+        signedInLoader.setController(this);
         signedInBar = signedInLoader.load();
 
         FXMLLoader signInPanelLoader = new FXMLLoader(getClass().getResource("sign_in_panel.fxml"));
-        signInPanelLoader.setController(accountController);
+        signInPanelLoader.setController(this);
         Pane signInPanel = signInPanelLoader.load();
         signInScene = new Scene(signInPanel);
 
         FXMLLoader createAccountPanelLoader = new FXMLLoader(getClass().getResource("create_account_panel.fxml"));
-        createAccountPanelLoader.setController(accountController);
+        createAccountPanelLoader.setController(this);
         Pane createAccountPanel = createAccountPanelLoader.load();
         createAccountScene = new Scene(createAccountPanel);
 
@@ -335,6 +335,7 @@ public class AccountController
         currentAccount = null;
         mapController.setCurrentAccount(null);
         accountBar.setRight(signedOutBar);
+        subPane.setVisible(false);
 
         if(welcomeController.isSearched()){
             setDefaultSettingsAndData();
@@ -609,7 +610,6 @@ public class AccountController
     private void profileClicked(MouseEvent e) {
         if (e.getButton() == MouseButton.PRIMARY) {
             subPane.setVisible(!subPane.isVisible());
-
         }
 
     }
@@ -640,6 +640,6 @@ public class AccountController
     }
 
     public void formatPopUpMenu() {
-        StackPane.setMargin(subPane, new Insets(70,40,0,0));
+        StackPane.setMargin(subPane, new Insets(70,20,0,0));
     }
 }

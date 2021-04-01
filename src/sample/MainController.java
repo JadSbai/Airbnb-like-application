@@ -57,7 +57,7 @@ public class MainController {
         Pane signedOutBar = loader.load();
         accountController = loader.getController();
 
-        accountController.initialize(this, accountController, signedOutBar, mapController);
+        accountController.initialize(this, signedOutBar, mapController);
         accountBar.setRight(accountController.getSignedOutBar());
     }
 
