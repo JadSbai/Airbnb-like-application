@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -94,7 +93,7 @@ public class MainController {
         if(mainPane.getCenter() == welcomeRoot){
             mainPane.setCenter(mapRoot);
             if(accountController.getWelcomeController().isNewSearch()){
-                accountController.getMapController().closeAllPropertyListStages();
+                accountController.getMapController().closeAllMapStages();
             }
         }
         else if(mainPane.getCenter() == mapRoot){

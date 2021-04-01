@@ -47,6 +47,7 @@ public class PropertyPreviewController {
             FXMLLoader property = new FXMLLoader(getClass().getResource("AirbnbView.fxml"));
             propertyStage = property.load();
 
+
             if(listing.getHost_name().endsWith("s")){
                 propertyStage.setTitle(listing.getHost_name() + "' Airbnb");
             }else{
@@ -78,5 +79,9 @@ public class PropertyPreviewController {
 
     public Stage getPropertyStage() {
         return propertyStage;
+    }
+
+    public boolean isPropertyWindowOpen() {
+        return isPropertyWindowOpen;
     }
 }

@@ -353,12 +353,12 @@ public class AccountController
         setProfileCircles(defaultProfileImage);
         setAccountUsername("");
         currentAccount = null;
-        closeAllPropertyWindows();
         mapController.setCurrentAccount(null);
         accountBar.setRight(signedOutBar);
         subPane.setVisible(false);
 
         if(welcomeController.isSearched()){
+            closeAllPropertyWindows();
             setDefaultSettingsAndData();
         }
 
@@ -643,7 +643,7 @@ public class AccountController
 
     private void closeAllPropertyWindows()
     {
-        mapController.closeAllPropertyListStages();
+        mapController.closeAllMapStages();
     }
 
     /**

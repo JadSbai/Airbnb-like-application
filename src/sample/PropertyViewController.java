@@ -125,7 +125,6 @@ public class PropertyViewController {
         if(currentAccount == null){
             setSaveBox(false);
             warningAlert("If you want to save this property into your favourites, you must first sign in to your account. If you don't have an account, create one", "Not signed in");
-
         }
         else {
             listing.setFavourite(!listing.isFavourite());

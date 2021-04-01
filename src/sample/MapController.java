@@ -21,6 +21,7 @@ public class MapController {
     private PropertyListController listOfProperties;
     private ArrayList<AirbnbListing> boroughListings;
     private ArrayList<Stage> listOfPropertyListStages;
+    private ArrayList<PropertyListController> listOfPropertyListControllers;
     private HashMap<String, Stage> isStageOpenMap;
     private boolean isPropertyListWindowOpen;
 
@@ -34,6 +35,7 @@ public class MapController {
         this.dataLoader = new AirbnbDataLoader();
         this.hexagons = new ArrayList<>(Arrays.asList(ENFI, BARN, HRGY, WALT, HRRW, BREN, CAMD, ISLI, HACK, REDB, HAVE, HILL, EALI, KENS, WSTM, TOWH, NEWH, BARK, HOUN, HAMM, WAND, CITY, GWCH, BEXL, RICH, MERT, LAMB, STHW, LEWS, KING, SUTT, CROY, BROM));
         listOfPropertyListStages = new ArrayList<>();
+        listOfPropertyListControllers = new ArrayList<>();
         isStageOpenMap = new HashMap<>();
     }
 
@@ -46,9 +48,9 @@ public class MapController {
     public void boroughSearch(ActionEvent event) throws IOException
     {
         String boroughAbbreviation = ((Button) event.getSource()).getText();
+        reloadBoroughListings(boroughAbbreviation);
 
         if(welcomeController.isNewSearch()){
-            reloadBoroughListings(boroughAbbreviation);
             welcomeController.setNewSearch(false);
         }
 
@@ -122,7 +124,30 @@ public class MapController {
         return listOfPropertyListStages;
     }
 
-    public void closeAllPropertyListStages()
+    public void closeAllMapStages()
+    {
+        closeAllPropertyStages();
+        closeAllPropertyListStages();
+        clearAllTrackingLists();
+    }
+
+    private void clearAllTrackingLists()
+    {
+        listOfPropertyListStages.clear();
+        listOfPropertyListControllers.clear();
+        isStageOpenMap.clear();
+    }
+
+    private void closeAllPropertyStages()
+    {
+        for(PropertyListController propertyListController : listOfPropertyListControllers){
+            if(propertyListController != null){
+                propertyListController.closePropertyStages();
+            }
+        }
+    }
+
+    private void closeAllPropertyListStages()
     {
         Iterator<Stage> iterator = listOfPropertyListStages.iterator();
         Stage stage = null;
@@ -130,19 +155,6 @@ public class MapController {
             stage = iterator.next();
             stage.close();
         }
-        clearListOfPropertyListStages();
-        clearIsStageOpenMap();
-
-    }
-
-    private void clearListOfPropertyListStages()
-    {
-        listOfPropertyListStages.clear();
-    }
-
-    private void clearIsStageOpenMap()
-    {
-        isStageOpenMap.clear();
     }
 
     private void loadAndInitializePropertyListStage(String boroughAbbreviation) throws IOException
@@ -155,16 +167,21 @@ public class MapController {
     private void initializePropertyListStage(String boroughAbbreviation, Stage propertyListStage, FXMLLoader propertyList ) throws IOException
     {
         listOfPropertyListStages.add(propertyListStage);
+        listOfPropertyListControllers.add(propertyList.getController());
         isStageOpenMap.put(boroughAbbreviation, propertyListStage);
+
+        listOfProperties = propertyList.getController();
 
         propertyListStage.setOnCloseRequest(e -> {
                     isStageOpenMap.put(boroughAbbreviation, null);
+                    listOfProperties.closePropertyStages();
                 }
         );
+
         propertyListStage.show();
-        listOfProperties = propertyList.getController();
         listOfProperties.initialize(boroughListings, currentAccount);
     }
+
 
     private FXMLLoader getPropertyListLoader()
     {
