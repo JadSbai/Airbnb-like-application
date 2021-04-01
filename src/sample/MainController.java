@@ -55,7 +55,7 @@ public class MainController {
         mapController.initialize(welcomeController);
         //loader = new FXMLLoader(getClass().getResource("statistics.fxml"));
         //statisticsRoot = loader.load();
-        welcomeController.initialize(leftButton, rightButton, currentPriceRangeLabel);
+        welcomeController.initialize(leftButton, rightButton, currentPriceRangeLabel, this);
 
         FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("accountPopUpMenu.fxml"));
         VBox popUpRoot = popUpLoader.load();
@@ -90,7 +90,7 @@ public class MainController {
 
 
     @FXML
-    private void rightButtonAction(ActionEvent e) throws IOException {
+    public void rightButtonAction(ActionEvent e) throws IOException {
         if(mainPane.getCenter() == welcomeRoot){
             mainPane.setCenter(mapRoot);
             if(accountController.getWelcomeController().isNewSearch()){

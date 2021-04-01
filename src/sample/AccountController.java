@@ -677,7 +677,7 @@ public class AccountController
     }
 
     public void formatPopUpMenu() {
-        StackPane.setMargin(subPane, new Insets(70,0,0,0));
+        StackPane.setMargin(subPane, new Insets(70,20,0,0));
     }
 
     public void setProfileCircles(Image newImage) {

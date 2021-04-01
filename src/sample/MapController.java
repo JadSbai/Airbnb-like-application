@@ -54,22 +54,12 @@ public class MapController {
 
         if(!listOfPropertyListStages.isEmpty()){
 
-            FXMLLoader propertyList = new FXMLLoader(getClass().getResource("AirbnbViewerList.fxml"));
-            Stage propertyListStage = propertyList.load();
-            propertyListStage.setTitle("AirBnB's in " + boroughAbbreviation);
+            FXMLLoader propertyList = getPropertyListLoader();
+            Stage propertyListStage = getPropertyListStage(propertyList, boroughAbbreviation);
 
             if(!isStageOpenMap.containsKey(boroughAbbreviation)){
 
-                listOfPropertyListStages.add(propertyListStage);
-                isStageOpenMap.put(boroughAbbreviation, propertyListStage);
-
-                propertyListStage.setOnCloseRequest(e -> {
-                            isStageOpenMap.put(boroughAbbreviation, null);
-                        }
-                );
-                propertyListStage.show();
-                listOfProperties = propertyList.getController();
-                listOfProperties.initialize(boroughListings, currentAccount);
+                initializePropertyListStage(boroughAbbreviation, propertyListStage, propertyList);
             }
             else{
                 Stage boroughStage = isStageOpenMap.get(boroughAbbreviation);
@@ -84,21 +74,7 @@ public class MapController {
             }
         }
         else{
-            FXMLLoader propertyList = new FXMLLoader(getClass().getResource("AirbnbViewerList.fxml"));
-            Stage propertyListStage = propertyList.load();
-            propertyListStage.setTitle("AirBnB's in " + boroughAbbreviation);
-
-            listOfPropertyListStages.add(propertyListStage);
-            isStageOpenMap.put(boroughAbbreviation, propertyListStage);
-
-            propertyListStage.setOnCloseRequest(e -> {
-                        isStageOpenMap.put(boroughAbbreviation, null);
-                    }
-            );
-            propertyListStage.show();
-
-            listOfProperties = propertyList.getController();
-            listOfProperties.initialize(boroughListings, currentAccount);
+            loadAndInitializePropertyListStage(boroughAbbreviation);
         }
     }
 
@@ -146,7 +122,8 @@ public class MapController {
         return listOfPropertyListStages;
     }
 
-    public void closeAllPropertyListStages() {
+    public void closeAllPropertyListStages()
+    {
         Iterator<Stage> iterator = listOfPropertyListStages.iterator();
         Stage stage = null;
         while (iterator.hasNext()) {
@@ -166,5 +143,39 @@ public class MapController {
     private void clearIsStageOpenMap()
     {
         isStageOpenMap.clear();
+    }
+
+    private void loadAndInitializePropertyListStage(String boroughAbbreviation) throws IOException
+    {
+        FXMLLoader propertyList = getPropertyListLoader();
+        Stage propertyListStage = getPropertyListStage(propertyList, boroughAbbreviation);
+        initializePropertyListStage(boroughAbbreviation, propertyListStage, propertyList);
+    }
+
+    private void initializePropertyListStage(String boroughAbbreviation, Stage propertyListStage, FXMLLoader propertyList ) throws IOException
+    {
+        listOfPropertyListStages.add(propertyListStage);
+        isStageOpenMap.put(boroughAbbreviation, propertyListStage);
+
+        propertyListStage.setOnCloseRequest(e -> {
+                    isStageOpenMap.put(boroughAbbreviation, null);
+                }
+        );
+        propertyListStage.show();
+        listOfProperties = propertyList.getController();
+        listOfProperties.initialize(boroughListings, currentAccount);
+    }
+
+    private FXMLLoader getPropertyListLoader()
+    {
+        return new FXMLLoader(getClass().getResource("AirbnbViewerList.fxml"));
+    }
+
+    private Stage getPropertyListStage(FXMLLoader propertyList, String boroughAbbreviation) throws IOException
+    {
+        Stage propertyListStage = propertyList.load();
+        propertyListStage.setTitle("AirBnB's in " + boroughAbbreviation);
+
+        return propertyListStage;
     }
 }
