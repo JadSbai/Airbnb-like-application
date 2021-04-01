@@ -38,6 +38,7 @@ public class WelcomeController {
     private static final int MAX_VALUE = 500;
     private static final int MIN_VALUE = 0;
     private boolean isSearched;
+    private boolean isNewSearch;
 
 
     public void initialize(Button leftArrow, Button rightArrow, Label priceLabel) {
@@ -68,24 +69,36 @@ public class WelcomeController {
     private void searchAction(ActionEvent e) {
 
         boolean valid = (getIntFromBox(minimumPrice) && getIntFromBox(maximumPrice));
+        boolean isNewPrice = false;
+
         if (valid)
         {
+            int temp1 = minPrice;
+            int temp2 = maxPrice;
             minPrice = minimumPrice.getValue();
             maxPrice = maximumPrice.getValue();
+            if(temp1 != minPrice || temp2 != maxPrice){
+                isNewPrice = true;
+            }
+            else{
+                invalidOptions("Please input an new price range before searching", "Same price range !");
+            }
         }
-        if (valid && maxPrice > minPrice)
+        if (valid && maxPrice > minPrice && isNewPrice)
         {
             priceLabel.setText("Price range: " + minPrice + "-" + maxPrice);
-            rightArrow.setDisable(false);
-            leftArrow.setDisable(false);
-            setSearched(true);
-
+            isNewSearch = true;
+            if(!isSearched){
+                rightArrow.setDisable(false);
+                leftArrow.setDisable(false);
+                setSearched(true);
+            }
         }
-        else if(valid)
+        else if(valid && isNewPrice)
         {
             invalidOptions("Minimum price may not exceed or equal maximum price.", "Invalid price range!");
         }
-        else
+        else if(!valid)
         {
             invalidOptions("Please input a price range first.", "Invalid price range!");
         }
@@ -156,6 +169,15 @@ public class WelcomeController {
 
     public void setSearched(boolean searched) {
         isSearched = searched;
+    }
+
+
+    public boolean isNewSearch() {
+        return isNewSearch;
+    }
+
+    public void setNewSearch(boolean newSearch) {
+        isNewSearch = newSearch;
     }
 }
 

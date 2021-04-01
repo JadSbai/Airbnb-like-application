@@ -3,16 +3,13 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -20,43 +17,34 @@ public class PropertyViewController {
 
     private AirbnbListing listing;
 
-    @FXML
-    private Label nameAndHost, reviews, propertyType, priceAndNights, subtotal, serviceFeeValue, totalPriceLabel, availability, availabilityText;
+    private boolean isAvailable;
 
     @FXML
-    private ImageView availabilityIcon;
-
-    @FXML
-    private Button reserveButton;
+    private Label nameAndHost, reviews, propertyType;
 
     @FXML
     private CheckBox saveBox;
 
     @FXML
-    private GridPane dateSelectPane;
-    @FXML
     private DatePicker inDatePicker;
     @FXML
     private DatePicker outDatePicker;
-
-    private LocalDate inDate, outDate;
-
-
-    private boolean isFavourite;
-    private boolean isReserved;
-
     @FXML
     private Hyperlink locationLink;
     @FXML
     private Label favouriteTextLabel;
 
+    private LocalDate inDate, outDate;
 
     private Account currentAccount;
+
+
 
 
     public void initialize(AirbnbListing listing, Account account){
         favouriteTextLabel.setText("");
         this.listing = listing;
+        this.isAvailable = !(listing.getAvailability365()==0);
         this.currentAccount = account;
         if(currentAccount == null){
             listing.setFavourite(false);
@@ -76,42 +64,8 @@ public class PropertyViewController {
         } else {
             this.reviews.setText(numberOfReviews + " reviews");
         }
-
-        this.priceAndNights.setText("£" + listing.getPrice() + " / night");
-
-        setAvailability();
-
-
     }
 
-    private void setAvailability() {
-        int daysAvailable = listing.getAvailability365();
-
-        if(daysAvailable==0){
-            availability.setText("Unavailable");
-            availabilityText.setText("This property is unavailable.");
-
-            File file = new File("src/sample/Icons/NotAvailable.png");
-            Image image = new Image(file.toURI().toString());
-            availabilityIcon.setImage(image);
-
-            dateSelectPane.setDisable(true);
-        } else if (daysAvailable<30) {
-            availability.setText("Rare find");
-            availabilityText.setText("This property is usually booked.");
-
-            File file = new File("src/sample/Icons/RareFind.png");
-            Image image = new Image(file.toURI().toString());
-            availabilityIcon.setImage(image);
-        } else {
-            availability.setText("Available");
-            availabilityText.setText("This property is available.");
-
-            File file = new File("src/sample/Icons/Available.png");
-            Image image = new Image(file.toURI().toString());
-            availabilityIcon.setImage(image);
-        }
-    }
     public void reload(AirbnbListing listing, Account account)
     {
         currentAccount = account;
@@ -166,25 +120,23 @@ public class PropertyViewController {
     }
 
     @FXML
-    public void saveFavourites() {
-        if (currentAccount == null) {
+    public void saveFavourites()
+    {
+        if(currentAccount == null){
             setSaveBox(false);
             warningAlert("If you want to save this property into your favourites, you must first sign in to your account. If you don't have an account, create one", "Not signed in");
-        } else {
+
+        }
+        else {
             listing.setFavourite(!listing.isFavourite());
 
-            ArrayList<AirbnbListing> listOfFavourites = currentAccount.getListOfFavouriteProperties();
             if (listing.isFavourite()) {
                 addToFavourites(listing);
-            } else {
+            }
+            else {
                 removeFromFavourites(listing);
             }
         }
-    }
-
-    @FXML
-    public void reserveProperty(){
-        isReserved = !isReserved;
     }
 
     private void initializeFavourites()
@@ -199,7 +151,6 @@ public class PropertyViewController {
             }
         }
         setSaveBox(isFavourite);
-
     }
 
     private void setSaveBox(boolean isFavourite)
@@ -223,21 +174,9 @@ public class PropertyViewController {
 
     private void calculatePrice(){
         int numberOfNights = (int) DAYS.between(inDate, outDate);
-        int minNumberOfNights = listing.getMinimumNights();
-        int price = listing.getPrice();
-        int subTotalPrice = price*numberOfNights;
-        int serviceFee = (int) Math.round(subTotalPrice*0.2);
-        int totalPrice = subTotalPrice+serviceFee;
-
-        if(numberOfNights < minNumberOfNights){
-            invalidOptions("Minimum number of nights for this property is " + minNumberOfNights + " you selected " + numberOfNights, "Insufficient nights");
-        } else {
-            priceAndNights.setText("£" + price + " x " + numberOfNights + " nights");
-            subtotal.setText("£" + subTotalPrice);
-            serviceFeeValue.setText("£" + serviceFee);
-            totalPriceLabel.setText("£" + totalPrice);
+        if(numberOfNights < listing.getMinimumNights()){
+            invalidOptions("Minimum number of nights for this property is " + listing.getMinimumNights() + " you selected " + numberOfNights, "Insufficient nights");
         }
-        reserveButton.setDisable(false);
     }
 
     private void invalidOptions(String error, String errorTitle)
@@ -262,6 +201,7 @@ public class PropertyViewController {
         alert.setHeaderText(null);
         alert.setContentText(warning);
         alert.showAndWait();
+
     }
 
     public CheckBox getSaveBox() {
