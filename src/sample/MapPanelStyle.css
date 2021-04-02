@@ -3,47 +3,14 @@
     -fx-shape: "M82.27241335952166 2.4999999999999996Q86.60254037844386 0 90.93266739736606 2.5L168.87495373796554 47.5Q173.20508075688772 50 173.20508075688772 55L173.20508075688772 145Q173.20508075688772 150 168.87495373796554 152.5L90.93266739736606 197.5Q86.60254037844386 200 82.27241335952166 197.5L4.330127018922193 152.5Q0 150 0 145L0 55Q0 50 4.330127018922194 47.5Z";
     -fx-border-color: #0000008b;
 }
+
 .mapPane {
     -fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
     -fx-background-insets: 0, 1, 2;
     -fx-background-radius: 5, 4, 3;
+    -fx-box-border: transparent;
 }
 
-
-.hyperlink {
-    -fx-border-color: transparent;
-}
-
-.check-in-pane {
-    -fx-border-color: black;
-    -fx-background-insets: 0, 0 1 1 0 ;
-    -fx-border-style: hidden solid solid hidden;
-}
-.check-out-pane {
-    -fx-border-color: black;
-    -fx-background-insets: 0, 0 1 1 0 ;
-    -fx-border-style: hidden hidden solid hidden;
-}
-
-.date-select-pane {
-    -fx-border-radius: 15 15 15 15;
-    -fx-border-insets: 4;
-    -fx-border-width: 2;
-    -fx-border-color: black;
-}
-
-.save-box .box {
-    -fx-shape: "M0 200 v-200 h200 a100,100 90 0,1 0,200 a100,100 90 0,1 -200,0 z";
-    -fx-rotate: 225;
-    -fx-translate-y: -3;
-    -fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
-    -fx-background-insets: 0, 1, 2;
-    -fx-background-radius: 5, 4, 3;
-}
-.save-box:selected .box{
-    -fx-background-color: red;
-}
-
-.save-box:selected .mark {
-    -fx-background-color: transparent;
+.subMapPane {
+    -fx-box-border: transparent;
 }

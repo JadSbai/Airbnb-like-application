@@ -52,6 +52,7 @@ public class Account {
         this.username = username;
         this.password = password;
         listOfFavouriteProperties = new ArrayList<>();
+        profilePicture = new Image("/sample/nopfp.png");
 
     }
 
@@ -148,5 +149,7 @@ public class Account {
     {
         profilePicture = pfp;
     }
+
+
 }
 

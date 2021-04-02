@@ -1,0 +1,58 @@
+
+.reserve-button {
+    -fx-background-color: #FF5A60E6;
+}
+.reserve-button:hover {
+    -fx-background-color: #FF5A60CC;
+}
+.reserve-button:hover:pressed {
+    -fx-background-color: #FF5A60;
+}
+.availability-label {;
+    -fx-font: bold 12pt "Trebuchet MS";
+}
+
+.hyperlink {
+    -fx-border-color: transparent;
+}
+
+.check-in-pane {
+    -fx-border-color: black;
+    -fx-background-insets: 0, 0 1 1 0 ;
+    -fx-border-style: hidden solid solid hidden;
+}
+.check-out-pane {
+    -fx-border-color: black;
+    -fx-background-insets: 0, 0 1 1 0 ;
+    -fx-border-style: hidden hidden solid hidden;
+}
+
+.date-select-pane {
+    -fx-border-radius: 15 15 15 15;
+    -fx-border-insets: 4;
+    -fx-border-width: 1.5;
+    -fx-border-color: black;
+}
+
+.date-select-pane-container {
+    -fx-background-color: white;
+    -fx-border-radius: 15 15 15 15;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(three-pass-box, black, 7, 0, 0, 0);
+}
+
+.save-box .box {
+    -fx-shape: "M0 200 v-200 h200 a100,100 90 0,1 0,200 a100,100 90 0,1 -200,0 z";
+    -fx-rotate: 225;
+    -fx-translate-y: -3;
+    -fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 5, 4, 3;
+}
+.save-box:selected .box{
+    -fx-background-color: #FF5A60;
+}
+
+.save-box:selected .mark {
+    -fx-background-color: transparent;
+}
