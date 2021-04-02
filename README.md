@@ -86,7 +86,7 @@ This is an example of how to list things you need to use the software and how to
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.kcl.ac.uk/k20020900/PPA-CW4.git
    ```
 2. Install NPM packages
    ```sh
@@ -118,16 +118,18 @@ Liam Clark Gutiérrez - liam.clark_gutierrez@kcl.ac.uk
 <br /> Jacqueline Ilie- jacqueline.ilie@kcl.ac.uk
 <br /> Dexter Trower - dexter.trower@kcl.ac.uk
 
-Project Link: [https://github.com/github_username/repo_name](https://github.kcl.ac.uk/k20020900/PPA-CW4)
+Project Link: [https://github.kcl.ac.uk/k20020900/PPA-CW4](https://github.kcl.ac.uk/k20020900/PPA-CW4)
 
 
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* [Airbnb.co.uk](airbnb.co.uk): the data for the airbnb's was taken from publicly available airbnb listings.
+* [Airbnb.co.uk](https://airbnb.co.uk): the data for the airbnb's was taken from publicly available airbnb listings.
   <br /> Many design choices such the availability tab, date picker or save button as well as the colour and general
   look and feel are inspired by Airbnb.co.uk.
-* [KCL Informatics, PPA](): Some preexisting code including part of the AirbnbListing and AirbnbDataLoader classes was already
+  <br />
+  <br />
+* [KCL Informatics, PPA](https://www.kcl.ac.uk/informatics): Some preexisting code including part of the AirbnbListing and AirbnbDataLoader classes was already
   provided and credits go to the informatics department and King's College London and Michael Kolling. Likewise, the 
   layout (not the implementation) of the hexagon map of boroughs was also provided.
