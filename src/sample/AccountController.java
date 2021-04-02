@@ -38,101 +38,172 @@ import javafx.scene.shape.Circle;
  */
 public class AccountController
 {
+    // FXML fields:
     // FXML fields are tracking the different FXML controls or containers used for manipulating or displaying account data. Their IDs and the methods they call on action are set in the fxml files:
 
-    // Text field for the "create account" username
+    /**
+     * Text field for the "create account" username
+     */
     @FXML
     private TextField createAccountUsername;
 
-    // Text field for the "create account" email
+    /**
+     * Text field for the "create account" email
+     */
     @FXML
     private TextField createAccountEmail;
 
-    // Password field for the "create account" password
+    /**
+     * Text field for the "create account" password
+     */
     @FXML
     private PasswordField createAccountPassword;
 
-    // Password field for the "create account" confirmation password
+    /**
+     * Text field for the "create account" confirmation password
+     */
     @FXML
     private PasswordField createAccountConfirmPassword;
 
-    // Text field for the "sign in" email
+    /**
+     * Text field for the "sign in" email
+     */
     @FXML
     private TextField signInEmail;
 
-    // Text field for the "sign in" password
+    /**
+     * Text field for the "sign in" password
+     */
     @FXML
     private PasswordField signInPassword;
 
-    // Error label for the "create account" username
+    /**
+     * Error label for the "create account" username
+     */
     @FXML
     private Label usernameCreateAccountErrorLabel;
 
-    // Error label for the "create account" email
+    /**
+     * Error label for the "create account" email
+     */
     @FXML
     private Label emailCreateAccountErrorLabel;
 
-    // Error label for the "create account" password
+    /**
+     * Error label for the "create account" password
+     */
     @FXML
     private Label passwordCreateAccountErrorLabel;
 
-    // Error label for the "create account" confirmation password
+    /**
+     * Error label for the "create account" confirmation password
+     */
     @FXML
     private Label confirmPasswordCreateAccountErrorLabel;
 
-    // Hyperlink for password info
+    /**
+     * Hyperlink for info on password restrictions
+     */
     @FXML
     private Hyperlink whatIsAStrongPasswordLink;
 
-    // Error label for the "sign in" email
+    /**
+     * Error label for the "sign in" email
+     */
     @FXML
     private Label emailSignInErrorLabel;
 
-    // Error label for the "sign in" password
+    /**
+     * Error label for the "sign in" password
+     */
     @FXML
     private Label passwordSignInErrorLabel;
 
+    /**
+     * VBox acting as a drop down menu displaying account options
+     */
     @FXML
     private VBox subPane;
 
+    /**
+     * Profile circle situated at the top of right of the main pane containing the profile picture
+     */
     @FXML
     private Circle profileCircle;
 
+    /**
+     * Profile circle situated in the account's drop down menu (i.e., the subPane field) containing the profile picture
+     */
     @FXML
     private Circle profileCircle2;
 
+    /**
+     * Label situated in the account's drop down menu (i.e., the subPane field) that displays the account's username
+     */
     @FXML
     private Label accountUsername;
 
 
+    // Other fields (non-FXML fields):
 
-
-
-
-    // Other fields:
-
+    /**
+     * BorderPane containing either the "signed in" bar or "signed out" bar depending on if an account is logged in or not
+     */
     private BorderPane accountBar;
-    // List of current accounts created in the app
+
+    /**
+     * List of current accounts created in the app
+     */
     private ArrayList<Account> listOfAccounts;
-    // Maps the email of each account to the corresponding account object
+
+    /**
+     * Maps the email of each account to the corresponding account object
+     */
     private HashMap<String, Account> accountsMap;
-    // Scene loaded when a user wants to sign in their account
+
+    /**
+     * Scene loaded when a user wants to sign in their account
+     */
     private Scene signInScene;
-    // Scene loaded when a user wants to create a new account
+
+    /**
+     * Scene loaded when a user wants to create a new account
+     */
     private Scene createAccountScene;
-    // Stage containing either one of the two account scenes ("sign in" ore "create account")
+
+    /**
+     * Stage containing either one of the two account scenes ("sign in" ore "create account")
+     */
     private Stage accountStage;
-    // Pane loaded at the top of the main frame when a user is signed in to their account
+
+    /**
+     * Pane loaded at the top of the main frame when a user is signed in to their account
+     */
     private Pane signedInBar;
-    // Pane loaded at the top of the main frame when a user is not signed in to any account
+
+    /**
+     * Pane loaded at the top of the main frame when a user is not signed in to any account
+     */
     private Pane signedOutBar;
-    // Tracks whether an "account window" is open or not
+
+    /**
+     * Tracks whether an "account window" is open or not
+     */
     private boolean isAccountWindowOpen;
-    // Tracks the current account being manipulated by the application
+
+    /**
+     * Tracks the current account being manipulated by the application
+     */
     private Account currentAccount;
-    // MapController object of the application
+
+    /**
+     * MapController object of the application
+     */
     private MapController mapController;
-    // WelcomeController object of the application
+
+    /**
+     * WelcomeController object of the application
+     */
     private WelcomeController welcomeController;
 
     private AccountPanelController accountPanelController;
@@ -156,7 +227,6 @@ public class AccountController
         isAccountWindowOpen = false;
         this.mapController = mapController;
         welcomeController = mapController.getWelcomeController();
-
 
 
         FXMLLoader signedInLoader = new FXMLLoader(getClass().getResource("signed_in.fxml"));
@@ -194,9 +264,6 @@ public class AccountController
     private void signIn(ActionEvent e)
     {
         if(!isAccountWindowOpen) {
-            if(welcomeController.isSearched()){
-                closeAllPropertyWindows();
-            }
 
             resetSignInSceneFields();
             accountStage.setScene(signInScene);
@@ -215,7 +282,6 @@ public class AccountController
             accountStage.close();
             accountStage.show();
         }
-
     }
 
     /**
@@ -226,10 +292,6 @@ public class AccountController
     private void createAccount(ActionEvent e)
     {
         if(!isAccountWindowOpen){
-
-            if(welcomeController.isSearched()){
-                closeAllPropertyWindows();
-            }
 
             resetCreateAccountFields();
             accountStage.setScene(createAccountScene);
@@ -260,6 +322,131 @@ public class AccountController
         isAccountWindowOpen = false;
         createAccount(e);
     }
+
+    /**
+     * This method retrieves the contents of the "create account" window's text fields.
+     * It then checks whether they are valid according to certain restrictions
+     * If the fields are valid, it creates a new account with the given credentials and updates the appropriate fields.
+     * The account stage is closed
+     * If a price range has been entered, then it closes all previously opened windows and loads the account's specific map view GUI elements.
+     * @param e The event (button click) that triggers the method call
+     */
+    @FXML
+    private void createAccountAction(ActionEvent e) throws IOException {
+        String username = createAccountUsername.getText();
+        String email = createAccountEmail.getText();
+        String password = createAccountPassword.getText();
+        String confirmPassword = createAccountConfirmPassword.getText();
+
+        if(checkValidityOfCreateAccountFields(username, email, password, confirmPassword)) {
+            Account newAccount = new Account(username, email, password);
+            listOfAccounts.add(newAccount);
+            accountsMap.put(email, newAccount);
+
+            currentAccount = newAccount;
+            accountPanelController.setCurrentAccount(currentAccount);
+            setProfileCircles();
+            setAccountUsername(username);
+
+            mapController.setCurrentAccount(currentAccount);
+
+            accountBar.setRight(signedInBar);
+
+            accountStage.close();
+            isAccountWindowOpen = false;
+
+            if(welcomeController.isSearched()){
+                closeAllPropertyWindows();
+                loadAccount(currentAccount);
+            }
+
+        }
+
+    }
+
+    /**
+     * This method retrieves the contents of the "sign in" window's text fields.
+     * It then checks whether they are valid according to certain restrictions
+     * If the fields are valid, it loads the account's data and settings and sets its profile picture and username
+     * The stage is then closed
+     * If a price range has been entered, then it closes all previously opened windows and loads the account's specific map view GUI elements.
+     * @param e The event (button click) that triggers the method call
+     */
+    @FXML
+    private void signInAction(ActionEvent e) throws IOException {
+        String email = signInEmail.getText();
+        String password = signInPassword.getText();
+
+        if(checkValidityOfSignInFields(email, password)){
+            currentAccount = getAccount(email);
+
+            accountPanelController.setCurrentAccount(currentAccount);
+            setProfileCircles();
+            setAccountUsername(currentAccount.getUsername());
+
+            mapController.setCurrentAccount(currentAccount);
+            loadDataAndSettings(currentAccount);
+
+            accountBar.setRight(signedInBar);
+
+            accountStage.close();
+            isAccountWindowOpen = false;
+
+            if(welcomeController.isSearched()){
+                closeAllPropertyWindows();
+                loadAccount(currentAccount);
+            }
+        }
+    }
+
+    /**
+     * This method saves all data and settings of the current account and signs it out
+     * It then sets the top of the main frame to the "signed out" layout and makes the account's drop-down menu invisible (i.e., the subPane)
+     * If a price range has been entered, then it loads the default map view GUI elements
+     * @param e The event (button click) that triggers the method call
+     */
+    @FXML
+    private void signOutAction(ActionEvent e) throws IOException
+    {
+        saveAllSettingsAndData();
+
+        currentAccount = null;
+        setAccountUsername("");
+
+        mapController.setCurrentAccount(null);
+
+        accountBar.setRight(signedOutBar);
+
+        subPane.setVisible(false);
+
+        if(welcomeController.isSearched()){
+            closeAllPropertyWindows();
+            setDefaultSettingsAndData();
+        }
+    }
+
+    /**
+     * This method throws an info alert via a method call to indicate to the user the password restrictions in place
+     * @param e The event (button click) that triggers the method call
+     */
+    @FXML
+    private void whatIsAStrongPasswordAction(ActionEvent e)
+    {
+        infoAlert(" Passwords must contain a lowercase letter, capital letter, number, symbol and must be at least 8 characters. It cannot contain any spaces.", "What is a strong password?");
+    }
+
+    /**
+     * This method displays or hides the account's drop-down menu each time the profile circle is clicked (the one at the top right of the main frame)
+     * @param e The mouse event that triggers the method call
+     */
+    @FXML
+    private void profileClicked(MouseEvent e)
+    {
+        if (e.getButton() == MouseButton.PRIMARY) {
+            subPane.setVisible(!subPane.isVisible());
+        }
+    }
+
     /**
      * This method creates and displays an alert of type WARNING
      * @param warning The warning to be displayed
@@ -289,106 +476,7 @@ public class AccountController
     }
 
     /**
-     * This method retrieves the contents of the "create account" window's text fields.
-     * It then checks whether they are valid according to certain restrictions
-     * If the fields are valid, it creates a new account with the given credentials and updates the appropriate fields.
-     * The account stage is closed
-     * If a price range has been entered, then it loads the account's specific map view GUI elements.
-     * @param e The event (button click) that triggers the method call
-     */
-    @FXML
-    private void createAccountAction(ActionEvent e) throws IOException {
-        String username = createAccountUsername.getText();
-        String email = createAccountEmail.getText();
-        String password = createAccountPassword.getText();
-        String confirmPassword = createAccountConfirmPassword.getText();
-
-        if(checkValidityOfCreateAccountFields(username, email, password, confirmPassword)) {
-            Account newAccount = new Account(username, email, password);
-            listOfAccounts.add(newAccount);
-            accountsMap.put(email, newAccount);
-            currentAccount = newAccount;
-            accountPanelController.setCurrentAccount(currentAccount);
-            setProfileCircles();
-            setAccountUsername(username);
-            isAccountWindowOpen = false;
-            mapController.setCurrentAccount(currentAccount);
-            accountBar.setRight(signedInBar);
-            accountStage.close();
-
-            if(welcomeController.isSearched()){
-                loadAccount(currentAccount);
-            }
-
-        }
-
-    }
-
-    /**
-     * This method retrieves the contents of the "sign in" window's text fields.
-     * It then checks whether they are valid according to certain restrictions
-     * If the fields are valid, it loads the account's data and settings.
-     * The stage is then closed
-     * If a price range has been entered, then it loads the account's specific map view GUI elements.
-     * @param e The event (button click) that triggers the method call
-     */
-    @FXML
-    private void signInAction(ActionEvent e) throws IOException {
-        String email = signInEmail.getText();
-        String password = signInPassword.getText();
-
-        if(checkValidityOfSignInFields(email, password)){
-            currentAccount = getAccount(email);
-            accountPanelController.setCurrentAccount(currentAccount);
-            setProfileCircles();
-            setAccountUsername(currentAccount.getUsername());
-            isAccountWindowOpen = false;
-            mapController.setCurrentAccount(currentAccount);
-            accountBar.setRight(signedInBar);
-            loadDataAndSettings(currentAccount);
-            accountStage.close();
-
-            if(welcomeController.isSearched()){
-                loadAccount(currentAccount);
-            }
-
-        }
-    }
-
-    /**
-     * This method saves all data and settings of the current account and signs it out
-     * It then sets the top of the main frame to the "signed out" layout
-     * If a price range has been entered, then it loads the default map view GUI elements
-     * @param e The event (button click) that triggers the method call
-     */
-    @FXML
-    private void signOutAction(ActionEvent e) throws IOException {
-        saveAllSettingsAndData();
-        setAccountUsername("");
-        currentAccount = null;
-        closeAllPropertyWindows();
-        mapController.setCurrentAccount(null);
-        accountBar.setRight(signedOutBar);
-        subPane.setVisible(false);
-
-        if(welcomeController.isSearched()){
-            setDefaultSettingsAndData();
-        }
-
-    }
-
-    /**
-     * This method throws an info info alert via a method call to indicate to the user the password restrictions in place
-     * @param e The event (button click) that triggers the method call
-     */
-    @FXML
-    private void whatIsAStrongPasswordAction(ActionEvent e)
-    {
-        infoAlert(" Passwords must contain a lowercase letter, capital letter, number, symbol and must be at least 8 characters. It cannot contain any spaces.", "What is a strong password?");
-    }
-
-    /**
-     * This method saves all data and settings of the current account by updating the appropriate fields
+     * This method saves all data and settings of the current account by updating the appropriate fields in the account panel
      */
     private void saveAllSettingsAndData()
     {
@@ -399,7 +487,8 @@ public class AccountController
      * This method sets all the settings and data of the account to default values
      * It also loads the default map view GUI elements
      */
-    private void setDefaultSettingsAndData() throws IOException {
+    private void setDefaultSettingsAndData() throws IOException
+    {
         mapController.loadCurrentAccount(null);
     }
 
@@ -456,7 +545,6 @@ public class AccountController
             emailSignInErrorLabel.setText("The email address you've entered is not valid");
         }
         return false;
-
     }
 
     /**
@@ -534,7 +622,8 @@ public class AccountController
      * @param email The email entered
      * @return true if the email entered follows the specified pattern and isn't already taken by another account, false otherwise
      */
-    private boolean isValidEmailPattern(String email) {
+    private boolean isValidEmailPattern(String email)
+    {
         // We do not claim ownership of the following line of code: URL:..
         // It creates a regex corresponding to the email address international standard
         String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
@@ -613,7 +702,8 @@ public class AccountController
      * This method loads all GUI-related elements that are proper to the account (state of the save button ...)
      * @param account The account to be loaded
      */
-    private void loadAccount(Account account) throws IOException {
+    private void loadAccount(Account account) throws IOException
+    {
         mapController.loadCurrentAccount(account);
     }
 
@@ -626,6 +716,9 @@ public class AccountController
         accountUsername.setText(account.getUsername());
     }
 
+    /**
+     * This method resets all the text fields of the "sign in" window
+     */
     private void resetSignInSceneFields()
     {
         signInEmail.setText("");
@@ -634,6 +727,9 @@ public class AccountController
         passwordSignInErrorLabel.setText("");
     }
 
+    /**
+     * This method resets all the text fields of the "create account" window
+     */
     private void resetCreateAccountFields()
     {
         createAccountUsername.setText("");
@@ -646,17 +742,12 @@ public class AccountController
         confirmPasswordCreateAccountErrorLabel.setText("");
     }
 
-    @FXML
-    private void profileClicked(MouseEvent e) {
-        if (e.getButton() == MouseButton.PRIMARY) {
-            subPane.setVisible(!subPane.isVisible());
-        }
-
-    }
-
+    /**
+     * This method closes all windows opened when consulting AirBnB properties
+     */
     private void closeAllPropertyWindows()
     {
-        mapController.closeAllPropertyListStages();
+        mapController.closeAllMapStages();
     }
 
     /**
@@ -684,29 +775,51 @@ public class AccountController
         return signedOutBar;
     }
 
+    /**
+     * This method returns the account currently loaded. If none is loaded, it returns null
+     * @return The current account object loaded
+     */
+    public Account getCurrentAccount() {
+        return currentAccount;
+    }
+
+    /**
+     * This method returns the MapController object currently used
+     * @return The MapController instance used
+     */
+    public MapController getMapController() {
+        return mapController;
+    }
+
+    /**
+     * This method returns the WelcomeController object currently used
+     * @return The WelcomeController instance used
+     */
+    public WelcomeController getWelcomeController() {
+        return welcomeController;
+    }
+
+    /**
+     * This method sets a comfortable margin between the account's drop-down menu and the main frame border
+     */
     public void formatPopUpMenu() {
         StackPane.setMargin(subPane, new Insets(70,20,0,0));
     }
 
+    /**
+     * This method sets both the profile pictures to the one specified
+     */
     public void setProfileCircles() {
         profileCircle.setFill(new ImagePattern(currentAccount.getProfilePicture()));
         profileCircle2.setFill(new ImagePattern(currentAccount.getProfilePicture()));
     }
 
+    /**
+     * This method sets the account's username to the one specified
+     * @param newUsername The new username
+     */
     public void setAccountUsername(String newUsername) {
         accountUsername.setText(newUsername);
-    }
-
-    public Account getCurrentAccount() {
-        return currentAccount;
-    }
-
-    public MapController getMapController() {
-        return mapController;
-    }
-
-    public WelcomeController getWelcomeController() {
-        return welcomeController;
     }
 
     @FXML

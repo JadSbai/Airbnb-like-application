@@ -7,6 +7,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class WelcomeController {
@@ -40,12 +41,16 @@ public class WelcomeController {
     private boolean isSearched;
     private boolean isNewSearch;
 
+    private MainController mainController;
 
-    public void initialize(Button leftArrow, Button rightArrow, Label priceLabel) {
+
+    public void initialize(Button leftArrow, Button rightArrow, Label priceLabel, MainController mainController) {
 
         this.leftArrow = leftArrow;
         this.rightArrow = rightArrow;
         this.priceLabel = priceLabel;
+
+        this.mainController = mainController;
 
         leftArrow.setDisable(true);
         rightArrow.setDisable(true);
@@ -66,7 +71,7 @@ public class WelcomeController {
     }
 
     @FXML
-    private void searchAction(ActionEvent e) {
+    private void searchAction(ActionEvent e) throws IOException {
 
         boolean valid = (getIntFromBox(minimumPrice) && getIntFromBox(maximumPrice));
         boolean isNewPrice = false;
@@ -77,6 +82,7 @@ public class WelcomeController {
             int temp2 = maxPrice;
             minPrice = minimumPrice.getValue();
             maxPrice = maximumPrice.getValue();
+
             if(temp1 != minPrice || temp2 != maxPrice){
                 isNewPrice = true;
             }
@@ -93,6 +99,8 @@ public class WelcomeController {
                 leftArrow.setDisable(false);
                 setSearched(true);
             }
+            mainController.rightButtonAction(e);
+
         }
         else if(valid && isNewPrice)
         {

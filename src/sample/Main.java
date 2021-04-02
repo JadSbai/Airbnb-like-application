@@ -22,6 +22,7 @@ public class Main extends Application {
     /**
      * This method is responsible for starting the application. It loads the appropriate fxml file and sets the stage and scene of the main frame.
      * It also applies a CSS stylesheet to the scene and displays the resulting stage and scene.
+     * If the application is closed all other windows are simultaneously closed
      * @param primaryStage The main frame of the application in which panels will be loaded.
      * @throws IOException if the designated file is not loaded successfully
      * @throws URISyntaxException if the String indicated could not be parsed as a URI reference
@@ -40,7 +41,9 @@ public class Main extends Application {
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         scene.getStylesheets().add(getClass().getResource("WelcomePanelStyle.css").toURI().toString());
+
         primaryStage.show();
+
         primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));
 
     }
