@@ -43,6 +43,7 @@ public class PropertyListController {
             FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
             Pane propertyPane = preview.load();
             PropertyPreviewController propertyPreviewController = preview.getController();
+            this.propertyPreviewController = propertyPreviewController;
             listOfPropertyPreviewControllers.add(propertyPreviewController);
             propertyPreviewController.initialize(listing, currentAccount);
             listView.getItems().add(propertyPane);
@@ -54,7 +55,10 @@ public class PropertyListController {
 
     public void reload(ArrayList<AirbnbListing> boroughListings, Account currentAccount) throws IOException {
         for (AirbnbListing listing : boroughListings) {
-            propertyPreviewController.reload(listing, currentAccount);
+            if(propertyPreviewController != null){
+                propertyPreviewController.reload(listing, currentAccount);
+            }
+
         }
     }
 
