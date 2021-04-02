@@ -2,8 +2,10 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -21,7 +23,7 @@ public class PropertyPreviewController {
     @FXML
     private Label minimumNights;
 
-    private Account account;
+    private Account currentAccount;
 
     private PropertyViewController viewController;
 
@@ -29,13 +31,13 @@ public class PropertyPreviewController {
 
     private boolean isPropertyWindowOpen;
 
-    public void initialize(AirbnbListing listing, Account account){
+    public void initialize(AirbnbListing listing, Account account, Pane propertyPreviewPane){
         this.listing = listing;
         this.hostName.setText(listing.getHost_name());
         this.price.setText("£" + listing.getPrice() +" / night");
         this.reviews.setText("" + listing.getNumberOfReviews());
         this.minimumNights.setText("Min. nights: " + listing.getMinimumNights());
-        this.account = account;
+        this.currentAccount = account;
         isPropertyWindowOpen = false;
     }
 
@@ -62,7 +64,7 @@ public class PropertyPreviewController {
             );
 
             viewController = property.getController();
-            viewController.initialize(listing, account);
+            viewController.initialize(listing, currentAccount);
         }
         else{
              propertyStage.close();
@@ -74,6 +76,7 @@ public class PropertyPreviewController {
         FXMLLoader property = new FXMLLoader(getClass().getResource("AirbnbView.fxml"));
         propertyStage = property.load();
         viewController = property.getController();
+        currentAccount = account;
         viewController.reload(listing, account);
     }
 
@@ -81,7 +84,5 @@ public class PropertyPreviewController {
         return propertyStage;
     }
 
-    public boolean isPropertyWindowOpen() {
-        return isPropertyWindowOpen;
-    }
+
 }

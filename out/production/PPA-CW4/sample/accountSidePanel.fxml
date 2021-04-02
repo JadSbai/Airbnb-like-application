@@ -24,6 +24,7 @@
       <VBox alignment="CENTER" spacing="10.0">
          <children>
             <Button mnemonicParsing="false" text="Account settings" />
+            <Button mnemonicParsing="false" text="Account details" />
             <Button mnemonicParsing="false" text="Sign out" />
          </children>
          <padding>

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 
 import java.io.File;
 
@@ -156,13 +157,15 @@ public class PropertyViewController {
             listing.setFavourite(!listing.isFavourite());
 
             if (listing.isFavourite()) {
-                addToFavourites(listing);
+                addToFavourites();
             }
             else {
-                removeFromFavourites(listing);
+                removeFromFavourites();
             }
         }
     }
+
+
 
     private void initializeFavourites()
     {
@@ -179,23 +182,9 @@ public class PropertyViewController {
     }
 
 
-    private void setSaveBox(boolean isFavourite)
+    public void setSaveBox(boolean isFavourite)
     {
         saveBox.setSelected(isFavourite);
-    }
-
-    private void addToFavourites(AirbnbListing listing)
-    {
-        currentAccount.addToListOfFavouriteProperties(listing);
-        favouriteTextLabel.setText("This property has been added to your favourites");
-        setSaveBox(true);
-    }
-
-    private void removeFromFavourites(AirbnbListing listing)
-    {
-        currentAccount.removeFromListOfFavouriteProperties(listing);
-        favouriteTextLabel.setText("This property has been removed from your favourites");
-        setSaveBox(false);
     }
 
     /**
@@ -232,20 +221,6 @@ public class PropertyViewController {
         alert.showAndWait();
     }
 
-    /**
-     * This method creates and displays an alert of type WARNING
-     * @param warning The warning to be displayed
-     * @param warningTitle The title of the warning
-     */
-    private void warningAlert(String warning, String warningTitle)
-    {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(warningTitle);
-        alert.setHeaderText(null);
-        alert.setContentText(warning);
-        alert.showAndWait();
-
-    }
 
     public CheckBox getSaveBox() {
         return saveBox;
@@ -316,6 +291,39 @@ public class PropertyViewController {
         else{
             initializeFavourites();
         }
+    }
+
+    public void setFavouriteTextLabel(String text) {
+        favouriteTextLabel.setText(text);
+    }
+
+    /**
+     * This method creates and displays an alert of type WARNING
+     * @param warning The warning to be displayed
+     * @param warningTitle The title of the warning
+     */
+    private void warningAlert(String warning, String warningTitle)
+    {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(warningTitle);
+        alert.setHeaderText(null);
+        alert.setContentText(warning);
+        alert.showAndWait();
+
+    }
+
+    private void addToFavourites()
+    {
+        currentAccount.addToFavouriteProperties(listing);
+        setFavouriteTextLabel("This property has been added to your favourites");
+        setSaveBox(true);
+    }
+
+    private void removeFromFavourites()
+    {
+        currentAccount.removeFromFavourites(listing);
+        setFavouriteTextLabel("This property has been removed from your favourites");
+        setSaveBox(false);
     }
 }
 

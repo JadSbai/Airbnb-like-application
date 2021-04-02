@@ -1,10 +1,12 @@
 package sample;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
-
-
+import javafx.scene.layout.Pane;
 
 
 /**
@@ -34,6 +36,10 @@ public class Account {
      */
     private ArrayList<AirbnbListing> listOfFavouriteProperties;
 
+    private HashMap<AirbnbListing, Pane> listingToPaneMap;
+
+    private ListView<Pane> listViewOfFavourites;
+
     /**
      * The account's profile picture
      */
@@ -52,7 +58,9 @@ public class Account {
         this.username = username;
         this.password = password;
         listOfFavouriteProperties = new ArrayList<>();
+        listingToPaneMap = new HashMap<>();
         profilePicture = new Image("/sample/nopfp.png");
+        listViewOfFavourites = new ListView<>();
 
     }
 
@@ -118,20 +126,26 @@ public class Account {
             property = iterator.next();
             if (property == listing) {
                 iterator.remove();
+                removeFromFavourites(listing);
                 break;
             }
         }
     }
 
+
     /**
      * This method adds the specified property to the account's list of favourites
      * @param listing The property to be added
      */
-    public void addToListOfFavouriteProperties(AirbnbListing listing)
+    public void addToFavouriteProperties(AirbnbListing listing)
     {
+        Pane propertyPreviewPane = listing.getPropertyPreviewPane();
+        if(propertyPreviewPane == null){
+            System.out.println("NULL");
+        }
         listOfFavouriteProperties.add(listing);
+        addToListViewOfFavourites(propertyPreviewPane);
     }
-
     /**
      * This method returns the account's current profile picture
      * @return The profile picture
@@ -150,6 +164,26 @@ public class Account {
         profilePicture = pfp;
     }
 
+    private void addToListViewOfFavourites(Pane pane)
+    {
+        listViewOfFavourites.getItems().add(pane);
+    }
 
+    private void removeFromListViewOfFavourites(Pane pane)
+    {
+        listViewOfFavourites.getItems().remove(pane);
+    }
+
+    public void removeFromFavourites(AirbnbListing listing)
+    {
+        Pane propertyPreviewPane = listing.getPropertyPreviewPane();
+        removeFromListOfFavouriteProperties(listing);
+        removeFromListViewOfFavourites(propertyPreviewPane);
+    }
+
+
+    public ListView<Pane> getListViewOfFavourites() {
+        return listViewOfFavourites;
+    }
 }
 

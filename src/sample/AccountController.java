@@ -835,6 +835,11 @@ public class AccountController
     @FXML
     public void accountDetailsAction()
     {
+        accountPanelController.loadFavourites();
+        accountPanel.setCenter(accountPanelController.getAccountDetailsPane());
+        accountPanelController.setStage(accountPanelStage);
+        subPane.setVisible(false);
+        accountPanelStage.show();
 
     }
 

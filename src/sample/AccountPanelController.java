@@ -3,11 +3,9 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -16,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class AccountPanelController{
 
@@ -31,7 +30,7 @@ public class AccountPanelController{
     private Pane accountSettings;
 
     @FXML
-    private Pane accountDetails;
+    private SplitPane accountDetails;
 
     @FXML
     private Button chooseFileButton;
@@ -45,6 +44,12 @@ public class AccountPanelController{
     @FXML
     private TextField changeUsernameField;
 
+    @FXML
+    private ListView<BorderPane> listOfBookings;
+
+    @FXML
+    private ListView<Pane> listOfFavourites;
+
     private Image bufferImage;
 
     private Stage stage;
@@ -52,12 +57,16 @@ public class AccountPanelController{
     private AccountController accountController;
 
 
-    public void initialize(AccountPanelController apc, AccountController accountController) throws IOException {
+    public void initialize(AccountPanelController apc, AccountController accountController) throws IOException
+    {
         FXMLLoader accountSettingsLoader = new FXMLLoader(getClass().getResource("AccountSettings.fxml"));
         accountSettingsLoader.setController(apc);
         accountSettings = accountSettingsLoader.load();
-//        FXMLLoader accountDetailsLoader = new FXMLLoader(getClass().getResource("AccountDetails.fxml"));
-//        accountDetailsLoader.setController(this);
+
+        FXMLLoader accountDetailsLoader = new FXMLLoader(getClass().getResource("AccountDetails.fxml"));
+        accountDetailsLoader.setController(apc);
+        accountDetails = accountDetailsLoader.load();
+
         this.accountController = accountController;
 
         chooseFileButton.setOnAction(e-> chooseFile(getStage()));
@@ -85,7 +94,7 @@ public class AccountPanelController{
         changeAvatarCircle.setFill(new ImagePattern(currentAccount.getProfilePicture()));
     }
 
-    public Pane getAccountDetailsPane() {
+    public SplitPane getAccountDetailsPane() {
         return accountDetails;
     }
 
@@ -143,8 +152,16 @@ public class AccountPanelController{
         bufferImage = null;
     }
 
+    public void loadFavourites()
+    {
+        listOfFavourites.setItems(currentAccount.getListViewOfFavourites().getItems());
+    }
+
+
+
     public void setStage(Stage stage)
     {
         this.stage = stage;
     }
+
 }

@@ -41,13 +41,14 @@ public class PropertyListController {
 
         for (AirbnbListing listing : boroughListings) {
             FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
-            Pane propertyPane = preview.load();
+            Pane propertyPreviewPane = preview.load();
             PropertyPreviewController propertyPreviewController = preview.getController();
             this.propertyPreviewController = propertyPreviewController;
             listOfPropertyPreviewControllers.add(propertyPreviewController);
-            propertyPreviewController.initialize(listing, currentAccount);
-            listView.getItems().add(propertyPane);
-            addToSortedLists(listing, propertyPane);
+            listing.setPropertyPreviewPane(propertyPreviewPane);
+            propertyPreviewController.initialize(listing, currentAccount, propertyPreviewPane);
+            listView.getItems().add(propertyPreviewPane);
+            addToSortedLists(listing, propertyPreviewPane);
         }
         sortLists();
 
