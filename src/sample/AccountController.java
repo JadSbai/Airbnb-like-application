@@ -206,10 +206,9 @@ public class AccountController
      */
     private WelcomeController welcomeController;
 
-    /**
-     * Default profile picture to be loaded when no specific picture has been chosen by the user
-     */
-    private Image defaultProfileImage;
+    private AccountPanelController accountPanelController;
+    private Stage accountPanelStage;
+    private BorderPane accountPanel;
 
 
     /**
@@ -228,7 +227,6 @@ public class AccountController
         isAccountWindowOpen = false;
         this.mapController = mapController;
         welcomeController = mapController.getWelcomeController();
-        defaultProfileImage = new Image("/sample/pfp/nopfp.png");
 
 
         FXMLLoader signedInLoader = new FXMLLoader(getClass().getResource("signed_in.fxml"));
@@ -245,9 +243,16 @@ public class AccountController
         Pane createAccountPanel = createAccountPanelLoader.load();
         createAccountScene = new Scene(createAccountPanel);
 
-        // Sets up the account's drop down menu (i.e., the subPane)
+        FXMLLoader accountPanelLoader = new FXMLLoader(getClass().getResource("AccountPanel.fxml"));
+        accountPanel = accountPanelLoader.load();
+        accountPanelController = accountPanelLoader.getController();
+        accountPanelController.initialize(accountPanelController, this);
+        accountPanelStage = new Stage();
+        accountPanelStage.setScene(new Scene(accountPanel));
+
+
+
         formatPopUpMenu();
-        setProfileCircles(defaultProfileImage);
         setAccountUsername("");
 
         accountStage = new Stage();
@@ -341,7 +346,8 @@ public class AccountController
             accountsMap.put(email, newAccount);
 
             currentAccount = newAccount;
-            currentAccount.setProfilePicture(defaultProfileImage);
+            accountPanelController.setCurrentAccount(currentAccount);
+            setProfileCircles();
             setAccountUsername(username);
 
             mapController.setCurrentAccount(currentAccount);
@@ -376,7 +382,8 @@ public class AccountController
         if(checkValidityOfSignInFields(email, password)){
             currentAccount = getAccount(email);
 
-            setProfileCircles(currentAccount.getProfilePicture());
+            accountPanelController.setCurrentAccount(currentAccount);
+            setProfileCircles();
             setAccountUsername(currentAccount.getUsername());
 
             mapController.setCurrentAccount(currentAccount);
@@ -406,7 +413,7 @@ public class AccountController
         saveAllSettingsAndData();
 
         currentAccount = null;
-        setProfileCircles(defaultProfileImage);
+        setProfileCircles();
         setAccountUsername("");
 
         mapController.setCurrentAccount(null);
@@ -498,7 +505,7 @@ public class AccountController
      */
     private boolean checkValidityOfCreateAccountFields(String username, String email, String password, String confirmPassword)
     {
-        return (checkUsername(username) && checkEmail(email) && checkPassword(password, confirmPassword));
+        return (checkUsername(username, emailCreateAccountErrorLabel) && checkEmail(email) && checkPassword(password, confirmPassword));
     }
 
     /**
@@ -571,17 +578,17 @@ public class AccountController
      * @param username The username entered
      * @return true if the username entered isn't already taken by another account and false otherwise
      */
-    private boolean checkUsername(String username)
+    public boolean checkUsername(String username, Label label)
     {
-        usernameCreateAccountErrorLabel.setText("");
+        label.setText("");
 
         if(username.length() == 0){
-            usernameCreateAccountErrorLabel.setText("Please choose a username ");
+            label.setText("Please choose a username ");
             return false;
         }
         for(Account account : listOfAccounts){
             if(username.equals(account.getUsername())){
-                usernameCreateAccountErrorLabel.setText("This field is already taken by another account. Please choose another username");
+                label.setText("This field is already taken by another account. Please choose another username");
                 return false;
             }
         }
@@ -780,14 +787,6 @@ public class AccountController
     }
 
     /**
-     * This method returns the the default profile image
-     * @return The image defined as default profile picture
-     */
-    public Image getDefaultProfileImage() {
-        return defaultProfileImage;
-    }
-
-    /**
      * This method returns the MapController object currently used
      * @return The MapController instance used
      */
@@ -812,11 +811,10 @@ public class AccountController
 
     /**
      * This method sets both the profile pictures to the one specified
-     * @param newImage The specified image
      */
-    public void setProfileCircles(Image newImage) {
-        profileCircle.setFill(new ImagePattern(newImage));
-        profileCircle2.setFill(new ImagePattern(newImage));
+    public void setProfileCircles() {
+        profileCircle.setFill(new ImagePattern(currentAccount.getProfilePicture()));
+        profileCircle2.setFill(new ImagePattern(currentAccount.getProfilePicture()));
     }
 
     /**
@@ -825,5 +823,25 @@ public class AccountController
      */
     public void setAccountUsername(String newUsername) {
         accountUsername.setText(newUsername);
+    }
+
+    @FXML
+    public void accountSettingsAction() throws IOException {
+        accountPanel.setCenter(accountPanelController.getAccountSettingsPane());
+        accountPanelController.setStage(accountPanelStage);
+        subPane.setVisible(false);
+        accountPanelStage.show();
+    }
+
+    @FXML
+    public void accountDetailsAction()
+    {
+
+    }
+
+    public void changeUsername(String username)
+    {
+        currentAccount.setUsername(username);
+        setAccountUsername(username);
     }
 }
