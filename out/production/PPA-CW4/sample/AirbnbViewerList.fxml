@@ -14,7 +14,7 @@
         <Scene>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
                 <ToolBar nodeOrientation="RIGHT_TO_LEFT">
-                    <ChoiceBox fx:id="sortByChoiceBox" minWidth="80.0" onAction="#orderItems" />
+                    <ChoiceBox fx:id="sortByChoiceBox" minWidth="80.0" onAction="#orderListings" />
                     <Label text="Sort by:">
                   <padding>
                      <Insets left="5.0" />

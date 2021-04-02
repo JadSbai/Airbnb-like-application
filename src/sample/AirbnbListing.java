@@ -69,6 +69,9 @@ public class AirbnbListing {
 
     private boolean isFavourite;
 
+    /**
+     * Static HashMap used to establish the abbreviation of the borough used for the map.
+     */
     private static final HashMap<String, String> boroughAbbreviation;
     static {
         boroughAbbreviation = new HashMap<>();
