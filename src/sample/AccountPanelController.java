@@ -3,12 +3,14 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
@@ -45,23 +47,49 @@ public class AccountPanelController{
     @FXML
     private TextField changeUsernameField;
 
+    @FXML
+    private TextField emailField;
+
+    @FXML
+    private Label saveResponseLabel;
+
+    @FXML
+    private GridPane pfpGrid;
+
+
     private Image bufferImage;
 
     private Stage stage;
 
+    private BorderPane accountPanel;
+
     private AccountController accountController;
 
 
-    public void initialize(AccountPanelController apc, AccountController accountController) throws IOException {
+    public void initialize(AccountPanelController apc, AccountController accountController, BorderPane accountPanel) throws IOException {
         FXMLLoader accountSettingsLoader = new FXMLLoader(getClass().getResource("AccountSettings.fxml"));
         accountSettingsLoader.setController(apc);
         accountSettings = accountSettingsLoader.load();
 //        FXMLLoader accountDetailsLoader = new FXMLLoader(getClass().getResource("AccountDetails.fxml"));
 //        accountDetailsLoader.setController(this);
         this.accountController = accountController;
+        this.accountPanel = accountPanel;
 
         chooseFileButton.setOnAction(e-> chooseFile(getStage()));
 
+        Image cursor = new Image("/sample/crossout.png");
+        emailField.setCursor(new ImageCursor(cursor, cursor.getWidth()/2, cursor.getHeight()/2));
+
+    }
+
+    public void reset()
+    {
+        saveResponseLabel.setText("");
+        changeUsernameField.setText("");
+        changeUsernameErrorLabel.setText("");
+        changeAvatarCircle.setFill(new ImagePattern(currentAccount.getProfilePicture()));
+        bufferImage = null;
+        imagePathLabel.setText("no file chosen");
     }
 
     private Stage getStage() {
@@ -72,6 +100,8 @@ public class AccountPanelController{
     {
         currentAccount = account;
         setCircles();
+        changeUsernameField.setPromptText(currentAccount.getUsername());
+        emailField.setPromptText(currentAccount.getEmail());
     }
 
     protected Account getCurrentAccount()
@@ -132,19 +162,45 @@ public class AccountPanelController{
     @FXML
     private void saveSettings()
     {
+        boolean changes = false;
         String newUsername = changeUsernameField.getText();
-        if (accountController.checkUsername(newUsername, changeUsernameErrorLabel))accountController.changeUsername(newUsername);
+
+        if (checkChangeUsernameValidity(newUsername) && accountController.checkUsername(newUsername, changeUsernameErrorLabel)) {
+            accountController.changeUsername(newUsername);
+            changeUsernameField.setPromptText(newUsername);
+            changes = true;
+        }
         if (bufferImage != null)
         {
             currentAccount.setProfilePicture(bufferImage);
             accountController.setProfileCircles();
             setCircles();
+            changes = true;
         }
         bufferImage = null;
+        if (changes)
+        {
+            saveResponseLabel.setText("Changes saved.");
+        } else
+        {
+            saveResponseLabel.setText("You have not made any changes.");
+        }
+    }
+
+    private boolean checkChangeUsernameValidity(String newUsername)
+    {
+        return (!newUsername.equals("") && !newUsername.equals(currentAccount.getUsername()));
     }
 
     public void setStage(Stage stage)
     {
         this.stage = stage;
     }
+
+    @FXML
+    private void chooseBasicPfpAction()
+    {
+        //accountPanel.setCenter(pfpGrid);
+    }
+
 }

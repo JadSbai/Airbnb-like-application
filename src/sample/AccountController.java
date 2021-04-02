@@ -176,11 +176,9 @@ public class AccountController
         FXMLLoader accountPanelLoader = new FXMLLoader(getClass().getResource("AccountPanel.fxml"));
         accountPanel = accountPanelLoader.load();
         accountPanelController = accountPanelLoader.getController();
-        accountPanelController.initialize(accountPanelController, this);
+        accountPanelController.initialize(accountPanelController, this, accountPanel);
         accountPanelStage = new Stage();
         accountPanelStage.setScene(new Scene(accountPanel));
-
-
 
         formatPopUpMenu();
         setAccountUsername("");
@@ -715,6 +713,7 @@ public class AccountController
     public void accountSettingsAction() throws IOException {
         accountPanel.setCenter(accountPanelController.getAccountSettingsPane());
         accountPanelController.setStage(accountPanelStage);
+        accountPanelController.reset();
         subPane.setVisible(false);
         accountPanelStage.show();
     }
