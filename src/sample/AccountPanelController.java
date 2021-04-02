@@ -3,6 +3,7 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.ImageCursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -54,22 +55,37 @@ public class AccountPanelController{
     private Label saveResponseLabel;
 
     @FXML
-    private GridPane pfpGrid;
+    private TilePane pfpGrid;
 
 
     private Image bufferImage;
+
+    private Image bufferedBasicAvatar;
 
     private Stage stage;
 
     private BorderPane accountPanel;
 
+    private Pane chooseAvatarMenu;
+
     private AccountController accountController;
 
+    @FXML
+    public static final String IMAGE_PATH_DEFAULT = "No file chosen";
 
     public void initialize(AccountPanelController apc, AccountController accountController, BorderPane accountPanel) throws IOException {
+
         FXMLLoader accountSettingsLoader = new FXMLLoader(getClass().getResource("AccountSettings.fxml"));
         accountSettingsLoader.setController(apc);
         accountSettings = accountSettingsLoader.load();
+
+        FXMLLoader pfpGridLoader = new FXMLLoader(getClass().getResource("pfpgrid.fxml"));
+        pfpGridLoader.setController(apc);
+        chooseAvatarMenu = pfpGridLoader.load();
+
+        pfpGrid.setVgap(20);
+        pfpGrid.setHgap(20);
+
 //        FXMLLoader accountDetailsLoader = new FXMLLoader(getClass().getResource("AccountDetails.fxml"));
 //        accountDetailsLoader.setController(this);
         this.accountController = accountController;
@@ -80,6 +96,7 @@ public class AccountPanelController{
         Image cursor = new Image("/sample/crossout.png");
         emailField.setCursor(new ImageCursor(cursor, cursor.getWidth()/2, cursor.getHeight()/2));
 
+        loadBasicAvatars();
     }
 
     public void reset()
@@ -89,7 +106,7 @@ public class AccountPanelController{
         changeUsernameErrorLabel.setText("");
         changeAvatarCircle.setFill(new ImagePattern(currentAccount.getProfilePicture()));
         bufferImage = null;
-        imagePathLabel.setText("no file chosen");
+        imagePathLabel.setText(IMAGE_PATH_DEFAULT);
     }
 
     private Stage getStage() {
@@ -200,7 +217,64 @@ public class AccountPanelController{
     @FXML
     private void chooseBasicPfpAction()
     {
-        //accountPanel.setCenter(pfpGrid);
+        accountPanel.setCenter(chooseAvatarMenu);
+    }
+
+    @FXML
+    private void backButtonAction()
+    {
+        backToAccountSettings();
+    }
+
+    @FXML
+    private void okButtonAction()
+    {
+        bufferImage = bufferedBasicAvatar;
+        changeAvatarCircle.setFill(new ImagePattern(bufferImage));
+        imagePathLabel.setText(IMAGE_PATH_DEFAULT);
+
+        backToAccountSettings();
+
+    }
+
+    private void backToAccountSettings()
+    {
+        profileCircle.setFill(new ImagePattern(currentAccount.getProfilePicture()));
+        bufferedBasicAvatar = null;
+        accountPanel.setCenter(accountSettings);
+    }
+
+
+    @FXML
+    private void loadBasicAvatars() {
+
+        File dir = new File("src/sample/pfp/");
+        File[] directoryList = dir.listFiles();
+
+        if (directoryList != null) {
+            for (File file : directoryList) {
+                String imagePath = file.toURI().toString();
+                Image im = new Image(imagePath);
+               if (im != null && !im.isError())
+                {
+                    Circle avatarPreview = new Circle(50);
+                    avatarPreview.setFill(new ImagePattern(im));
+                    avatarPreview.setOnMouseClicked(e-> {
+                        if (e.getButton() == MouseButton.PRIMARY)
+                        {
+                            selectBasicAvatar(im);
+                        }
+                    });
+                    pfpGrid.getChildren().add(avatarPreview);
+                }
+            }
+        }
+    }
+
+    private void selectBasicAvatar(Image image)
+    {
+        bufferedBasicAvatar = image;
+        profileCircle.setFill(new ImagePattern(bufferedBasicAvatar));
     }
 
 }
