@@ -38,6 +38,7 @@ public class MainController {
     private ScrollPane mapRoot;
     //private Pane statisticsRoot;
     private AccountController accountController;
+    private MapController mapController;
 
 
 
@@ -50,7 +51,7 @@ public class MainController {
         loader = new FXMLLoader(getClass().getResource("map.fxml"));
 
         mapRoot = loader.load();
-        MapController mapController = loader.getController();
+        mapController = loader.getController();
         mapController.initialize(welcomeController);
         //loader = new FXMLLoader(getClass().getResource("statistics.fxml"));
         //statisticsRoot = loader.load();
@@ -82,7 +83,12 @@ public class MainController {
             mainPane.setCenter(welcomeRoot);
         }
         //else{
+        // mapController.setColor();
           //  mainPane.setCenter(statisticsRoot);
+       // if(accountController.getWelcomeController().isNewSearch()){
+          //  mapController.setColor();
+          // accountController.getMapController().closeAllMapStages();
+        //}
         //}
 
     }
@@ -93,6 +99,7 @@ public class MainController {
         if(mainPane.getCenter() == welcomeRoot){
             mainPane.setCenter(mapRoot);
             if(accountController.getWelcomeController().isNewSearch()){
+                mapController.setColor();
                 accountController.getMapController().closeAllMapStages();
             }
         }
@@ -100,7 +107,9 @@ public class MainController {
             mainPane.setCenter(welcomeRoot);
         }
         //else{
+        //
          //   mainPane.setCenter(statisticsRoot);
+
         //}
     }
 

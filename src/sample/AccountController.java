@@ -413,7 +413,6 @@ public class AccountController
         saveAllSettingsAndData();
 
         currentAccount = null;
-        setProfileCircles();
         setAccountUsername("");
 
         mapController.setCurrentAccount(null);
