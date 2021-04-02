@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -39,6 +38,7 @@ public class MainController {
     private ScrollPane mapRoot;
     //private Pane statisticsRoot;
     private AccountController accountController;
+    private MapController mapController;
 
 
 
@@ -51,11 +51,11 @@ public class MainController {
         loader = new FXMLLoader(getClass().getResource("map.fxml"));
 
         mapRoot = loader.load();
-        MapController mapController = loader.getController();
+        mapController = loader.getController();
         mapController.initialize(welcomeController);
         //loader = new FXMLLoader(getClass().getResource("statistics.fxml"));
         //statisticsRoot = loader.load();
-        welcomeController.initialize(leftButton, rightButton, currentPriceRangeLabel);
+        welcomeController.initialize(leftButton, rightButton, currentPriceRangeLabel, this);
 
         FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("accountPopUpMenu.fxml"));
         VBox popUpRoot = popUpLoader.load();
@@ -83,25 +83,33 @@ public class MainController {
             mainPane.setCenter(welcomeRoot);
         }
         //else{
+        // mapController.setColor();
           //  mainPane.setCenter(statisticsRoot);
+       // if(accountController.getWelcomeController().isNewSearch()){
+          //  mapController.setColor();
+          // accountController.getMapController().closeAllMapStages();
+        //}
         //}
 
     }
 
 
     @FXML
-    private void rightButtonAction(ActionEvent e) throws IOException {
+    public void rightButtonAction(ActionEvent e) throws IOException {
         if(mainPane.getCenter() == welcomeRoot){
             mainPane.setCenter(mapRoot);
             if(accountController.getWelcomeController().isNewSearch()){
-                accountController.getMapController().closeAllPropertyListStages();
+                mapController.setColor();
+                accountController.getMapController().closeAllMapStages();
             }
         }
         else if(mainPane.getCenter() == mapRoot){
             mainPane.setCenter(welcomeRoot);
         }
         //else{
+        //
          //   mainPane.setCenter(statisticsRoot);
+
         //}
     }
 

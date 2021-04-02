@@ -7,11 +7,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.*;
 
 public class PropertyListController {
+
+    private PropertyPreviewController propertyPreviewController;
+
+    private ArrayList<PropertyPreviewController> listOfPropertyPreviewControllers;
 
     private static final String hostNameOrderString = "Name of host";
     private static final String priceLowestOrderString = "Lowest to highest price";
@@ -28,46 +33,64 @@ public class PropertyListController {
     private List<EntryInteger> invertedPriceOrder;
     private List<EntryInteger> numberOfReviewsOrder;
 
-    private PropertyPreviewController propertyPreviewController;
-
 
     public void initialize(ArrayList<AirbnbListing> boroughListings, Account currentAccount) throws IOException {
+        listOfPropertyPreviewControllers = new ArrayList<>();
         createChoiceBoxOptions();
         createSortedLists();
 
-        long startTime = System.currentTimeMillis();
-
-        for(AirbnbListing listing: boroughListings){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
-            Pane propertyPane = loader.load();
-
-            PropertyPreviewController propertyPreviewController = loader.getController();
+        for (AirbnbListing listing : boroughListings) {
+            FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
+            Pane propertyPane = preview.load();
+            PropertyPreviewController propertyPreviewController = preview.getController();
+            this.propertyPreviewController = propertyPreviewController;
+            listOfPropertyPreviewControllers.add(propertyPreviewController);
             propertyPreviewController.initialize(listing, currentAccount);
-
             listView.getItems().add(propertyPane);
-
             addToSortedLists(listing, propertyPane);
         }
-
-        long totalTime = System.currentTimeMillis() - startTime;
-        System.out.println(totalTime);
-        System.out.println(boroughListings.size());
-
         sortLists();
+
     }
 
     public void reload(ArrayList<AirbnbListing> boroughListings, Account currentAccount) throws IOException {
-        for(AirbnbListing listing: boroughListings) {
-            propertyPreviewController.reload(listing, currentAccount);
+        for (AirbnbListing listing : boroughListings) {
+            if(propertyPreviewController != null){
+                propertyPreviewController.reload(listing, currentAccount);
+            }
+
         }
     }
 
+    public void closePropertyStages()
+    {
+        for(PropertyPreviewController propertyPreviewController : listOfPropertyPreviewControllers){
+            if(propertyPreviewController.getPropertyStage() != null && propertyPreviewController.getPropertyStage().isShowing()){
+                propertyPreviewController.getPropertyStage().close();
+            }
+        }
+    }
+
+    public ArrayList<PropertyPreviewController> getListOfPropertyPreviewControllers() {
+        return listOfPropertyPreviewControllers;
+    }
+
+    /**
+     * To be able to sort the panes by the characteristics of the listing they represent, lists are created which are
+     * made of entries of class EntryInteger or EntryString which can be ordered using their compareTo method like a
+     * HashMap would (but a map doesn't store identical values and a priority queue doesn't have a key-value structure
+     * in java)
+     */
     private void createSortedLists() {
         hostNameOrder = new ArrayList<>();
         priceOrder = new ArrayList<>();
         numberOfReviewsOrder = new ArrayList<>();
     }
 
+    /**
+     * Once all the listings are added, this method sorts them in numerical or alphabetical order.
+     * The compareTo method withing the entries is utilised to establish this order
+     */
     private void sortLists() {
         Collections.sort(hostNameOrder);
         Collections.sort(priceOrder);
@@ -77,19 +100,32 @@ public class PropertyListController {
         Collections.reverse(invertedPriceOrder);
     }
 
+    /**
+     * Method to add a pane and it's relevant variable to each list. These lists will then be sorted according to their variable
+     * @param listing for which one of its variables will be taken (price, host_name..)
+     * @param propertyPane the visualisation of the listing that will be displayed in the order dictated by these lists
+     */
     private void addToSortedLists(AirbnbListing listing, Pane propertyPane) {
         hostNameOrder.add(new EntryString(listing.getHost_name(), propertyPane));
         priceOrder.add(new EntryInteger(listing.getPrice(), propertyPane));
         numberOfReviewsOrder.add(new EntryInteger(listing.getNumberOfReviews(), propertyPane));
     }
 
+    /**
+     * Creates the options for the "sort by" choice box using static strings to improve maintainability.
+     */
     private void createChoiceBoxOptions() {
         List<String> orderingOptions = Arrays.asList(hostNameOrderString, priceLowestOrderString, priceHighestOrderString, reviewOrderString);
         sortByChoiceBox.setItems(FXCollections.observableArrayList(orderingOptions));
     }
 
+    /**
+     * Method to determine the type of sort to establish when sorting is required according to the option in the
+     * "sort by" choice box.
+     * @param event created when any option of the choice box "sort by" is clicked
+     */
     @FXML
-    public void orderItems(ActionEvent e){
+    public void orderListings(ActionEvent event) {
         String selectedSort = sortByChoiceBox.getValue();
 
         switch (selectedSort) {
@@ -106,30 +142,59 @@ public class PropertyListController {
                 sortListByInteger(numberOfReviewsOrder);
                 break;
         }
-
-
     }
-    private void sortListByString(List<EntryString> orderType){
+
+    /**
+     * Method to set the listView (list of panes) to the order established by the orderListings method
+     * @param orderType list that carries the order of the panes, of type String.
+     */
+    private void sortListByString(List<EntryString> orderType) {
         int numberOfProperties = listView.getItems().size();
         listView.getItems().remove(0, numberOfProperties);
         int index = 0;
-        for (EntryString entry: orderType) {
-            listView.getItems().add(index, entry.getValue());
-            index++;
-        }
-    }
-    private void sortListByInteger(List<EntryInteger> orderType){
-        int numberOfProperties = listView.getItems().size();
-        listView.getItems().remove(0, numberOfProperties);
-        int index = 0;
-        for (EntryInteger entry: orderType) {
+        for (EntryString entry : orderType) {
             listView.getItems().add(index, entry.getValue());
             index++;
         }
     }
 
-
-    public PropertyPreviewController getPropertyPreviewController() {
-        return propertyPreviewController;
+    /**
+     * Method to set the listView (list of panes) to the order established by the orderListings method
+     * @param orderType list that carries the order of the panes, of type int.
+     */
+    private void sortListByInteger(List<EntryInteger> orderType) {
+        int numberOfProperties = listView.getItems().size();
+        listView.getItems().remove(0, numberOfProperties);
+        int index = 0;
+        for (EntryInteger entry : orderType) {
+            listView.getItems().add(index, entry.getValue());
+            index++;
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
