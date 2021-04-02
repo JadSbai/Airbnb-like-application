@@ -68,6 +68,7 @@ public class MapController {
 
                 if(boroughStage == null) {
                     isStageOpenMap.put(boroughAbbreviation, propertyListStage);
+                    initializePropertyListStage(boroughAbbreviation, propertyListStage, propertyList);
                 }
                 else{
                     boroughStage.close();
@@ -167,19 +168,18 @@ public class MapController {
     private void initializePropertyListStage(String boroughAbbreviation, Stage propertyListStage, FXMLLoader propertyList ) throws IOException
     {
         listOfPropertyListStages.add(propertyListStage);
-        listOfPropertyListControllers.add(propertyList.getController());
-        isStageOpenMap.put(boroughAbbreviation, propertyListStage);
-
         listOfProperties = propertyList.getController();
+        listOfPropertyListControllers.add(listOfProperties);
+        isStageOpenMap.put(boroughAbbreviation, propertyListStage);
+        listOfProperties.initialize(boroughListings, currentAccount);
 
         propertyListStage.setOnCloseRequest(e -> {
                     isStageOpenMap.put(boroughAbbreviation, null);
                     listOfProperties.closePropertyStages();
                 }
         );
-
         propertyListStage.show();
-        listOfProperties.initialize(boroughListings, currentAccount);
+
     }
 
 

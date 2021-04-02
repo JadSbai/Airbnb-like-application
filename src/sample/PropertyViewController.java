@@ -165,8 +165,6 @@ public class PropertyViewController {
         }
     }
 
-
-
     private void initializeFavourites()
     {
         boolean isFavourite = false;

@@ -60,6 +60,7 @@ public class PropertyPreviewController {
             isPropertyWindowOpen = true;
             propertyStage.setOnCloseRequest(event -> {
                         isPropertyWindowOpen = false;
+                        viewController.setFavouriteTextLabel("");
                     }
             );
 
