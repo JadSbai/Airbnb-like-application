@@ -9,10 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -833,12 +830,11 @@ public class AccountController
                 accountPanel.setCenter(accountPanelController.getAccountSettingsPane());
                 subPane.setVisible(false);
                 isSettingsShowed = true;
-                accountStage.show();
             }
             else{
                 accountPanelStage.close();
-                accountPanelStage.show();
             }
+            accountPanelStage.show();
         }
         else{
             accountPanel.setCenter(accountPanelController.getAccountSettingsPane());
@@ -854,20 +850,22 @@ public class AccountController
     public void accountDetailsAction()
     {
         accountPanelController.loadFavourites();
+        accountPanelController.loadBookings();
         if(accountPanelStage.isShowing()){
             if(isSettingsShowed){
                 accountPanel.setCenter(accountPanelController.getAccountDetailsPane());
                 subPane.setVisible(false);
                 isSettingsShowed = false;
-                accountStage.show();
             }
             else{
                 accountPanelStage.close();
-                accountPanelStage.show();
             }
+            accountPanelStage.show();
         }
         else{
-            accountPanel.setCenter(accountPanelController.getAccountDetailsPane());
+            VBox accountDetails = accountPanelController.getAccountDetailsPane();
+            accountPanel.setCenter(accountDetails);
+
             accountPanelController.setStage(accountPanelStage);
             subPane.setVisible(false);
             accountPanelStage.show();

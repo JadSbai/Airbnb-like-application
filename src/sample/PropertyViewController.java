@@ -2,6 +2,7 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import java.io.IOException;
 import java.net.URI;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -53,6 +55,12 @@ public class PropertyViewController {
 
     private boolean isAvailable;
 
+    private int totalPrice;
+
+    private int subTotalPrice;
+    private int serviceFee;
+    private int numberOfNights;
+
 
 
 
@@ -62,6 +70,8 @@ public class PropertyViewController {
         this.listing = listing;
         this.isAvailable = !(listing.getAvailability365()==0);
         this.currentAccount = account;
+        this.isReserved = false;
+        totalPrice = 0;
         setHeader();
         setAvailability();
         setReviews();
@@ -87,13 +97,9 @@ public class PropertyViewController {
     }
 
     @FXML
-    public void reserveProperty()
+    public void reserveProperty() throws IOException
     {
-        // Create a borderpane containing the propertyPreviewPane and the getDetails button
-        // Then implement the getDetails button so that it opens a window with:
-        // booking dates, price details,...
-        // Add the borderPane to the listView of bookings of the account
-        // Update the listview of the accountPanel with the one from the account class
+        addToBookings();
     }
 
     /**
@@ -150,8 +156,7 @@ public class PropertyViewController {
     }
 
     @FXML
-    public void saveFavourites()
-    {
+    public void saveFavourites() throws IOException {
         if(currentAccount == null){
             setSaveBox(false);
             warningAlert("If you want to save this property into your favourites, you must first sign in to your account. If you don't have an account, create one", "Not signed in");
@@ -192,16 +197,16 @@ public class PropertyViewController {
      * Method called when a correct set of dates has been chosen. Sets price of labels considering the
      */
     private void calculatePrice(){
-        int numberOfNights = (int) DAYS.between(inDate, outDate);
+        numberOfNights = (int) DAYS.between(inDate, outDate);
         int minNumberOfNights = listing.getMinimumNights();
 
         if(numberOfNights < minNumberOfNights){
             invalidOptions("Minimum number of nights for this property is " + minNumberOfNights + " you selected " + numberOfNights, "Insufficient nights");
         } else {
             int price = listing.getPrice();
-            int subTotalPrice = price*numberOfNights;
-            int serviceFee = (int) Math.round(subTotalPrice*0.2);
-            int totalPrice = subTotalPrice+serviceFee;
+            subTotalPrice = price*numberOfNights;
+            serviceFee = (int) Math.round(subTotalPrice*0.2);
+            totalPrice = subTotalPrice+serviceFee;
 
             priceAndNights.setText("£" + price + " x " + numberOfNights + " nights");
             subtotal.setText("£" + subTotalPrice);
@@ -313,8 +318,7 @@ public class PropertyViewController {
 
     }
 
-    private void addToFavourites()
-    {
+    private void addToFavourites() throws IOException {
         currentAccount.addToFavouriteProperties(listing);
         setFavouriteTextLabel("This property has been added to your favourites");
         setSaveBox(true);
@@ -325,6 +329,16 @@ public class PropertyViewController {
         currentAccount.removeFromFavourites(listing);
         setFavouriteTextLabel("This property has been removed from your favourites");
         setSaveBox(false);
+    }
+
+    private void addToBookings() throws IOException
+    {
+        FXMLLoader bookingLoader = new FXMLLoader(getClass().getResource("Booking.fxml"));
+        BorderPane booking = bookingLoader.load();
+        BookingController bookingController = bookingLoader.getController();
+        bookingController.initialize(listing, reserveButton, currentAccount, subTotalPrice, serviceFee, totalPrice, numberOfNights, inDate, outDate);
+        currentAccount.addToBookings(listing, booking);
+        reserveButton.setDisable(true);
     }
 }
 

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Scene?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.stage.Stage?>
+
+
+<Stage fx:id="bookingDetailsStage" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <scene>
+      <Scene fx:id="bookingDetailsScene">
+         <root>
+            <VBox alignment="TOP_CENTER">
+               <children>
+                  <Label fx:id="numberOfNights" text="Number of nights " />
+                  <Label fx:id="subTotalPrice" text="Subtotal price" />
+                  <Label fx:id="serviceFee" text="Service fee" />
+                  <Label fx:id="totalPrice" text="Total price" />
+                  <Label fx:id="inDate" text="Date of arrival" />
+                  <Label fx:id="outDate" text="Date of departure" />
+               </children>
+            </VBox>
+         </root>
+      </Scene>
+   </scene>
+</Stage>

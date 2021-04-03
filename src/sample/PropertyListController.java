@@ -45,8 +45,7 @@ public class PropertyListController {
             PropertyPreviewController propertyPreviewController = preview.getController();
             this.propertyPreviewController = propertyPreviewController;
             listOfPropertyPreviewControllers.add(propertyPreviewController);
-            listing.setPropertyPreviewPane(propertyPreviewPane);
-            propertyPreviewController.initialize(listing, currentAccount, propertyPreviewPane);
+            propertyPreviewController.initialize(listing, currentAccount);
             listView.getItems().add(propertyPreviewPane);
             addToSortedLists(listing, propertyPreviewPane);
         }

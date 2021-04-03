@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AccountPanelController">
+<BorderPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AccountPanelController">
    <left>
       <VBox fx:id="subPane" maxWidth="150.0" prefHeight="200.0" prefWidth="150.0" spacing="10.0" style="-fx-border-color: black; -fx-background-color: rgb(220,220,220);">
          <children>

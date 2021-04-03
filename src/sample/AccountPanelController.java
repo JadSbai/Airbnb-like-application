@@ -3,10 +3,13 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
@@ -30,7 +33,7 @@ public class AccountPanelController{
     private Pane accountSettings;
 
     @FXML
-    private SplitPane accountDetails;
+    private VBox accountDetails;
 
     @FXML
     private Button chooseFileButton;
@@ -67,6 +70,7 @@ public class AccountPanelController{
         accountDetailsLoader.setController(apc);
         accountDetails = accountDetailsLoader.load();
 
+
         this.accountController = accountController;
 
         chooseFileButton.setOnAction(e-> chooseFile(getStage()));
@@ -94,7 +98,7 @@ public class AccountPanelController{
         changeAvatarCircle.setFill(new ImagePattern(currentAccount.getProfilePicture()));
     }
 
-    public SplitPane getAccountDetailsPane() {
+    public VBox getAccountDetailsPane() {
         return accountDetails;
     }
 
@@ -157,17 +161,25 @@ public class AccountPanelController{
         listOfFavourites.setItems(currentAccount.getListViewOfFavourites().getItems());
     }
 
+    public void loadBookings()
+    {
+        listOfBookings.setItems(currentAccount.getListViewOfBookings().getItems());
+    }
+
     @FXML
     private void accountSettingsAction()
     {
         BorderPane accountPanel = accountController.getAccountPanel();
         accountPanel.setCenter(accountSettings);
+        stage.sizeToScene();
     }
 
     @FXML
     private void accountDetailsAction()
     {
         loadFavourites();
+        loadBookings();
+        stage.sizeToScene();
         BorderPane accountPanel = accountController.getAccountPanel();
         accountPanel.setCenter(accountDetails);
     }

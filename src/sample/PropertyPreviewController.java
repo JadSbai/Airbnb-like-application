@@ -31,7 +31,7 @@ public class PropertyPreviewController {
 
     private boolean isPropertyWindowOpen;
 
-    public void initialize(AirbnbListing listing, Account account, Pane propertyPreviewPane){
+    public void initialize(AirbnbListing listing, Account account){
         this.listing = listing;
         this.hostName.setText(listing.getHost_name());
         this.price.setText("£" + listing.getPrice() +" / night");

@@ -76,8 +76,6 @@ public class AirbnbListing {
 
     private boolean isFavourite;
 
-    private Pane propertyPreviewPane;
-
     /**
      * Static HashMap used to establish the abbreviation of the borough used for the map.
      */
@@ -141,7 +139,6 @@ public class AirbnbListing {
         this.calculatedHostListingsCount = calculatedHostListingsCount;
         this.availability365 = availability365;
         this.isFavourite = false;
-        this.propertyPreviewPane = null;
     }
 
     public String getId() {
@@ -242,13 +239,6 @@ public class AirbnbListing {
         isFavourite = favourite;
     }
 
-    public Pane getPropertyPreviewPane() {
-        return propertyPreviewPane;
-    }
-
-    public void setPropertyPreviewPane(Pane propertyPreviewPane) {
-        this.propertyPreviewPane = propertyPreviewPane;
-    }
 }
 
 
