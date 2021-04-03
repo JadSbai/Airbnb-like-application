@@ -336,7 +336,7 @@ public class PropertyViewController {
         FXMLLoader bookingLoader = new FXMLLoader(getClass().getResource("Booking.fxml"));
         BorderPane booking = bookingLoader.load();
         BookingController bookingController = bookingLoader.getController();
-        bookingController.initialize(listing, reserveButton, currentAccount, subTotalPrice, serviceFee, totalPrice, numberOfNights, inDate, outDate);
+        bookingController.initialize(listing, reserveButton, currentAccount, inDate, outDate);
         currentAccount.addToBookings(listing, booking);
         reserveButton.setDisable(true);
     }
