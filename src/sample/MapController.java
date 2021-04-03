@@ -17,26 +17,27 @@ public class MapController {
 
     private WelcomeController welcomeController;
     private AirbnbDataLoader dataLoader;
+    private ArrayList<AirbnbListing> boroughListings;
     private Account currentAccount;
     private PropertyListController listOfProperties;
-    private ArrayList<AirbnbListing> boroughListings;
-    private ArrayList<Stage> listOfPropertyListStages;
     private ArrayList<PropertyListController> listOfPropertyListControllers;
-    private HashMap<String, Stage> isStageOpenMap;
-    private boolean isPropertyListWindowOpen;
+
+    private Stage propertyListStage;
+    private ArrayList<Stage> listOfPropertyListStages;
+
+
 
     @FXML
     private Button ENFI, BARN, HRGY, WALT, HRRW, BREN, CAMD, ISLI, HACK, REDB, HAVE, HILL, EALI, KENS, WSTM, TOWH, NEWH, BARK, HOUN, HAMM, WAND, CITY, GWCH, BEXL, RICH, MERT, LAMB, STHW, LEWS, KING, SUTT, CROY, BROM;
 
     private ArrayList<Button> hexagons;
 
-    public void initialize(WelcomeController welcomeController){
+    public void initialize(WelcomeController welcomeController, AirbnbDataLoader dataLoader){
         this.welcomeController = welcomeController;
-        this.dataLoader = new AirbnbDataLoader();
+        this.dataLoader = dataLoader;
         this.hexagons = new ArrayList<>(Arrays.asList(ENFI, BARN, HRGY, WALT, HRRW, BREN, CAMD, ISLI, HACK, REDB, HAVE, HILL, EALI, KENS, WSTM, TOWH, NEWH, BARK, HOUN, HAMM, WAND, CITY, GWCH, BEXL, RICH, MERT, LAMB, STHW, LEWS, KING, SUTT, CROY, BROM));
         listOfPropertyListStages = new ArrayList<>();
         listOfPropertyListControllers = new ArrayList<>();
-        isStageOpenMap = new HashMap<>();
     }
 
     private void reloadBoroughListings(String boroughAbbreviation)
@@ -57,22 +58,14 @@ public class MapController {
         if(!listOfPropertyListStages.isEmpty()){
 
             FXMLLoader propertyList = getPropertyListLoader();
-            Stage propertyListStage = getPropertyListStage(propertyList, boroughAbbreviation);
+            setPropertyListStage(propertyList, boroughAbbreviation);
 
-            if(!isStageOpenMap.containsKey(boroughAbbreviation)){
-
-                initializePropertyListStage(boroughAbbreviation, propertyListStage, propertyList);
+            if(!propertyListStage.isShowing()) {
+                initializePropertyListStage(boroughAbbreviation,propertyList);
             }
             else{
-                Stage boroughStage = isStageOpenMap.get(boroughAbbreviation);
-
-                if(boroughStage == null) {
-                    isStageOpenMap.put(boroughAbbreviation, propertyListStage);
-                }
-                else{
-                    boroughStage.close();
-                    boroughStage.show();
-                }
+                propertyListStage.close();
+                propertyListStage.show();
             }
         }
         else{
@@ -103,7 +96,9 @@ public class MapController {
 
     public void loadCurrentAccount(Account currentAccount) throws IOException {
         setCurrentAccount(currentAccount);
-        listOfProperties.reload(boroughListings, currentAccount);
+        if(listOfProperties != null){
+            listOfProperties.reload(boroughListings, currentAccount);
+        }
     }
 
     public void setCurrentAccount(Account currentAccount)
@@ -113,15 +108,6 @@ public class MapController {
 
     public WelcomeController getWelcomeController() {
         return welcomeController;
-    }
-
-
-    public PropertyListController getListOfProperties() {
-        return listOfProperties;
-    }
-
-    public ArrayList<Stage> getListOfPropertyListStages() {
-        return listOfPropertyListStages;
     }
 
     public void closeAllMapStages()
@@ -135,7 +121,6 @@ public class MapController {
     {
         listOfPropertyListStages.clear();
         listOfPropertyListControllers.clear();
-        isStageOpenMap.clear();
     }
 
     private void closeAllPropertyStages()
@@ -160,39 +145,27 @@ public class MapController {
     private void loadAndInitializePropertyListStage(String boroughAbbreviation) throws IOException
     {
         FXMLLoader propertyList = getPropertyListLoader();
-        Stage propertyListStage = getPropertyListStage(propertyList, boroughAbbreviation);
-        initializePropertyListStage(boroughAbbreviation, propertyListStage, propertyList);
+        setPropertyListStage(propertyList, boroughAbbreviation);
+        initializePropertyListStage(boroughAbbreviation, propertyList);
     }
 
-    private void initializePropertyListStage(String boroughAbbreviation, Stage propertyListStage, FXMLLoader propertyList ) throws IOException
+    private void initializePropertyListStage(String boroughAbbreviation, FXMLLoader propertyList ) throws IOException
     {
         listOfPropertyListStages.add(propertyListStage);
-        listOfPropertyListControllers.add(propertyList.getController());
-        isStageOpenMap.put(boroughAbbreviation, propertyListStage);
-
         listOfProperties = propertyList.getController();
-
-        propertyListStage.setOnCloseRequest(e -> {
-                    isStageOpenMap.put(boroughAbbreviation, null);
-                    listOfProperties.closePropertyStages();
-                }
-        );
-
-        propertyListStage.show();
+        listOfPropertyListControllers.add(listOfProperties);
         listOfProperties.initialize(boroughListings, currentAccount);
+        propertyListStage.show();
     }
-
 
     private FXMLLoader getPropertyListLoader()
     {
         return new FXMLLoader(getClass().getResource("AirbnbViewerList.fxml"));
     }
 
-    private Stage getPropertyListStage(FXMLLoader propertyList, String boroughAbbreviation) throws IOException
+    private void setPropertyListStage(FXMLLoader propertyList, String boroughAbbreviation) throws IOException
     {
-        Stage propertyListStage = propertyList.load();
+        propertyListStage = propertyList.load();
         propertyListStage.setTitle("AirBnB's in " + boroughAbbreviation);
-
-        return propertyListStage;
     }
 }

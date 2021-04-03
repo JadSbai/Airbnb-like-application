@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER_LEFT" spacing="20.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="20.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label contentDisplay="CENTER" text="Avatar" textAlignment="CENTER">
          <font>
@@ -85,7 +85,7 @@
             <Insets />
          </VBox.margin>
          <padding>
-            <Insets right="20.0" top="20.0" />
+            <Insets right="20.0" />
          </padding>
       </BorderPane>
    </children>

@@ -9,10 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -209,7 +206,7 @@ public class AccountController
     private AccountPanelController accountPanelController;
     private Stage accountPanelStage;
     private BorderPane accountPanel;
-
+    private boolean isSettingsShowed;
 
     /**
      * The constructor initializes all the non-FXML fields, loads all the account related fxml files, sets their controller and displays the resulting stage.
@@ -227,6 +224,7 @@ public class AccountController
         isAccountWindowOpen = false;
         this.mapController = mapController;
         welcomeController = mapController.getWelcomeController();
+        isSettingsShowed = false;
 
 
         FXMLLoader signedInLoader = new FXMLLoader(getClass().getResource("signed_in.fxml"));
@@ -825,22 +823,63 @@ public class AccountController
     }
 
     @FXML
-    public void accountSettingsAction() throws IOException {
-        accountPanel.setCenter(accountPanelController.getAccountSettingsPane());
-        accountPanelController.setStage(accountPanelStage);
-        subPane.setVisible(false);
-        accountPanelStage.show();
+    public void accountSettingsAction() throws IOException
+    {
+        if(accountPanelStage.isShowing()){
+            if(!isSettingsShowed){
+                accountPanel.setCenter(accountPanelController.getAccountSettingsPane());
+                subPane.setVisible(false);
+                isSettingsShowed = true;
+            }
+            else{
+                accountPanelStage.close();
+            }
+            accountPanelStage.show();
+        }
+        else{
+            accountPanel.setCenter(accountPanelController.getAccountSettingsPane());
+            accountPanelController.setStage(accountPanelStage);
+            subPane.setVisible(false);
+            accountPanelStage.show();
+            isSettingsShowed = true;
+        }
+
     }
 
     @FXML
     public void accountDetailsAction()
     {
+        accountPanelController.loadFavourites();
+        accountPanelController.loadBookings();
+        if(accountPanelStage.isShowing()){
+            if(isSettingsShowed){
+                accountPanel.setCenter(accountPanelController.getAccountDetailsPane());
+                subPane.setVisible(false);
+                isSettingsShowed = false;
+            }
+            else{
+                accountPanelStage.close();
+            }
+            accountPanelStage.show();
+        }
+        else{
+            VBox accountDetails = accountPanelController.getAccountDetailsPane();
+            accountPanel.setCenter(accountDetails);
 
+            accountPanelController.setStage(accountPanelStage);
+            subPane.setVisible(false);
+            accountPanelStage.show();
+            isSettingsShowed = false;
+        }
     }
 
     public void changeUsername(String username)
     {
         currentAccount.setUsername(username);
         setAccountUsername(username);
+    }
+
+    public BorderPane getAccountPanel() {
+        return accountPanel;
     }
 }

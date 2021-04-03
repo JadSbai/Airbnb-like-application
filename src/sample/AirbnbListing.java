@@ -1,6 +1,8 @@
 package sample;
 
 
+import javafx.scene.layout.Pane;
+
 import java.util.HashMap;
 
 /**
@@ -236,6 +238,7 @@ public class AirbnbListing {
     public void setFavourite(boolean favourite) {
         isFavourite = favourite;
     }
+
 }
 
 
