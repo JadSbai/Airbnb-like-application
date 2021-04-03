@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -34,6 +35,12 @@ public class AccountPanelController{
 
     @FXML
     private VBox accountDetails;
+
+    @FXML
+    private Stage accountInfoStage;
+
+    @FXML
+    private Scene accountInfoScene;
 
     @FXML
     private Button chooseFileButton;
@@ -69,7 +76,6 @@ public class AccountPanelController{
         FXMLLoader accountDetailsLoader = new FXMLLoader(getClass().getResource("AccountDetails.fxml"));
         accountDetailsLoader.setController(apc);
         accountDetails = accountDetailsLoader.load();
-
 
         this.accountController = accountController;
 
