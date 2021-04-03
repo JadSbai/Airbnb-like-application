@@ -41,7 +41,6 @@ public class PropertyViewController {
     private LocalDate inDate, outDate;
 
 
-    private boolean isFavourite;
     private boolean isReserved;
 
     @FXML
@@ -52,20 +51,17 @@ public class PropertyViewController {
 
     private Account currentAccount;
 
-    private boolean isAvailable;
-
-
-
-
 
     public void initialize(AirbnbListing listing, Account account){
         favouriteTextLabel.setText("");
+
         this.listing = listing;
-        this.isAvailable = !(listing.getAvailability365()==0);
         this.currentAccount = account;
+
         setHeader();
         setAvailability();
         setReviews();
+
         if(currentAccount == null){
             listing.setFavourite(false);
             setSaveBox(false);
@@ -74,17 +70,6 @@ public class PropertyViewController {
             initializeFavourites();
         }
         this.priceAndNights.setText("£" + listing.getPrice() + " / night");
-
-
-        this.nameAndHost.setText(listing.getName() + " - " + listing.getHost_name());
-        this.propertyType.setText(listing.getRoom_type() + " in " + listing.getNeighbourhood());
-
-        int numberOfReviews = listing.getNumberOfReviews();
-        if (numberOfReviews==1) {
-            this.reviews.setText(numberOfReviews + " review");
-        } else {
-            this.reviews.setText(numberOfReviews + " reviews");
-        }
     }
 
     @FXML
