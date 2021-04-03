@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -161,12 +160,15 @@ public class AccountController
     /**
      * Scene loaded when a user wants to sign in their account
      */
-    private Scene signInScene;
+    private Pane signInPanel;
 
     /**
      * Scene loaded when a user wants to create a new account
      */
-    private Scene createAccountScene;
+    private Pane createAccountPanel;
+
+    @FXML
+    private Scene accountScene;
 
     /**
      * Stage containing either one of the two account scenes ("sign in" ore "create account")
@@ -231,15 +233,17 @@ public class AccountController
         signedInLoader.setController(this);
         signedInBar = signedInLoader.load();
 
+        FXMLLoader createAccountStage = new FXMLLoader(getClass().getResource("AccountStage.fxml"));
+        createAccountStage.setController(this);
+        accountStage = createAccountStage.load();
+
         FXMLLoader signInPanelLoader = new FXMLLoader(getClass().getResource("sign_in_panel.fxml"));
         signInPanelLoader.setController(this);
-        Pane signInPanel = signInPanelLoader.load();
-        signInScene = new Scene(signInPanel);
+        signInPanel = signInPanelLoader.load();
 
         FXMLLoader createAccountPanelLoader = new FXMLLoader(getClass().getResource("create_account_panel.fxml"));
         createAccountPanelLoader.setController(this);
-        Pane createAccountPanel = createAccountPanelLoader.load();
-        createAccountScene = new Scene(createAccountPanel);
+        createAccountPanel = createAccountPanelLoader.load();
 
         FXMLLoader accountPanelLoader = new FXMLLoader(getClass().getResource("AccountPanel.fxml"));
         accountPanel = accountPanelLoader.load();
@@ -248,12 +252,8 @@ public class AccountController
         accountPanelStage = new Stage();
         accountPanelStage.setScene(new Scene(accountPanel));
 
-
-
         formatPopUpMenu();
         setAccountUsername("");
-
-        accountStage = new Stage();
     }
 
     /**
@@ -263,25 +263,18 @@ public class AccountController
     @FXML
     private void signIn(ActionEvent e)
     {
-        if(!isAccountWindowOpen) {
+        if(!accountStage.isShowing()) {
 
-            resetSignInSceneFields();
-            accountStage.setScene(signInScene);
+            resetSignInPanelFields();
+            accountScene.setRoot(signInPanel);
             accountStage.setTitle("Sign in");
-            accountStage.show();
-            isAccountWindowOpen = true;
-            // We use a window listener to avoid having multiple similar windows open at the same time
-            accountStage.setOnCloseRequest(event -> {
-                        isAccountWindowOpen = false;
-                    }
-            );
         }
         else{
             // Throws an alert to signal that a window is already open
             warningAlert("An account window is already open", "window already open");
             accountStage.close();
-            accountStage.show();
         }
+        accountStage.show();
     }
 
     /**
@@ -291,24 +284,17 @@ public class AccountController
     @FXML
     private void createAccount(ActionEvent e)
     {
-        if(!isAccountWindowOpen){
+        if(!accountStage.isShowing()){
 
             resetCreateAccountFields();
-            accountStage.setScene(createAccountScene);
+            accountScene.setRoot(createAccountPanel);
             accountStage.setTitle("Create a new account");
-            accountStage.show();
-            isAccountWindowOpen = true;
-            accountStage.setOnCloseRequest(event -> {
-                        isAccountWindowOpen = false;
-                    }
-            );
         }
         else{
             warningAlert("An account window is already open", "window already open");
             accountStage.close();
-            accountStage.show();
-
         }
+        accountStage.show();
     }
 
     /**
@@ -319,7 +305,6 @@ public class AccountController
     private void createAccountLink(ActionEvent e)
     {
         accountStage.close();
-        isAccountWindowOpen = false;
         createAccount(e);
     }
 
@@ -719,7 +704,7 @@ public class AccountController
     /**
      * This method resets all the text fields of the "sign in" window
      */
-    private void resetSignInSceneFields()
+    private void resetSignInPanelFields()
     {
         signInEmail.setText("");
         signInPassword.setText("");
