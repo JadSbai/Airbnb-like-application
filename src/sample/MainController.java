@@ -36,7 +36,7 @@ public class MainController {
 
     private Pane welcomeRoot;
     private ScrollPane mapRoot;
-    //private Pane statisticsRoot;
+    private Pane statisticsRoot;
     private AccountController accountController;
     private MapController mapController;
 
@@ -53,8 +53,8 @@ public class MainController {
         mapRoot = loader.load();
         mapController = loader.getController();
         mapController.initialize(welcomeController);
-        //loader = new FXMLLoader(getClass().getResource("statistics.fxml"));
-        //statisticsRoot = loader.load();
+        loader = new FXMLLoader(getClass().getResource("statistics.fxml"));
+        statisticsRoot = loader.load();
         welcomeController.initialize(leftButton, rightButton, currentPriceRangeLabel, this);
 
         FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("accountPopUpMenu.fxml"));
@@ -82,14 +82,14 @@ public class MainController {
         else if(mainPane.getCenter() == mapRoot){
             mainPane.setCenter(welcomeRoot);
         }
-        //else{
-        // mapController.setColor();
-          //  mainPane.setCenter(statisticsRoot);
-       // if(accountController.getWelcomeController().isNewSearch()){
-          //  mapController.setColor();
-          // accountController.getMapController().closeAllMapStages();
-        //}
-        //}
+        else{
+        mapController.setColor();
+        mainPane.setCenter(statisticsRoot);
+        if(accountController.getWelcomeController().isNewSearch()){
+            mapController.setColor();
+           accountController.getMapController().closeAllMapStages();
+        }
+        }
 
     }
 
@@ -106,11 +106,11 @@ public class MainController {
         else if(mainPane.getCenter() == mapRoot){
             mainPane.setCenter(welcomeRoot);
         }
-        //else{
-        //
-         //   mainPane.setCenter(statisticsRoot);
+        else{
 
-        //}
+            mainPane.setCenter(statisticsRoot);
+
+        }
     }
 
     public BorderPane getAccountBar()
