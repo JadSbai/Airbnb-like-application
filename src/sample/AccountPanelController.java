@@ -157,6 +157,21 @@ public class AccountPanelController{
         listOfFavourites.setItems(currentAccount.getListViewOfFavourites().getItems());
     }
 
+    @FXML
+    private void accountSettingsAction()
+    {
+        BorderPane accountPanel = accountController.getAccountPanel();
+        accountPanel.setCenter(accountSettings);
+    }
+
+    @FXML
+    private void accountDetailsAction()
+    {
+        loadFavourites();
+        BorderPane accountPanel = accountController.getAccountPanel();
+        accountPanel.setCenter(accountDetails);
+    }
+
 
 
     public void setStage(Stage stage)

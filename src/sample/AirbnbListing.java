@@ -49,6 +49,11 @@ public class AirbnbListing {
     private final int price;
 
     /**
+     * The minimum price for the booking, calculated based on the minimum number of nights and the price per night's stay
+     */
+    private int minimumPrice;
+
+    /**
      * The minimum number of nights the listed property must be booked for.
      */
     private final int minimumNights;
@@ -201,6 +206,11 @@ public class AirbnbListing {
 
     public int getAvailability365() {
         return availability365;
+    }
+
+    public int getMinimumPrice() {
+        minimumPrice = price * minimumNights;
+        return minimumPrice;
     }
 
     @Override

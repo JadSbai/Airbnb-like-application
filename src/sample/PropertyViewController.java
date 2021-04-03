@@ -41,8 +41,6 @@ public class PropertyViewController {
 
     private LocalDate inDate, outDate;
 
-
-    private boolean isFavourite;
     private boolean isReserved;
 
     @FXML
@@ -89,8 +87,13 @@ public class PropertyViewController {
     }
 
     @FXML
-    public void reserveProperty(){
-        isReserved = !isReserved;
+    public void reserveProperty()
+    {
+        // Create a borderpane containing the propertyPreviewPane and the getDetails button
+        // Then implement the getDetails button so that it opens a window with:
+        // booking dates, price details,...
+        // Add the borderPane to the listView of bookings of the account
+        // Update the listview of the accountPanel with the one from the account class
     }
 
     /**
