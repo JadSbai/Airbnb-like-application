@@ -140,9 +140,6 @@ public class Account {
     public void addToFavouriteProperties(AirbnbListing listing)
     {
         Pane propertyPreviewPane = listing.getPropertyPreviewPane();
-        if(propertyPreviewPane == null){
-            System.out.println("NULL");
-        }
         listOfFavouriteProperties.add(listing);
         addToListViewOfFavourites(propertyPreviewPane);
     }

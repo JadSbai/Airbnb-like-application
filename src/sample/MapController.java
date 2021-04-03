@@ -30,9 +30,9 @@ public class MapController {
 
     private ArrayList<Button> hexagons;
 
-    public void initialize(WelcomeController welcomeController){
+    public void initialize(WelcomeController welcomeController, AirbnbDataLoader dataLoader){
         this.welcomeController = welcomeController;
-        this.dataLoader = new AirbnbDataLoader();
+        this.dataLoader = dataLoader;
         this.hexagons = new ArrayList<>(Arrays.asList(ENFI, BARN, HRGY, WALT, HRRW, BREN, CAMD, ISLI, HACK, REDB, HAVE, HILL, EALI, KENS, WSTM, TOWH, NEWH, BARK, HOUN, HAMM, WAND, CITY, GWCH, BEXL, RICH, MERT, LAMB, STHW, LEWS, KING, SUTT, CROY, BROM));
         listOfPropertyListStages = new ArrayList<>();
         listOfPropertyListControllers = new ArrayList<>();
@@ -104,7 +104,9 @@ public class MapController {
 
     public void loadCurrentAccount(Account currentAccount) throws IOException {
         setCurrentAccount(currentAccount);
-        listOfProperties.reload(boroughListings, currentAccount);
+        if(listOfProperties != null){
+            listOfProperties.reload(boroughListings, currentAccount);
+        }
     }
 
     public void setCurrentAccount(Account currentAccount)
@@ -194,5 +196,9 @@ public class MapController {
         propertyListStage.setTitle("AirBnB's in " + boroughAbbreviation);
 
         return propertyListStage;
+    }
+
+    public AirbnbDataLoader getDataLoader() {
+        return dataLoader;
     }
 }
