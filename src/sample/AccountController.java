@@ -394,6 +394,7 @@ public class AccountController
     private void signOutAction(ActionEvent e) throws IOException
     {
         saveAllSettingsAndData();
+        closeAllAccountWindows();
 
         currentAccount = null;
         setAccountUsername("");
@@ -408,6 +409,7 @@ public class AccountController
             closeAllPropertyWindows();
             setDefaultSettingsAndData();
         }
+
     }
 
     /**
@@ -856,6 +858,17 @@ public class AccountController
             accountPanelStage.show();
             isSettingsShowed = false;
         }
+    }
+
+    private void closeAllAccountWindows()
+    {
+        for(PropertyPreviewController propertyPreviewController : currentAccount.getListOfPropertyPreviewControllers()){
+            if(propertyPreviewController.getPropertyStage().isShowing()){
+                propertyPreviewController.getPropertyStage().close();
+            }
+        }
+        accountPanelStage.close();
+
     }
 
     public void changeUsername(String username)
