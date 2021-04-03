@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
@@ -37,6 +38,7 @@ public class MainController {
     private Pane welcomeRoot;
     private ScrollPane mapRoot;
     private Pane statisticsRoot;
+
     private AccountController accountController;
     private MapController mapController;
 
@@ -61,8 +63,6 @@ public class MainController {
         statisticsRoot = loader.load();
         StatisticsController statisticsController = loader.getController();
         statisticsController.initialize(dataLoader);
-
-
 
         FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("accountPopUpMenu.fxml"));
         VBox popUpRoot = popUpLoader.load();

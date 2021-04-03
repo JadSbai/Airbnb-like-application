@@ -164,13 +164,6 @@ public class WelcomeController {
         return welcomeBorderPane;
     }
 
-    public int getMaxPrice() {
-        return maxPrice;
-    }
-    public int getMinPrice() {
-        return minPrice;
-    }
-
     public boolean isSearched() {
         return isSearched;
     }
@@ -186,6 +179,22 @@ public class WelcomeController {
 
     public void setNewSearch(boolean newSearch) {
         isNewSearch = newSearch;
+    }
+
+    public ComboBox<Integer> getMinimumPrice() {
+        return minimumPrice;
+    }
+
+    public ComboBox<Integer> getMaximumPrice() {
+        return maximumPrice;
+    }
+
+    public int getMinPrice() {
+        return minPrice;
+    }
+
+    public int getMaxPrice() {
+        return maxPrice;
     }
 }
 
