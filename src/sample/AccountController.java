@@ -834,8 +834,7 @@ public class AccountController
     }
 
     @FXML
-    public void accountDetailsAction()
-    {
+    public void accountDetailsAction() throws IOException {
         accountPanelController.loadFavourites();
         accountPanelController.loadBookings();
         if(accountPanelStage.isShowing()){

@@ -3,6 +3,7 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -65,6 +66,13 @@ public class AccountPanelController{
     private Stage stage;
 
     private AccountController accountController;
+
+    @FXML
+    private Label emptyListLabel;
+    @FXML
+    private Label emptyListLabel2;
+
+
 
 
     public void initialize(AccountPanelController apc, AccountController accountController) throws IOException
@@ -162,14 +170,22 @@ public class AccountPanelController{
         bufferImage = null;
     }
 
-    public void loadFavourites()
+    public void loadFavourites() throws IOException
     {
+        emptyListLabel.setText("");
         listOfFavourites.setItems(currentAccount.getListViewOfFavourites().getItems());
+        if(listOfFavourites.getItems().isEmpty()){
+            emptyListLabel.setText("You currently have no favourites. Click on the \"Save\" button to add a favourite.");
+        }
     }
 
     public void loadBookings()
     {
+        emptyListLabel2.setText("");
         listOfBookings.setItems(currentAccount.getListViewOfBookings().getItems());
+        if(listOfBookings.getItems().isEmpty()){
+            emptyListLabel2.setText("You currently have no bookings. Click on the \"Reserve\" button to add a booking.");
+        }
     }
 
     @FXML
@@ -177,15 +193,12 @@ public class AccountPanelController{
     {
         BorderPane accountPanel = accountController.getAccountPanel();
         accountPanel.setCenter(accountSettings);
-        stage.sizeToScene();
     }
 
     @FXML
-    private void accountDetailsAction()
-    {
+    private void accountDetailsAction() throws IOException {
         loadFavourites();
         loadBookings();
-        stage.sizeToScene();
         BorderPane accountPanel = accountController.getAccountPanel();
         accountPanel.setCenter(accountDetails);
     }
