@@ -62,7 +62,7 @@ public class MainController {
         loader = new FXMLLoader(getClass().getResource("statistics.fxml"));
         statisticsRoot = loader.load();
         StatisticsController statisticsController = loader.getController();
-        statisticsController.initialize(dataLoader);
+        statisticsController.initialize();
 
         FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("accountPopUpMenu.fxml"));
         VBox popUpRoot = popUpLoader.load();
