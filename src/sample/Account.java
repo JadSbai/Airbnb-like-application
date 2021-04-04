@@ -165,7 +165,7 @@ public class Account {
         FXMLLoader preview  = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
         Pane propertyPreviewPane = preview.load();
         PropertyPreviewController propertyPreviewController = preview.getController();
-        propertyPreviewController.initialize(listing, this);
+        propertyPreviewController.initialize(listing);
         listOfPropertyPreviewControllers.add(propertyPreviewController);
         paneToPropertyPreviewControllerMap.put(propertyPreviewPane, propertyPreviewController);
         favouritePropertyToPropertyPreviewPaneMap.put(listing, propertyPreviewPane);
@@ -234,7 +234,7 @@ public class Account {
         Pane propertyPreviewPane = preview.load();
         PropertyPreviewController propertyPreviewController = preview.getController();
         listOfPropertyPreviewControllers.add(propertyPreviewController);
-        propertyPreviewController.initialize(listing, this);
+        propertyPreviewController.initialize(listing);
         booking.setCenter(propertyPreviewPane);
         paneToPropertyPreviewControllerMap.put(booking,propertyPreviewController);
         propertyToBookingMap.put(listing, booking);
