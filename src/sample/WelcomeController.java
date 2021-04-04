@@ -7,28 +7,21 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class WelcomeController {
 
     @FXML
-    private ComboBox<Integer> minimumPrice;
-    @FXML
-    private ComboBox<Integer> maximumPrice;
+    private ComboBox<Integer> minimumPrice, maximumPrice;
 
     @FXML
     private Button searchButton;
 
-    private int minPrice;
-    private int maxPrice;
+    private int minPrice, maxPrice;
 
-    private Button rightArrow;
-    private Button leftArrow;
+    private Button leftArrow, rightArrow;
+
     private Label priceLabel;
-
-    @FXML
-    private BorderPane welcomeBorderPane;
 
     @FXML
     private VBox welcomeVBox;
@@ -36,8 +29,9 @@ public class WelcomeController {
     @FXML
     private StackPane stackPane;
 
-    private static final int MAX_VALUE = 500;
     private static final int MIN_VALUE = 0;
+    private static final int MAX_VALUE = 500;
+
     private boolean isSearched;
     private boolean isNewSearch;
 
@@ -52,26 +46,23 @@ public class WelcomeController {
 
         this.mainController = mainController;
 
-        leftArrow.setDisable(true);
-        rightArrow.setDisable(true);
-
         isSearched = false;
 
-        minimumPrice.setItems(FXCollections.observableArrayList(getPriceRange(MIN_VALUE, MAX_VALUE)));
-        maximumPrice.setItems(FXCollections.observableArrayList(getPriceRange(MIN_VALUE, MAX_VALUE)));
-
+        ArrayList<Integer> priceRange = getPriceRange();
+        minimumPrice.setItems(FXCollections.observableArrayList(priceRange));
+        maximumPrice.setItems(FXCollections.observableArrayList(priceRange));
     }
 
-    private ArrayList<Integer> getPriceRange(int min, int max) {
+    private static ArrayList<Integer> getPriceRange() {
         ArrayList<Integer> priceRange = new ArrayList<>();
-        for (int i = min; i <= max; i = (int) (i + ((max - min)) * 0.1)) {
+        for (int i = MIN_VALUE; i <= MAX_VALUE; i = (int) (i + ((MAX_VALUE - MIN_VALUE)) * 0.1)) {
             priceRange.add(i);
         }
         return priceRange;
     }
 
     @FXML
-    private void searchAction(ActionEvent e) throws IOException {
+    private void searchAction(ActionEvent e) {
 
         boolean valid = (getIntFromBox(minimumPrice) && getIntFromBox(maximumPrice));
         boolean isNewPrice = false;
@@ -159,11 +150,6 @@ public class WelcomeController {
         stackPane.getChildren().add(welcomeVBox);
     }
 
-    public BorderPane getBorderPane()
-    {
-        return welcomeBorderPane;
-    }
-
     public boolean isSearched() {
         return isSearched;
     }
@@ -179,14 +165,6 @@ public class WelcomeController {
 
     public void setNewSearch(boolean newSearch) {
         isNewSearch = newSearch;
-    }
-
-    public ComboBox<Integer> getMinimumPrice() {
-        return minimumPrice;
-    }
-
-    public ComboBox<Integer> getMaximumPrice() {
-        return maximumPrice;
     }
 
     public int getMinPrice() {

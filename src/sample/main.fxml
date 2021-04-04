@@ -39,7 +39,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane alignment="TOP_RIGHT" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainController">
+<StackPane alignment="TOP_RIGHT" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainController">
    <children>
       <BorderPane fx:id="mainPane">
          <bottom>
@@ -47,14 +47,14 @@
                <children>
                   <BorderPane style="-fx-padding: 5;">
                      <left>
-                        <Button fx:id="leftButton" mnemonicParsing="false" onAction="#leftButtonAction" text="&lt;" BorderPane.alignment="CENTER">
+                        <Button fx:id="leftButton" disable="true" mnemonicParsing="false" onAction="#leftButtonAction" text="&lt;" BorderPane.alignment="CENTER">
                            <font>
                               <Font size="11.0" />
                            </font>
                         </Button>
                      </left>
                      <right>
-                        <Button fx:id="rightButton" mnemonicParsing="false" onAction="#rightButtonAction" text="&gt;" BorderPane.alignment="CENTER">
+                        <Button fx:id="rightButton" disable="true" mnemonicParsing="false" onAction="#rightButtonAction" text="&gt;" BorderPane.alignment="CENTER">
                            <font>
                               <Font size="11.0" />
                            </font>

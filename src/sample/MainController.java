@@ -4,9 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -27,17 +25,13 @@ public class MainController {
     @FXML
     private BorderPane mainPane;
     @FXML
-    private Button leftButton;
-    @FXML
-    private Button rightButton;
+    private Button leftButton, rightButton;
     @FXML
     private Label currentPriceRangeLabel;
     @FXML
     private BorderPane accountBar;
 
-    private Pane welcomeRoot;
-    private ScrollPane mapRoot;
-    private Pane statisticsRoot;
+    private Pane welcomeRoot, mapRoot, statisticsRoot;
 
     private AccountController accountController;
     private MapController mapController;
@@ -50,11 +44,10 @@ public class MainController {
         welcomeRoot = loader.load();
         WelcomeController welcomeController = loader.getController();
         welcomeController.initialize(leftButton, rightButton, currentPriceRangeLabel, this);
-        mainPane.setCenter(welcomeRoot);
 
         AirbnbDataLoader dataLoader = new AirbnbDataLoader();
 
-        loader = new FXMLLoader(getClass().getResource("map.fxml"));
+        loader = new FXMLLoader(getClass().getResource("Map.fxml"));
         mapRoot = loader.load();
         mapController = loader.getController();
         mapController.initialize(welcomeController, dataLoader);
@@ -64,9 +57,9 @@ public class MainController {
         StatisticsController statisticsController = loader.getController();
         statisticsController.initialize(dataLoader);
 
-        FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("accountPopUpMenu.fxml"));
-        VBox popUpRoot = popUpLoader.load();
-        accountController = popUpLoader.getController();
+        loader = new FXMLLoader(getClass().getResource("accountPopUpMenu.fxml"));
+        VBox popUpRoot = loader.load();
+        accountController = loader.getController();
         mainRoot.getChildren().add(popUpRoot);
 
         loader = new FXMLLoader(getClass().getResource("signed_out.fxml"));
@@ -74,10 +67,12 @@ public class MainController {
         Pane signedOutBar = loader.load();
         accountController.initialize(this, signedOutBar, mapController);
         accountBar.setRight(accountController.getSignedOutBar());
+
+        mainPane.setCenter(welcomeRoot);
     }
 
     @FXML
-    private void leftButtonAction(ActionEvent e) throws IOException {
+    private void leftButtonAction(ActionEvent e) {
         if(mainPane.getCenter() == welcomeRoot){
             mainPane.setCenter(statisticsRoot);
         }
@@ -92,12 +87,10 @@ public class MainController {
             accountController.getMapController().closeAllMapStages();
             }
         }
-
     }
 
-
     @FXML
-    public void rightButtonAction(ActionEvent e) throws IOException {
+    public void rightButtonAction(ActionEvent e) {
         if(mainPane.getCenter() == welcomeRoot){
             mapController.setColor();
             mainPane.setCenter(mapRoot);
