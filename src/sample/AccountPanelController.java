@@ -173,6 +173,7 @@ public class AccountPanelController{
     }
 
     public Pane getAccountDetailsPane() {
+        System.out.println("Hello");
         return accountDetails;
     }
 
