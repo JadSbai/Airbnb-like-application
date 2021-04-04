@@ -145,7 +145,7 @@ public class Account {
     public void removeFromListOfFavouriteProperties(AirbnbListing listing) {
         // Use of an iterator object to avoid index errors in the list
         Iterator<AirbnbListing> iterator = listOfFavouriteProperties.iterator();
-        AirbnbListing property = null;
+        AirbnbListing property;
         while (iterator.hasNext()) {
             property = iterator.next();
             if (property == listing) {

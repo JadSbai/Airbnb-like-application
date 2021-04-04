@@ -1,4 +1,5 @@
 package sample;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.net.URISyntaxException;
 
 public class AirbnbDataLoader {
 
-    private ArrayList<AirbnbListing> listings;
+    private final ArrayList<AirbnbListing> listings;
 
     public AirbnbDataLoader(){
         this.listings = load();

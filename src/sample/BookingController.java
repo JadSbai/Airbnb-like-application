@@ -5,26 +5,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 public class BookingController
 {
 
     @FXML
-    private Label totalPrice;
-    @FXML
-    private Label subTotalPrice;
-    @FXML
-    private Label serviceFee;
-    @FXML
-    private Label numberOfNights;
-    @FXML
-    private Label inDate, outDate;
+    private Label bookingDescription, subtotal, serviceFee, totalPrice, dateRange, roomType;
 
     @FXML
     private Scene bookingDetailsScene;
@@ -38,20 +30,34 @@ public class BookingController
 
     private AirbnbListing listing;
 
-    public void initialize(AirbnbListing listing, Button reserveButton, Account currentAccount, int subTotalPrice, int serviceFee, int totalPrice, int numberOfNights, LocalDate inDate, LocalDate outDate) throws IOException {
+    public void initialize(AirbnbListing listing, Button reserveButton, Account currentAccount, LocalDate inDate, LocalDate outDate) throws IOException {
+
         FXMLLoader bookingDetailsLoader = new FXMLLoader(getClass().getResource("BookingDetails.fxml"));
         bookingDetailsLoader.setController(this);
         bookingDetailsLoader.load();
-        this.subTotalPrice.setText("Subtotal price: " + subTotalPrice);
-        this.serviceFee.setText("Service fee: " + serviceFee);
-        this.totalPrice.setText("Total price: " + totalPrice);
-        this.numberOfNights.setText("Number of nights: " + numberOfNights);
-        this.inDate.setText("Date of arrival: " + inDate);
-        this.outDate.setText("Date of departure: " + outDate);
+
+        setLabels(listing, inDate, outDate);
+
         this.reserveButton = reserveButton;
         this.currentAccount = currentAccount;
         this.listing = listing;
-        bookingDetailsStage.setTitle("Booking details of " + listing.getHost_name() + "'s property");
+    }
+
+    private void setLabels(AirbnbListing listing, LocalDate inDate, LocalDate outDate) {
+        int numberOfNights = (int) DAYS.between(inDate, outDate);
+        int price = listing.getPrice()*numberOfNights;
+        int otherFees = (int) Math.round(price*0.2);
+        int totalPrice = price+otherFees;
+
+
+        this.bookingDescription.setText("You have a reservation for " + numberOfNights +" nights at " + listing.getHostNameWithApostrophe());
+        this.dateRange.setText(inDate + " - " + outDate);
+        this.roomType.setText("Room type: " + listing.getRoom_type());
+
+        this.subtotal.setText("£" + price);
+        this.serviceFee.setText("£" + otherFees);
+        this.totalPrice.setText("£" + totalPrice);
+
     }
 
     @FXML
