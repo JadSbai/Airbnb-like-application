@@ -13,7 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 
 import java.io.File;
 
@@ -43,7 +42,6 @@ public class PropertyViewController {
 
     private LocalDate inDate, outDate;
 
-    private boolean isReserved;
 
     @FXML
     private Hyperlink locationLink;
@@ -53,28 +51,17 @@ public class PropertyViewController {
 
     private Account currentAccount;
 
-    private boolean isAvailable;
-
-    private int totalPrice;
-
-    private int subTotalPrice;
-    private int serviceFee;
-    private int numberOfNights;
-
-
-
-
 
     public void initialize(AirbnbListing listing, Account account){
         favouriteTextLabel.setText("");
+
         this.listing = listing;
-        this.isAvailable = !(listing.getAvailability365()==0);
         this.currentAccount = account;
-        this.isReserved = false;
-        totalPrice = 0;
+
         setHeader();
         setAvailability();
         setReviews();
+
         if(currentAccount == null){
             listing.setFavourite(false);
             setSaveBox(false);
@@ -83,17 +70,6 @@ public class PropertyViewController {
             initializeFavourites();
         }
         this.priceAndNights.setText("£" + listing.getPrice() + " / night");
-
-
-        this.nameAndHost.setText(listing.getName() + " - " + listing.getHost_name());
-        this.propertyType.setText(listing.getRoom_type() + " in " + listing.getNeighbourhood());
-
-        int numberOfReviews = listing.getNumberOfReviews();
-        if (numberOfReviews==1) {
-            this.reviews.setText(numberOfReviews + " review");
-        } else {
-            this.reviews.setText(numberOfReviews + " reviews");
-        }
     }
 
     @FXML
@@ -197,16 +173,16 @@ public class PropertyViewController {
      * Method called when a correct set of dates has been chosen. Sets price of labels considering the
      */
     private void calculatePrice(){
-        numberOfNights = (int) DAYS.between(inDate, outDate);
+        int numberOfNights = (int) DAYS.between(inDate, outDate);
         int minNumberOfNights = listing.getMinimumNights();
 
         if(numberOfNights < minNumberOfNights){
             invalidOptions("Minimum number of nights for this property is " + minNumberOfNights + " you selected " + numberOfNights, "Insufficient nights");
         } else {
             int price = listing.getPrice();
-            subTotalPrice = price*numberOfNights;
-            serviceFee = (int) Math.round(subTotalPrice*0.2);
-            totalPrice = subTotalPrice+serviceFee;
+            int subTotalPrice = price*numberOfNights;
+            int serviceFee = (int) Math.round(subTotalPrice*0.2);
+            int totalPrice = subTotalPrice+serviceFee;
 
             priceAndNights.setText("£" + price + " x " + numberOfNights + " nights");
             subtotal.setText("£" + subTotalPrice);
@@ -341,7 +317,3 @@ public class PropertyViewController {
         reserveButton.setDisable(true);
     }
 }
-
-
-
-
