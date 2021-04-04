@@ -22,6 +22,7 @@ public class AirbnbListing {
      */
     private final String host_id;
     private final String host_name;
+    private final String hostNameWithApostrophe;
 
     /**
      * The grouped location to where the listed property is situated.
@@ -77,43 +78,18 @@ public class AirbnbListing {
     /**
      * Static HashMap used to establish the abbreviation of the borough used for the map.
      */
-    private static final HashMap<String, String> boroughAbbreviation;
+    private static final HashMap<String, String> boroughAbbreviations;
     static {
-        boroughAbbreviation = new HashMap<>();
-        boroughAbbreviation.put("Enfield", "ENFI");
-        boroughAbbreviation.put("Barnet", "BARN");
-        boroughAbbreviation.put("Haringey", "HRGY");
-        boroughAbbreviation.put("Waltham Forest", "WALT");
-        boroughAbbreviation.put("Harrow", "HRRW");
-        boroughAbbreviation.put("Brent", "BREN");
-        boroughAbbreviation.put("Camden", "CAMD");
-        boroughAbbreviation.put("Islington", "ISLI");
-        boroughAbbreviation.put("Hackney", "HACK");
-        boroughAbbreviation.put("Redbridge", "REDB");
-        boroughAbbreviation.put("Havering", "HAVE");
-        boroughAbbreviation.put("Hillingdon", "HILL");
-        boroughAbbreviation.put("Ealing", "EALI");
-        boroughAbbreviation.put("Kensington and Chelsea", "KENS");
-        boroughAbbreviation.put("Westminster", "WSTM");
-        boroughAbbreviation.put("Tower Hamlets", "TOWH");
-        boroughAbbreviation.put("Newham", "NEWH");
-        boroughAbbreviation.put("Barking and Dagenham", "BARK");
-        boroughAbbreviation.put("Hounslow", "HOUN");
-        boroughAbbreviation.put("Hammersmith and Fulham", "HAMM");
-        boroughAbbreviation.put("Wandsworth", "WAND");
-        boroughAbbreviation.put("City of London", "CITY");
-        boroughAbbreviation.put("Greenwich", "GWCH");
-        boroughAbbreviation.put("Bexley", "BEXL");
-        boroughAbbreviation.put("Richmond upon Thames", "RICH");
-        boroughAbbreviation.put("Merton", "MERT");
-        boroughAbbreviation.put("Lambeth", "LAMB");
-        boroughAbbreviation.put("Southwark", "STHW");
-        boroughAbbreviation.put("Lewisham", "LEWS");
-        boroughAbbreviation.put("Kingston upon Thames", "KING");
-        boroughAbbreviation.put("Sutton", "SUTT");
-        boroughAbbreviation.put("Croydon", "CROY");
-        boroughAbbreviation.put("Bromley", "BROM");
+        boroughAbbreviations = new HashMap<>();
+        setBoroughAbbreviationNames();
     }
+
+    private static final HashMap<String, String> boroughNames;
+    static {
+        boroughNames = new HashMap<>();
+        setBoroughNames();
+    }
+
 
     public AirbnbListing(String id, String name, String host_id,
                          String host_name, String neighbourhood, double latitude,
@@ -124,8 +100,9 @@ public class AirbnbListing {
         this.name = name;
         this.host_id = host_id;
         this.host_name = host_name;
+        this.hostNameWithApostrophe = setHostNameWithApostrophe();
         this.neighbourhood = neighbourhood;
-        this.abbreviatedNeighbourhood = boroughAbbreviation.get(neighbourhood);
+        this.abbreviatedNeighbourhood = boroughAbbreviations.get(neighbourhood);
         this.latitude = latitude;
         this.longitude = longitude;
         this.room_type = room_type;
@@ -139,6 +116,90 @@ public class AirbnbListing {
         this.isFavourite = false;
     }
 
+    private String setHostNameWithApostrophe() {
+        if(host_name.endsWith("s")) {
+            return host_name + "'";
+        } else {
+            return host_name + "'s";
+        }
+    }
+
+    public static String getFullBoroughName(String boroughAbbreviation){
+        return boroughNames.get(boroughAbbreviation);
+    }
+
+    private static void setBoroughAbbreviationNames() {
+        boroughAbbreviations.put("Enfield", "ENFI");
+        boroughAbbreviations.put("Barnet", "BARN");
+        boroughAbbreviations.put("Haringey", "HRGY");
+        boroughAbbreviations.put("Waltham Forest", "WALT");
+        boroughAbbreviations.put("Harrow", "HRRW");
+        boroughAbbreviations.put("Brent", "BREN");
+        boroughAbbreviations.put("Camden", "CAMD");
+        boroughAbbreviations.put("Islington", "ISLI");
+        boroughAbbreviations.put("Hackney", "HACK");
+        boroughAbbreviations.put("Redbridge", "REDB");
+        boroughAbbreviations.put("Havering", "HAVE");
+        boroughAbbreviations.put("Hillingdon", "HILL");
+        boroughAbbreviations.put("Ealing", "EALI");
+        boroughAbbreviations.put("Kensington and Chelsea", "KENS");
+        boroughAbbreviations.put("Westminster", "WSTM");
+        boroughAbbreviations.put("Tower Hamlets", "TOWH");
+        boroughAbbreviations.put("Newham", "NEWH");
+        boroughAbbreviations.put("Barking and Dagenham", "BARK");
+        boroughAbbreviations.put("Hounslow", "HOUN");
+        boroughAbbreviations.put("Hammersmith and Fulham", "HAMM");
+        boroughAbbreviations.put("Wandsworth", "WAND");
+        boroughAbbreviations.put("City of London", "CITY");
+        boroughAbbreviations.put("Greenwich", "GWCH");
+        boroughAbbreviations.put("Bexley", "BEXL");
+        boroughAbbreviations.put("Richmond upon Thames", "RICH");
+        boroughAbbreviations.put("Merton", "MERT");
+        boroughAbbreviations.put("Lambeth", "LAMB");
+        boroughAbbreviations.put("Southwark", "STHW");
+        boroughAbbreviations.put("Lewisham", "LEWS");
+        boroughAbbreviations.put("Kingston upon Thames", "KING");
+        boroughAbbreviations.put("Sutton", "SUTT");
+        boroughAbbreviations.put("Croydon", "CROY");
+        boroughAbbreviations.put("Bromley", "BROM");
+    }
+
+    private static void setBoroughNames() {
+        boroughNames.put("ENFI", "Enfield");
+        boroughNames.put("BARN", "Barnet");
+        boroughNames.put("HRGY", "Haringey");
+        boroughNames.put("WALT", "Waltham Forest");
+        boroughNames.put("HRRW", "Harrow");
+        boroughNames.put("BREN", "Brent");
+        boroughNames.put("CAMD", "Camden");
+        boroughNames.put("ISLI", "Islington");
+        boroughNames.put("HACK", "Hackney");
+        boroughNames.put("REDB", "Redbridge");
+        boroughNames.put("HAVE", "Havering");
+        boroughNames.put("HILL", "Hillingdon");
+        boroughNames.put("EALI", "Ealing");
+        boroughNames.put("KENS", "Kensington and Chelsea");
+        boroughNames.put("WSTM", "Westminster");
+        boroughNames.put("TOWH", "Tower Hamlets");
+        boroughNames.put("NEWH", "Newham");
+        boroughNames.put("BARK", "Barking and Dagenham");
+        boroughNames.put("HOUN", "Hounslow");
+        boroughNames.put("HAMM", "Hammersmith and Fulham");
+        boroughNames.put("WAND", "Wandsworth");
+        boroughNames.put("CITY", "City of London");
+        boroughNames.put("GWCH", "Greenwich");
+        boroughNames.put("BEXL", "Bexley");
+        boroughNames.put("RICH", "Richmond upon Thames");
+        boroughNames.put("MERT", "Merton");
+        boroughNames.put("LAMB", "Lambeth");
+        boroughNames.put("STHW", "Southwark");
+        boroughNames.put("LEWS", "Lewisham");
+        boroughNames.put("KING", "Kingston upon Thames");
+        boroughNames.put("SUTT", "Sutton");
+        boroughNames.put("CROY", "Croydon");
+        boroughNames.put("BROM", "Bromley");
+    }
+
     public String getId() {
         return id;
     }
@@ -147,9 +208,14 @@ public class AirbnbListing {
         return name;
     }
 
+    public String getHostNameWithApostrophe() {
+        return hostNameWithApostrophe;
+    }
+
     public String getHost_id() {
         return host_id;
     }
+
 
     public String getHost_name() {
         return host_name;
@@ -204,8 +270,7 @@ public class AirbnbListing {
     }
 
     public int getMinimumPrice() {
-        minimumPrice = price * minimumNights;
-        return minimumPrice;
+        return price * minimumNights;
     }
 
     @Override
@@ -236,6 +301,7 @@ public class AirbnbListing {
     public void setFavourite(boolean favourite) {
         isFavourite = favourite;
     }
+
 }
 
 

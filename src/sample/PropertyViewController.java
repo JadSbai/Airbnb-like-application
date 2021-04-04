@@ -2,6 +2,7 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import java.io.IOException;
 import java.net.URI;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
 import java.io.File;
@@ -41,9 +43,6 @@ public class PropertyViewController {
     private LocalDate inDate, outDate;
 
 
-    private boolean isFavourite;
-    private boolean isReserved;
-
     @FXML
     private Hyperlink locationLink;
     @FXML
@@ -52,20 +51,17 @@ public class PropertyViewController {
 
     private Account currentAccount;
 
-    private boolean isAvailable;
-
-
-
-
 
     public void initialize(AirbnbListing listing, Account account){
         favouriteTextLabel.setText("");
+
         this.listing = listing;
-        this.isAvailable = !(listing.getAvailability365()==0);
         this.currentAccount = account;
+
         setHeader();
         setAvailability();
         setReviews();
+
         if(currentAccount == null){
             listing.setFavourite(false);
             setSaveBox(false);
@@ -74,22 +70,12 @@ public class PropertyViewController {
             initializeFavourites();
         }
         this.priceAndNights.setText("£" + listing.getPrice() + " / night");
-
-
-        this.nameAndHost.setText(listing.getName() + " - " + listing.getHost_name());
-        this.propertyType.setText(listing.getRoom_type() + " in " + listing.getNeighbourhood());
-
-        int numberOfReviews = listing.getNumberOfReviews();
-        if (numberOfReviews==1) {
-            this.reviews.setText(numberOfReviews + " review");
-        } else {
-            this.reviews.setText(numberOfReviews + " reviews");
-        }
     }
 
     @FXML
-    public void reserveProperty(){
-        isReserved = !isReserved;
+    public void reserveProperty() throws IOException
+    {
+        addToBookings();
     }
 
     /**
@@ -146,8 +132,7 @@ public class PropertyViewController {
     }
 
     @FXML
-    public void saveFavourites()
-    {
+    public void saveFavourites() throws IOException {
         if(currentAccount == null){
             setSaveBox(false);
             warningAlert("If you want to save this property into your favourites, you must first sign in to your account. If you don't have an account, create one", "Not signed in");
@@ -156,10 +141,10 @@ public class PropertyViewController {
             listing.setFavourite(!listing.isFavourite());
 
             if (listing.isFavourite()) {
-                addToFavourites(listing);
+                addToFavourites();
             }
             else {
-                removeFromFavourites(listing);
+                removeFromFavourites();
             }
         }
     }
@@ -179,23 +164,9 @@ public class PropertyViewController {
     }
 
 
-    private void setSaveBox(boolean isFavourite)
+    public void setSaveBox(boolean isFavourite)
     {
         saveBox.setSelected(isFavourite);
-    }
-
-    private void addToFavourites(AirbnbListing listing)
-    {
-        currentAccount.addToListOfFavouriteProperties(listing);
-        favouriteTextLabel.setText("This property has been added to your favourites");
-        setSaveBox(true);
-    }
-
-    private void removeFromFavourites(AirbnbListing listing)
-    {
-        currentAccount.removeFromListOfFavouriteProperties(listing);
-        favouriteTextLabel.setText("This property has been removed from your favourites");
-        setSaveBox(false);
     }
 
     /**
@@ -232,20 +203,6 @@ public class PropertyViewController {
         alert.showAndWait();
     }
 
-    /**
-     * This method creates and displays an alert of type WARNING
-     * @param warning The warning to be displayed
-     * @param warningTitle The title of the warning
-     */
-    private void warningAlert(String warning, String warningTitle)
-    {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(warningTitle);
-        alert.setHeaderText(null);
-        alert.setContentText(warning);
-        alert.showAndWait();
-
-    }
 
     public CheckBox getSaveBox() {
         return saveBox;
@@ -317,8 +274,46 @@ public class PropertyViewController {
             initializeFavourites();
         }
     }
+
+    public void setFavouriteTextLabel(String text) {
+        favouriteTextLabel.setText(text);
+    }
+
+    /**
+     * This method creates and displays an alert of type WARNING
+     * @param warning The warning to be displayed
+     * @param warningTitle The title of the warning
+     */
+    private void warningAlert(String warning, String warningTitle)
+    {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(warningTitle);
+        alert.setHeaderText(null);
+        alert.setContentText(warning);
+        alert.showAndWait();
+
+    }
+
+    private void addToFavourites() throws IOException {
+        currentAccount.addToFavouriteProperties(listing);
+        setFavouriteTextLabel("This property has been added to your favourites");
+        setSaveBox(true);
+    }
+
+    private void removeFromFavourites()
+    {
+        currentAccount.removeFromFavourites(listing);
+        setFavouriteTextLabel("This property has been removed from your favourites");
+        setSaveBox(false);
+    }
+
+    private void addToBookings() throws IOException
+    {
+        FXMLLoader bookingLoader = new FXMLLoader(getClass().getResource("Booking.fxml"));
+        BorderPane booking = bookingLoader.load();
+        BookingController bookingController = bookingLoader.getController();
+        bookingController.initialize(listing, reserveButton, currentAccount, inDate, outDate);
+        currentAccount.addToBookings(listing, booking);
+        reserveButton.setDisable(true);
+    }
 }
-
-
-
-

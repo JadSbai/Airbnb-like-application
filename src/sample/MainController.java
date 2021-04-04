@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
@@ -37,24 +38,31 @@ public class MainController {
     private Pane welcomeRoot;
     private ScrollPane mapRoot;
     private Pane statisticsRoot;
+
     private AccountController accountController;
     private MapController mapController;
 
 
-    public void initialize(Pane mainRoot) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome.fxml"));
 
+    public void initialize(Pane mainRoot) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome.fxml"));
         welcomeRoot = loader.load();
         WelcomeController welcomeController = loader.getController();
+        welcomeController.initialize(leftButton, rightButton, currentPriceRangeLabel, this);
         mainPane.setCenter(welcomeRoot);
-        loader = new FXMLLoader(getClass().getResource("map.fxml"));
 
+        AirbnbDataLoader dataLoader = new AirbnbDataLoader();
+
+        loader = new FXMLLoader(getClass().getResource("map.fxml"));
         mapRoot = loader.load();
         mapController = loader.getController();
-        mapController.initialize(welcomeController);
+        mapController.initialize(welcomeController, dataLoader);
+
         loader = new FXMLLoader(getClass().getResource("statistics.fxml"));
         statisticsRoot = loader.load();
-        welcomeController.initialize(leftButton, rightButton, currentPriceRangeLabel, this);
+        StatisticsController statisticsController = loader.getController();
+        statisticsController.initialize(dataLoader);
 
         FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("accountPopUpMenu.fxml"));
         VBox popUpRoot = popUpLoader.load();
@@ -64,7 +72,6 @@ public class MainController {
         loader = new FXMLLoader(getClass().getResource("signed_out.fxml"));
         loader.setController(accountController);
         Pane signedOutBar = loader.load();
-
         accountController.initialize(this, signedOutBar, mapController);
         accountBar.setRight(accountController.getSignedOutBar());
     }
@@ -72,18 +79,18 @@ public class MainController {
     @FXML
     private void leftButtonAction(ActionEvent e) throws IOException {
         if(mainPane.getCenter() == welcomeRoot){
-            mainPane.setCenter(mapRoot);
+            mainPane.setCenter(statisticsRoot);
         }
         else if(mainPane.getCenter() == mapRoot){
             mainPane.setCenter(welcomeRoot);
         }
         else{
         mapController.setColor();
-        mainPane.setCenter(statisticsRoot);
+        mainPane.setCenter(mapRoot);
         if(accountController.getWelcomeController().isNewSearch()){
             mapController.setColor();
-           accountController.getMapController().closeAllMapStages();
-        }
+            accountController.getMapController().closeAllMapStages();
+            }
         }
 
     }
@@ -92,6 +99,7 @@ public class MainController {
     @FXML
     public void rightButtonAction(ActionEvent e) throws IOException {
         if(mainPane.getCenter() == welcomeRoot){
+            mapController.setColor();
             mainPane.setCenter(mapRoot);
             if(accountController.getWelcomeController().isNewSearch()){
                 mapController.setColor();
@@ -99,15 +107,12 @@ public class MainController {
             }
         }
         else if(mainPane.getCenter() == mapRoot){
-            mainPane.setCenter(welcomeRoot);
+            mainPane.setCenter(statisticsRoot);
         }
         else{
-
-            mainPane.setCenter(statisticsRoot);
-
+            mainPane.setCenter(welcomeRoot);
         }
     }
-
 
     public BorderPane getAccountBar()
     {

@@ -4,10 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.util.*;
@@ -41,16 +43,18 @@ public class PropertyListController {
 
         for (AirbnbListing listing : boroughListings) {
             FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
-            Pane propertyPane = preview.load();
+            Pane propertyPreviewPane = preview.load();
             PropertyPreviewController propertyPreviewController = preview.getController();
             this.propertyPreviewController = propertyPreviewController;
             listOfPropertyPreviewControllers.add(propertyPreviewController);
             propertyPreviewController.initialize(listing, currentAccount);
-            listView.getItems().add(propertyPane);
-            addToSortedLists(listing, propertyPane);
+            listView.getItems().add(propertyPreviewPane);
+            addToSortedLists(listing, propertyPreviewPane);
         }
+
         sortLists();
 
+        if (boroughListings.isEmpty()){ emptyListSettings(); }
     }
 
     public void reload(ArrayList<AirbnbListing> boroughListings, Account currentAccount) throws IOException {
@@ -98,6 +102,26 @@ public class PropertyListController {
         Collections.reverse(numberOfReviewsOrder);
         invertedPriceOrder = new ArrayList<>(priceOrder);
         Collections.reverse(invertedPriceOrder);
+    }
+    /**
+     * Creates a pane with labels to display a message indicating that the list of properties is empty because of the
+     * filters selected by the user. Disables the "sort by" choice box.
+     */
+    private void emptyListSettings() {
+        Pane emptyListMessage = new VBox();
+        Label noResults = new Label("No results :(");
+        Label noResultsMessage = new Label("Try reducing your filters to get more results.");
+
+        noResults.setStyle("-fx-font: bold 16pt \"Trebuchet MS\";");
+        noResults.setPadding(new Insets(10, 0, 5, 10));
+
+        noResultsMessage.setPadding(new Insets(0, 0, 10, 10));
+
+
+        emptyListMessage.getChildren().addAll(noResults, noResultsMessage);
+        listView.getItems().add(emptyListMessage);
+
+        sortByChoiceBox.setDisable(true);
     }
 
     /**

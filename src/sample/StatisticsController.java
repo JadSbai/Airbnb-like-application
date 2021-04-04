@@ -75,31 +75,11 @@ public class StatisticsController {
     //Controller priceRange;
     // when the price range changes ->> should make sure the statistics labels update to display the correct computtions
 
-    public StatisticsController() {
-
-        //statistics = new ArrayList<>(); // initialize in initialize or constructor?
-
-        loader = new AirbnbDataLoader();
-        properties = loader.load();
-
-        index = 0;
-
-        //just testing
-        //System.out.println(getAverageNumberOfReviews());
-        //System.out.println(getNumberOfAvailableProperties());
-        //System.out.println(getNumberOfEntireHomeOrApartments());
-        //System.out.println(getMostExpensiveBorough());
-
-        //System.out.println(priceRange.getMinPrice());
-        //System.out.println(priceRange.getMaxPrice());
-
-        System.out.println(getMostReviewedProperty());
-        System.out.println(getHostWithMostProperties());
-    }
-
-    public void initialize(){ //inainte de constructor
+    public void initialize(AirbnbDataLoader dataLoader){ //inainte de constructor
         statistics = new HashMap<>();
-
+        loader = dataLoader;
+        properties = dataLoader.getListings();
+        index = 0;
         setTextToInitialLabels();
         addToStatisticsArray();
     }

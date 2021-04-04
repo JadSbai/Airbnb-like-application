@@ -21,7 +21,7 @@ public class PropertyPreviewController {
     @FXML
     private Label minimumNights;
 
-    private Account account;
+    private Account currentAccount;
 
     private PropertyViewController viewController;
 
@@ -35,7 +35,7 @@ public class PropertyPreviewController {
         this.price.setText("£" + listing.getPrice() +" / night");
         this.reviews.setText("" + listing.getNumberOfReviews());
         this.minimumNights.setText("Min. nights: " + listing.getMinimumNights());
-        this.account = account;
+        this.currentAccount = account;
         isPropertyWindowOpen = false;
     }
 
@@ -48,21 +48,18 @@ public class PropertyPreviewController {
             propertyStage = property.load();
 
 
-            if(listing.getHost_name().endsWith("s")){
-                propertyStage.setTitle(listing.getHost_name() + "' Airbnb");
-            }else{
-                propertyStage.setTitle(listing.getHost_name() + "'s Airbnb");
-            }
+            propertyStage.setTitle(listing.getHostNameWithApostrophe() + " Airbnb");
             propertyStage.show();
 
             isPropertyWindowOpen = true;
             propertyStage.setOnCloseRequest(event -> {
                         isPropertyWindowOpen = false;
+                        viewController.setFavouriteTextLabel("");
                     }
             );
 
             viewController = property.getController();
-            viewController.initialize(listing, account);
+            viewController.initialize(listing, currentAccount);
         }
         else{
              propertyStage.close();
@@ -74,6 +71,7 @@ public class PropertyPreviewController {
         FXMLLoader property = new FXMLLoader(getClass().getResource("AirbnbView.fxml"));
         propertyStage = property.load();
         viewController = property.getController();
+        currentAccount = account;
         viewController.reload(listing, account);
     }
 
@@ -81,7 +79,5 @@ public class PropertyPreviewController {
         return propertyStage;
     }
 
-    public boolean isPropertyWindowOpen() {
-        return isPropertyWindowOpen;
-    }
+
 }

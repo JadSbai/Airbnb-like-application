@@ -9,10 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -209,7 +206,7 @@ public class AccountController
     private AccountPanelController accountPanelController;
     private Stage accountPanelStage;
     private BorderPane accountPanel;
-
+    private boolean isSettingsShowed;
 
     /**
      * The constructor initializes all the non-FXML fields, loads all the account related fxml files, sets their controller and displays the resulting stage.
@@ -227,6 +224,7 @@ public class AccountController
         isAccountWindowOpen = false;
         this.mapController = mapController;
         welcomeController = mapController.getWelcomeController();
+        isSettingsShowed = false;
 
 
         FXMLLoader signedInLoader = new FXMLLoader(getClass().getResource("signed_in.fxml"));
@@ -246,9 +244,11 @@ public class AccountController
         FXMLLoader accountPanelLoader = new FXMLLoader(getClass().getResource("AccountPanel.fxml"));
         accountPanel = accountPanelLoader.load();
         accountPanelController = accountPanelLoader.getController();
-        accountPanelController.initialize(accountPanelController, this, accountPanel);
+        accountPanelController.initialize(accountPanelController, this);
         accountPanelStage = new Stage();
         accountPanelStage.setScene(new Scene(accountPanel));
+
+
 
         formatPopUpMenu();
         setAccountUsername("");
@@ -502,7 +502,7 @@ public class AccountController
      */
     private boolean checkValidityOfCreateAccountFields(String username, String email, String password, String confirmPassword)
     {
-        return (checkUsername(username, emailCreateAccountErrorLabel) && checkEmail(email) && checkPassword(password, confirmPassword, passwordCreateAccountErrorLabel));
+        return (checkUsername(username, emailCreateAccountErrorLabel) && checkEmail(email) && checkPassword(password, confirmPassword));
     }
 
     /**
@@ -644,16 +644,16 @@ public class AccountController
      * @param confirmPassword the confirmation password entered
      * @return true if the password entered is strong and is equal to the confirmation password, false otherwise
      */
-    public boolean checkPassword(String password, String confirmPassword, Label label)
+    private boolean checkPassword(String password, String confirmPassword)
     {
-        label.setText("");
+        passwordCreateAccountErrorLabel.setText("");
 
         if(password.length() == 0){
-            label.setText("Please enter a password");
+            passwordCreateAccountErrorLabel.setText("Please enter a password");
             return false;
         }
         else {
-            return checkPasswordStrength(password, label) && checkPasswordEquality(password, confirmPassword, label);
+            return checkPasswordStrength(password) && checkPasswordEquality(password, confirmPassword);
         }
     }
 
@@ -663,9 +663,9 @@ public class AccountController
      * @param password The password entered
      * @return true if the password entered is deemed strong and false otherwise
      */
-    private boolean checkPasswordStrength(String password, Label label)
+    private boolean checkPasswordStrength(String password)
     {
-        label.setText("");
+        passwordCreateAccountErrorLabel.setText("");
 
         // We do not claim ownership of the following line of code: URL =...
         // It creates a regex corresponding to certain password restrictions (...)
@@ -674,7 +674,7 @@ public class AccountController
         Matcher matcher = pattern.matcher(password);
 
         if(!matcher.matches()){
-            label.setText("This password is too weak.");
+            passwordCreateAccountErrorLabel.setText("This password is too weak.");
             return false;
         }
         return true;
@@ -687,12 +687,12 @@ public class AccountController
      * @param confirmPassword The confirmation password entered
      * @return true if the password and confirmation password match, false otherwise
      */
-    private boolean checkPasswordEquality(String password, String confirmPassword, Label label)
+    private boolean checkPasswordEquality(String password, String confirmPassword)
     {
-        label.setText("");
+        confirmPasswordCreateAccountErrorLabel.setText("");
 
         if(!password.equals(confirmPassword)){
-            label.setText("Passwords do not match");
+            confirmPasswordCreateAccountErrorLabel.setText("Passwords do not match");
             return false;
         }
         return true;
@@ -823,18 +823,54 @@ public class AccountController
     }
 
     @FXML
-    public void accountSettingsAction() throws IOException {
-        accountPanel.setCenter(accountPanelController.getAccountSettingsPane());
-        accountPanelController.setStage(accountPanelStage);
-        accountPanelController.resetAccountSettings();
-        subPane.setVisible(false);
-        accountPanelStage.show();
+    public void accountSettingsAction() throws IOException
+    {
+        if(accountPanelStage.isShowing()){
+            if(!isSettingsShowed){
+                accountPanel.setCenter(accountPanelController.getAccountSettingsPane());
+                subPane.setVisible(false);
+                isSettingsShowed = true;
+            }
+            else{
+                accountPanelStage.close();
+            }
+            accountPanelStage.show();
+        }
+        else{
+            accountPanel.setCenter(accountPanelController.getAccountSettingsPane());
+            accountPanelController.setStage(accountPanelStage);
+            subPane.setVisible(false);
+            accountPanelStage.show();
+            isSettingsShowed = true;
+        }
+
     }
 
     @FXML
     public void accountDetailsAction()
     {
+        accountPanelController.loadFavourites();
+        accountPanelController.loadBookings();
+        if(accountPanelStage.isShowing()){
+            if(isSettingsShowed){
+                accountPanel.setCenter(accountPanelController.getAccountDetailsPane());
+                subPane.setVisible(false);
+                isSettingsShowed = false;
+            }
+            else{
+                accountPanelStage.close();
+            }
+            accountPanelStage.show();
+        }
+        else{
+            VBox accountDetails = accountPanelController.getAccountDetailsPane();
+            accountPanel.setCenter(accountDetails);
 
+            accountPanelController.setStage(accountPanelStage);
+            subPane.setVisible(false);
+            accountPanelStage.show();
+            isSettingsShowed = false;
+        }
     }
 
     public void changeUsername(String username)
@@ -843,4 +879,7 @@ public class AccountController
         setAccountUsername(username);
     }
 
+    public BorderPane getAccountPanel() {
+        return accountPanel;
+    }
 }
