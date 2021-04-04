@@ -17,10 +17,9 @@ import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-
-
 import java.io.File;
 import java.io.IOException;
+
 
 public class AccountPanelController{
 
@@ -91,6 +90,11 @@ public class AccountPanelController{
 
     private AccountController accountController;
 
+    @FXML
+    private Label emptyListLabel;
+    @FXML
+    private Label emptyListLabel2;
+
 
     @FXML
     public static final String IMAGE_PATH_DEFAULT = "No file chosen";
@@ -119,7 +123,13 @@ public class AccountPanelController{
         this.accountController = accountController;
         this.accountPanel = accountPanel;
 
-        chooseFileButton.setOnAction(e-> chooseFile(getStage()));
+        chooseFileButton.setOnAction(e-> {
+            try {
+                chooseFile(getStage());
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        });
 
         Image cursor = new Image("/sample/crossout.png");
         emailField.setCursor(new ImageCursor(cursor, cursor.getWidth()/2, cursor.getHeight()/2));
@@ -171,10 +181,10 @@ public class AccountPanelController{
     }
 
     @FXML
-    private void chooseFile(Stage stage)
-    {
+    private void chooseFile(Stage stage) throws IOException {
         FileChooser filechooser = new FileChooser();
         File file = filechooser.showOpenDialog(stage);
+        // Put a try catch statement to handle the exception...
         if (file != null)
         {
             openFile(file);
@@ -185,7 +195,7 @@ public class AccountPanelController{
     {
         String imagePath = file.toURI().toString();
         Image image = new Image(imagePath);
-        if (image.isError() || image == null)
+        if ( image == null || image.isError())
         {
             showInvalidFileFormatError();
         } else
@@ -358,14 +368,22 @@ public class AccountPanelController{
         profileCircle.setFill(new ImagePattern(bufferedBasicAvatar));
     }
 
-    public void loadFavourites()
+    public void loadFavourites() throws IOException
     {
+        emptyListLabel.setText("");
         listOfFavourites.setItems(currentAccount.getListViewOfFavourites().getItems());
+        if(listOfFavourites.getItems().isEmpty()){
+            emptyListLabel.setText("You currently have no favourites. Click on the \"Save\" button to add a favourite.");
+        }
     }
 
     public void loadBookings()
     {
+        emptyListLabel2.setText("");
         listOfBookings.setItems(currentAccount.getListViewOfBookings().getItems());
+        if(listOfBookings.getItems().isEmpty()){
+            emptyListLabel2.setText("You currently have no bookings. Click on the \"Reserve\" button to add a booking.");
+        }
     }
 
     @FXML
@@ -377,8 +395,7 @@ public class AccountPanelController{
     }
 
     @FXML
-    private void accountDetailsAction()
-    {
+    private void accountDetailsAction() throws IOException {
         loadFavourites();
         loadBookings();
         stage.sizeToScene();

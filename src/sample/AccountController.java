@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.scene.paint.ImagePattern;
@@ -256,6 +257,7 @@ public class AccountController
         setAccountUsername("");
     }
 
+
     /**
      * This method opens a new window for the user to sign in into their account unless an "account window" is already open (either "sign in"  or "create account")
      * @param e The event (button click) that triggers the method call
@@ -338,7 +340,6 @@ public class AccountController
             accountBar.setRight(signedInBar);
 
             accountStage.close();
-            isAccountWindowOpen = false;
 
             if(welcomeController.isSearched()){
                 closeAllPropertyWindows();
@@ -375,7 +376,6 @@ public class AccountController
             accountBar.setRight(signedInBar);
 
             accountStage.close();
-            isAccountWindowOpen = false;
 
             if(welcomeController.isSearched()){
                 closeAllPropertyWindows();
@@ -411,6 +411,9 @@ public class AccountController
         }
 
     }
+
+
+
 
     /**
      * This method throws an info alert via a method call to indicate to the user the password restrictions in place
@@ -631,40 +634,32 @@ public class AccountController
      * @param confirmPassword the confirmation password entered
      * @return true if the password entered is strong and is equal to the confirmation password, false otherwise
      */
-    public boolean checkPassword(String password, String confirmPassword, Label label)
-    {
+    public boolean checkPassword(String password, String confirmPassword, Label label) {
         label.setText("");
-
-        if(password.length() == 0){
+        if (password.length() == 0) {
             label.setText("Please enter a password");
             return false;
-        }
-        else {
+        } else {
             return checkPasswordStrength(password, label) && checkPasswordEquality(password, confirmPassword, label);
         }
     }
-
     /**
      * This method returns whether the password entered in the "create account" window is valid or not, i.e., if it follows the right pattern to be strong enough
      * If it is not valid, it throws an alert and prints an error (in the corresponding error label)
      * @param password The password entered
      * @return true if the password entered is deemed strong and false otherwise
      */
-    private boolean checkPasswordStrength(String password, Label label)
-    {
+    private boolean checkPasswordStrength(String password, Label label) {
         label.setText("");
-
-        // We do not claim ownership of the following line of code: URL =...
-        // It creates a regex corresponding to certain password restrictions (...)
         String regex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!?.><:;])(?=\\S+$).{8,}";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(password);
-
-        if(!matcher.matches()){
+        if (!matcher.matches()) {
             label.setText("This password is too weak.");
             return false;
+        } else {
+            return true;
         }
-        return true;
     }
 
     /**
@@ -674,16 +669,16 @@ public class AccountController
      * @param confirmPassword The confirmation password entered
      * @return true if the password and confirmation password match, false otherwise
      */
-    private boolean checkPasswordEquality(String password, String confirmPassword, Label label)
-    {
+    private boolean checkPasswordEquality(String password, String confirmPassword, Label label) {
         label.setText("");
-
-        if(!password.equals(confirmPassword)){
+        if (!password.equals(confirmPassword)) {
             label.setText("Passwords do not match");
             return false;
+        } else {
+            return true;
         }
-        return true;
     }
+
 
     /**
      * This method loads all GUI-related elements that are proper to the account (state of the save button ...)
@@ -862,16 +857,18 @@ public class AccountController
         }
     }
 
-    private void closeAllAccountWindows()
-    {
-        for(PropertyPreviewController propertyPreviewController : currentAccount.getListOfPropertyPreviewControllers()){
-            if(propertyPreviewController.getPropertyStage().isShowing()){
+    private void closeAllAccountWindows() {
+
+        for (PropertyPreviewController propertyPreviewController : this.currentAccount.getListOfPropertyPreviewControllers()) {
+            if (propertyPreviewController.getPropertyStage() != null && propertyPreviewController.getPropertyStage().isShowing()) {
                 propertyPreviewController.getPropertyStage().close();
             }
         }
-        accountPanelStage.close();
 
+        accountPanelStage.close();
     }
+
+
 
     public void changeUsername(String username)
     {
