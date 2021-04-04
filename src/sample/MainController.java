@@ -41,7 +41,6 @@ public class MainController {
     private MapController mapController;
 
 
-
     public void initialize(Pane mainRoot) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome.fxml"));
 
@@ -65,10 +64,6 @@ public class MainController {
         loader = new FXMLLoader(getClass().getResource("signed_out.fxml"));
         loader.setController(accountController);
         Pane signedOutBar = loader.load();
-
-
-
-
 
         accountController.initialize(this, signedOutBar, mapController);
         accountBar.setRight(accountController.getSignedOutBar());
@@ -112,6 +107,7 @@ public class MainController {
 
         }
     }
+
 
     public BorderPane getAccountBar()
     {

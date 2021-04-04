@@ -2,24 +2,27 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TilePane fx:id="pfpGrid" alignment="CENTER" hgap="10.0" vgap="10.0">
+      <ScrollPane style="-fx-background-color: transparent;">
          <VBox.margin>
             <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
          </VBox.margin>
-      </TilePane>
+         <content>
+            <TilePane fx:id="pfpGrid" alignment="CENTER" hgap="10.0" vgap="10.0" />
+         </content>
+      </ScrollPane>
       <BorderPane>
          <left>
-            <Button mnemonicParsing="false" onAction="#backButtonAction" text="Back" BorderPane.alignment="CENTER" />
+            <Button mnemonicParsing="false" onAction="#exitAvatarMenu" text="Back" BorderPane.alignment="CENTER" />
          </left>
          <right>
-            <Button mnemonicParsing="false" onAction="#okButtonAction" text="Ok" BorderPane.alignment="CENTER" />
+            <Button mnemonicParsing="false" onAction="#confirmAvatarAction" text="Ok" BorderPane.alignment="CENTER" />
          </right>
          <padding>
             <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />

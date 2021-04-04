@@ -1,9 +1,7 @@
 package sample;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.ImageCursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -38,25 +36,35 @@ public class AccountPanelController{
 
     @FXML
     private Button chooseFileButton;
-
-    @FXML
-    private Label changeUsernameErrorLabel;
-
     @FXML
     private Label imagePathLabel;
 
+
+    @FXML
+    private Label changeUsernameErrorLabel;
     @FXML
     private TextField changeUsernameField;
-
     @FXML
     private TextField emailField;
 
     @FXML
-    private Label saveResponseLabel;
+    private Label saveFeedbackLabel;
+    @FXML
+    private Label passwordFeedbackLabel;
 
     @FXML
     private TilePane pfpGrid;
 
+    @FXML
+    private TextField currentPasswordField;
+    @FXML
+    private TextField newPasswordField;
+    @FXML
+    private TextField confirmPasswordField;
+    @FXML
+    private Label changePasswordErrorField;
+
+    @FXML private Label currentUsernameLabel;
 
     private Image bufferImage;
 
@@ -68,7 +76,10 @@ public class AccountPanelController{
 
     private Pane chooseAvatarMenu;
 
+    private Pane changePasswordMenu;
+
     private AccountController accountController;
+
 
     @FXML
     public static final String IMAGE_PATH_DEFAULT = "No file chosen";
@@ -82,6 +93,10 @@ public class AccountPanelController{
         FXMLLoader pfpGridLoader = new FXMLLoader(getClass().getResource("pfpgrid.fxml"));
         pfpGridLoader.setController(apc);
         chooseAvatarMenu = pfpGridLoader.load();
+
+        FXMLLoader changePasswordLoader = new FXMLLoader(getClass().getResource("changepassword.fxml"));
+        changePasswordLoader.setController(apc);
+        changePasswordMenu = changePasswordLoader.load();
 
         pfpGrid.setVgap(20);
         pfpGrid.setHgap(20);
@@ -99,12 +114,13 @@ public class AccountPanelController{
         loadBasicAvatars();
     }
 
-    public void reset()
+    public void resetAccountSettings()
     {
-        saveResponseLabel.setText("");
+        saveFeedbackLabel.setText("");
         changeUsernameField.setText("");
         changeUsernameErrorLabel.setText("");
         changeAvatarCircle.setFill(new ImagePattern(currentAccount.getProfilePicture()));
+        profileCircle.setFill(new ImagePattern(currentAccount.getProfilePicture()));
         bufferImage = null;
         imagePathLabel.setText(IMAGE_PATH_DEFAULT);
     }
@@ -117,6 +133,7 @@ public class AccountPanelController{
     {
         currentAccount = account;
         setCircles();
+        currentUsernameLabel.setText(currentAccount.getUsername());
         changeUsernameField.setPromptText(currentAccount.getUsername());
         emailField.setPromptText(currentAccount.getEmail());
     }
@@ -185,6 +202,7 @@ public class AccountPanelController{
         if (checkChangeUsernameValidity(newUsername) && accountController.checkUsername(newUsername, changeUsernameErrorLabel)) {
             accountController.changeUsername(newUsername);
             changeUsernameField.setPromptText(newUsername);
+            currentUsernameLabel.setText(newUsername);
             changes = true;
         }
         if (bufferImage != null)
@@ -197,12 +215,13 @@ public class AccountPanelController{
         bufferImage = null;
         if (changes)
         {
-            saveResponseLabel.setText("Changes saved.");
+            saveFeedbackLabel.setText("Changes saved.");
         } else
         {
-            saveResponseLabel.setText("You have not made any changes.");
+            saveFeedbackLabel.setText("You have not made any changes.");
         }
     }
+
 
     private boolean checkChangeUsernameValidity(String newUsername)
     {
@@ -218,32 +237,81 @@ public class AccountPanelController{
     private void chooseBasicPfpAction()
     {
         accountPanel.setCenter(chooseAvatarMenu);
+        stage.sizeToScene();
     }
 
     @FXML
-    private void backButtonAction()
-    {
-        backToAccountSettings();
-    }
-
-    @FXML
-    private void okButtonAction()
-    {
-        bufferImage = bufferedBasicAvatar;
-        changeAvatarCircle.setFill(new ImagePattern(bufferImage));
-        imagePathLabel.setText(IMAGE_PATH_DEFAULT);
-
-        backToAccountSettings();
-
-    }
-
-    private void backToAccountSettings()
+    private void exitAvatarMenu()
     {
         profileCircle.setFill(new ImagePattern(currentAccount.getProfilePicture()));
         bufferedBasicAvatar = null;
         accountPanel.setCenter(accountSettings);
     }
 
+    @FXML
+    private void confirmAvatarAction()
+    {
+        bufferImage = bufferedBasicAvatar;
+        changeAvatarCircle.setFill(new ImagePattern(bufferImage));
+        imagePathLabel.setText(IMAGE_PATH_DEFAULT);
+
+        exitAvatarMenu();
+    }
+
+    @FXML
+    private void changePasswordMenuAction()
+    {
+        resetPasswordFields();
+        accountPanel.setCenter(changePasswordMenu);
+    }
+
+    @FXML
+    private void exitChangePasswordMenu()
+    {
+        accountPanel.setCenter(accountSettings);
+    }
+
+    private void resetPasswordFields()
+    {
+        currentPasswordField.setText("");
+        newPasswordField.setText("");
+        confirmPasswordField.setText("");
+        changePasswordErrorField.setText("");
+    }
+
+    @FXML
+    private void confirmNewPassword()
+    {
+        String currentPassword = currentPasswordField.getText();
+        String newPassword = newPasswordField.getText();
+        String confirmPassword = confirmPasswordField.getText();
+
+        if (checkValidityOfCurrentPassword(currentPassword, newPassword) && accountController.checkPassword(newPassword, confirmPassword, changePasswordErrorField))
+        {
+            currentAccount.setPassword(newPassword);
+            passwordFeedbackLabel.setText("Password changed successfully");
+            exitChangePasswordMenu();
+        }
+    }
+
+    private boolean checkValidityOfCurrentPassword(String currentPassword, String newPassword)
+    {
+        boolean valid = false;
+        String password = currentAccount.getPassword();
+
+        if (!currentPassword.equals(password))
+        {
+            changePasswordErrorField.setText("Current password is incorrect");
+        } else if (newPassword.equals(password))
+        {
+            changePasswordErrorField.setText("New password is the same as current");
+        } else
+        {
+            valid = true;
+        }
+
+        return valid;
+    }
 
     @FXML
     private void loadBasicAvatars() {

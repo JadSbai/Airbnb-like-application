@@ -502,7 +502,7 @@ public class AccountController
      */
     private boolean checkValidityOfCreateAccountFields(String username, String email, String password, String confirmPassword)
     {
-        return (checkUsername(username, emailCreateAccountErrorLabel) && checkEmail(email) && checkPassword(password, confirmPassword));
+        return (checkUsername(username, emailCreateAccountErrorLabel) && checkEmail(email) && checkPassword(password, confirmPassword, passwordCreateAccountErrorLabel));
     }
 
     /**
@@ -644,16 +644,16 @@ public class AccountController
      * @param confirmPassword the confirmation password entered
      * @return true if the password entered is strong and is equal to the confirmation password, false otherwise
      */
-    private boolean checkPassword(String password, String confirmPassword)
+    public boolean checkPassword(String password, String confirmPassword, Label label)
     {
-        passwordCreateAccountErrorLabel.setText("");
+        label.setText("");
 
         if(password.length() == 0){
-            passwordCreateAccountErrorLabel.setText("Please enter a password");
+            label.setText("Please enter a password");
             return false;
         }
         else {
-            return checkPasswordStrength(password) && checkPasswordEquality(password, confirmPassword);
+            return checkPasswordStrength(password, label) && checkPasswordEquality(password, confirmPassword, label);
         }
     }
 
@@ -663,9 +663,9 @@ public class AccountController
      * @param password The password entered
      * @return true if the password entered is deemed strong and false otherwise
      */
-    private boolean checkPasswordStrength(String password)
+    private boolean checkPasswordStrength(String password, Label label)
     {
-        passwordCreateAccountErrorLabel.setText("");
+        label.setText("");
 
         // We do not claim ownership of the following line of code: URL =...
         // It creates a regex corresponding to certain password restrictions (...)
@@ -674,7 +674,7 @@ public class AccountController
         Matcher matcher = pattern.matcher(password);
 
         if(!matcher.matches()){
-            passwordCreateAccountErrorLabel.setText("This password is too weak.");
+            label.setText("This password is too weak.");
             return false;
         }
         return true;
@@ -687,12 +687,12 @@ public class AccountController
      * @param confirmPassword The confirmation password entered
      * @return true if the password and confirmation password match, false otherwise
      */
-    private boolean checkPasswordEquality(String password, String confirmPassword)
+    private boolean checkPasswordEquality(String password, String confirmPassword, Label label)
     {
-        confirmPasswordCreateAccountErrorLabel.setText("");
+        label.setText("");
 
         if(!password.equals(confirmPassword)){
-            confirmPasswordCreateAccountErrorLabel.setText("Passwords do not match");
+            label.setText("Passwords do not match");
             return false;
         }
         return true;
@@ -826,7 +826,7 @@ public class AccountController
     public void accountSettingsAction() throws IOException {
         accountPanel.setCenter(accountPanelController.getAccountSettingsPane());
         accountPanelController.setStage(accountPanelStage);
-        accountPanelController.reset();
+        accountPanelController.resetAccountSettings();
         subPane.setVisible(false);
         accountPanelStage.show();
     }
@@ -842,4 +842,5 @@ public class AccountController
         currentAccount.setUsername(username);
         setAccountUsername(username);
     }
+
 }
