@@ -36,7 +36,7 @@ public class PropertyListController {
     private List<EntryInteger> numberOfReviewsOrder;
 
 
-    public void initialize(ArrayList<AirbnbListing> boroughListings, Account currentAccount) throws IOException {
+    public void initialize(ArrayList<AirbnbListing> boroughListings) throws IOException {
         listOfPropertyPreviewControllers = new ArrayList<>();
         createChoiceBoxOptions();
         createSortedLists();
@@ -45,9 +45,11 @@ public class PropertyListController {
             FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
             Pane propertyPreviewPane = preview.load();
             PropertyPreviewController propertyPreviewController = preview.getController();
+
             this.propertyPreviewController = propertyPreviewController;
             listOfPropertyPreviewControllers.add(propertyPreviewController);
-            propertyPreviewController.initialize(listing, currentAccount);
+            propertyPreviewController.initialize(listing);
+
             listView.getItems().add(propertyPreviewPane);
             addToSortedLists(listing, propertyPreviewPane);
         }
@@ -57,10 +59,10 @@ public class PropertyListController {
         if (boroughListings.isEmpty()){ emptyListSettings(); }
     }
 
-    public void reload(ArrayList<AirbnbListing> boroughListings, Account currentAccount) throws IOException {
+    public void reload(ArrayList<AirbnbListing> boroughListings) throws IOException {
         for (AirbnbListing listing : boroughListings) {
             if(propertyPreviewController != null){
-                propertyPreviewController.reload(listing, currentAccount);
+                propertyPreviewController.reload(listing);
             }
 
         }

@@ -2,10 +2,13 @@ package sample;
 
 public abstract class Controller
 {
-    AirbnbDataLoader dataLoader = new AirbnbDataLoader();
+    private static final AirbnbDataLoader dataLoader = new AirbnbDataLoader();
+
     private Account account;
 
-    protected abstract void initialize();
+    protected void initialize(Account account){
+        this.account = account;
+    }
 
     public Account getAccount() {
         return account;

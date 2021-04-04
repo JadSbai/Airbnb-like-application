@@ -32,7 +32,7 @@ import javafx.scene.shape.Circle;
  * @author Jacqueline Ilie, Liam Clark Gutiérrez, Dexter Trower and Jad Sbaï
  * @version 29/03/2021
  */
-public class AccountController
+public class AccountController extends Controller
 {
     // FXML fields:
     // FXML fields are tracking the different FXML controls or containers used for manipulating or displaying account data. Their IDs and the methods they call on action are set in the fxml files:
@@ -334,7 +334,7 @@ public class AccountController
             setProfileCircles();
             setAccountUsername(username);
 
-            mapController.setCurrentAccount(currentAccount);
+            setAccount(currentAccount);
 
             accountBar.setRight(signedInBar);
 
@@ -369,7 +369,7 @@ public class AccountController
             setProfileCircles();
             setAccountUsername(currentAccount.getUsername());
 
-            mapController.setCurrentAccount(currentAccount);
+            setAccount(currentAccount);
             loadDataAndSettings(currentAccount);
 
             accountBar.setRight(signedInBar);
@@ -398,7 +398,7 @@ public class AccountController
         currentAccount = null;
         setAccountUsername("");
 
-        mapController.setCurrentAccount(null);
+        setAccount(null);
 
         accountBar.setRight(signedOutBar);
 

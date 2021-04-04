@@ -13,12 +13,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 
-public class MapController {
+public class MapController extends Controller{
 
     private WelcomeController welcomeController;
     private AirbnbDataLoader dataLoader;
     private ArrayList<AirbnbListing> boroughListings;
-    private Account currentAccount;
     private PropertyListController listOfProperties;
     private ArrayList<PropertyListController> listOfPropertyListControllers;
 
@@ -95,15 +94,10 @@ public class MapController {
 
 
     public void loadCurrentAccount(Account currentAccount) throws IOException {
-        setCurrentAccount(currentAccount);
+        setAccount(currentAccount);
         if(listOfProperties != null){
-            listOfProperties.reload(boroughListings, currentAccount);
+            listOfProperties.reload(boroughListings);
         }
-    }
-
-    public void setCurrentAccount(Account currentAccount)
-    {
-        this.currentAccount = currentAccount;
     }
 
     public WelcomeController getWelcomeController() {
@@ -154,7 +148,7 @@ public class MapController {
         listOfPropertyListStages.add(propertyListStage);
         listOfProperties = propertyList.getController();
         listOfPropertyListControllers.add(listOfProperties);
-        listOfProperties.initialize(boroughListings, currentAccount);
+        listOfProperties.initialize(boroughListings);
         propertyListStage.show();
     }
 
