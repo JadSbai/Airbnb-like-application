@@ -2,10 +2,8 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -50,11 +48,7 @@ public class PropertyPreviewController {
             propertyStage = property.load();
 
 
-            if(listing.getHost_name().endsWith("s")){
-                propertyStage.setTitle(listing.getHost_name() + "' Airbnb");
-            }else{
-                propertyStage.setTitle(listing.getHost_name() + "'s Airbnb");
-            }
+            propertyStage.setTitle(listing.getHostNameWithApostrophe() + " Airbnb");
             propertyStage.show();
 
             isPropertyWindowOpen = true;

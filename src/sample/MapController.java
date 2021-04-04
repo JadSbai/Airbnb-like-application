@@ -166,6 +166,6 @@ public class MapController {
     private void setPropertyListStage(FXMLLoader propertyList, String boroughAbbreviation) throws IOException
     {
         propertyListStage = propertyList.load();
-        propertyListStage.setTitle("AirBnB's in " + boroughAbbreviation);
+        propertyListStage.setTitle("AirBnB's in " + AirbnbListing.getFullBoroughName(boroughAbbreviation));
     }
 }
