@@ -14,6 +14,10 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -64,6 +68,13 @@ public class AccountPanelController{
     @FXML
     private Label changePasswordErrorField;
 
+
+    @FXML
+    private ListView<BorderPane> listOfBookings;
+
+    @FXML
+    private ListView<Pane> listOfFavourites;
+
     @FXML private Label currentUsernameLabel;
 
     private Image bufferImage;
@@ -101,8 +112,10 @@ public class AccountPanelController{
         pfpGrid.setVgap(20);
         pfpGrid.setHgap(20);
 
-//        FXMLLoader accountDetailsLoader = new FXMLLoader(getClass().getResource("AccountDetails.fxml"));
-//        accountDetailsLoader.setController(this);
+        FXMLLoader accountDetailsLoader = new FXMLLoader(getClass().getResource("AccountDetails.fxml"));
+        accountDetailsLoader.setController(apc);
+        accountDetails = accountDetailsLoader.load();
+
         this.accountController = accountController;
         this.accountPanel = accountPanel;
 
@@ -343,6 +356,34 @@ public class AccountPanelController{
     {
         bufferedBasicAvatar = image;
         profileCircle.setFill(new ImagePattern(bufferedBasicAvatar));
+    }
+
+    public void loadFavourites()
+    {
+        listOfFavourites.setItems(currentAccount.getListViewOfFavourites().getItems());
+    }
+
+    public void loadBookings()
+    {
+        listOfBookings.setItems(currentAccount.getListViewOfBookings().getItems());
+    }
+
+    @FXML
+    private void accountSettingsAction()
+    {
+        BorderPane accountPanel = accountController.getAccountPanel();
+        accountPanel.setCenter(accountSettings);
+        stage.sizeToScene();
+    }
+
+    @FXML
+    private void accountDetailsAction()
+    {
+        loadFavourites();
+        loadBookings();
+        stage.sizeToScene();
+        BorderPane accountPanel = accountController.getAccountPanel();
+        accountPanel.setCenter(accountDetails);
     }
 
 }
