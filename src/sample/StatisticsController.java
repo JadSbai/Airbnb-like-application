@@ -154,9 +154,6 @@ public class StatisticsController {
                 // change statisticString status => changes to shown
                 statistics.put(statisticString, true);
 
-                System.out.println("current " + statisticString);
-                System.out.println();
-
                 break;
             }
         }
