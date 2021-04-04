@@ -10,7 +10,7 @@ import java.net.URISyntaxException;
 
 public class AirbnbDataLoader {
 
-    private ArrayList<AirbnbListing> listings;
+    private final ArrayList<AirbnbListing> listings;
 
     public AirbnbDataLoader(){
         this.listings = load();
