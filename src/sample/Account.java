@@ -50,6 +50,10 @@ public class Account {
 
     private ArrayList<AirbnbListing> listOfBookings;
 
+    private ArrayList<PropertyPreviewController> listOfPropertyPreviewControllers;
+
+    private HashMap<Pane, PropertyPreviewController> paneToPropertyPreviewControllerMap;
+
     /**
      * The account's profile picture
      */
@@ -74,6 +78,8 @@ public class Account {
         favouritePropertyToPropertyPreviewPaneMap = new HashMap<>();
         listOfFavouriteProperties = new ArrayList<>();
         propertyToBookingMap = new HashMap<>();
+        listOfPropertyPreviewControllers = new ArrayList<>();
+        paneToPropertyPreviewControllerMap = new HashMap<>();
 
     }
 
@@ -160,6 +166,8 @@ public class Account {
         Pane propertyPreviewPane = preview.load();
         PropertyPreviewController propertyPreviewController = preview.getController();
         propertyPreviewController.initialize(listing, this);
+        listOfPropertyPreviewControllers.add(propertyPreviewController);
+        paneToPropertyPreviewControllerMap.put(propertyPreviewPane, propertyPreviewController);
         favouritePropertyToPropertyPreviewPaneMap.put(listing, propertyPreviewPane);
         listOfFavouriteProperties.add(listing);
         addToListViewOfFavourites(propertyPreviewPane);
@@ -197,6 +205,10 @@ public class Account {
         removeFromListViewOfFavourites(propertyPreviewPane);
         favouritePropertyToPropertyPreviewPaneMap.remove(listing);
         removeFromListOfFavouriteProperties(listing);
+        PropertyPreviewController propertyPreviewController = paneToPropertyPreviewControllerMap.get(propertyPreviewPane);
+        removeFromListOfPropertyPreviewControllers(propertyPreviewController);
+        paneToPropertyPreviewControllerMap.remove(propertyPreviewPane);
+
     }
 
 
@@ -221,8 +233,10 @@ public class Account {
         FXMLLoader preview  = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
         Pane propertyPreviewPane = preview.load();
         PropertyPreviewController propertyPreviewController = preview.getController();
+        listOfPropertyPreviewControllers.add(propertyPreviewController);
         propertyPreviewController.initialize(listing, this);
         booking.setCenter(propertyPreviewPane);
+        paneToPropertyPreviewControllerMap.put(booking,propertyPreviewController);
         propertyToBookingMap.put(listing, booking);
         listOfBookings.add(listing);
         addToListViewOfBookings(booking);
@@ -235,6 +249,9 @@ public class Account {
     public void removeFromBookings(AirbnbListing listing)
     {
         BorderPane booking = propertyToBookingMap.get(listing);
+        PropertyPreviewController propertyPreviewController = paneToPropertyPreviewControllerMap.get(booking);
+        removeFromListOfPropertyPreviewControllers(propertyPreviewController);
+        paneToPropertyPreviewControllerMap.remove(booking);
         removeFromListViewOfBookings(booking);
         propertyToBookingMap.remove(listing);
         removeFromListOfBookings(listing);
@@ -253,7 +270,7 @@ public class Account {
     public void removeFromListOfBookings(AirbnbListing listing) {
         // Use of an iterator object to avoid index errors in the list
         Iterator<AirbnbListing> iterator = listOfBookings.iterator();
-        AirbnbListing property = null;
+        AirbnbListing property;
         while (iterator.hasNext()) {
             property = iterator.next();
             if (property == listing) {
@@ -261,6 +278,23 @@ public class Account {
                 break;
             }
         }
+    }
+
+    public void removeFromListOfPropertyPreviewControllers(PropertyPreviewController propertyPreviewController)
+    {
+        Iterator<PropertyPreviewController> iterator = listOfPropertyPreviewControllers.iterator();
+        PropertyPreviewController controller;
+        while (iterator.hasNext()) {
+            controller = iterator.next();
+            if (propertyPreviewController == controller) {
+                iterator.remove();
+                break;
+            }
+        }
+    }
+
+    public ArrayList<PropertyPreviewController> getListOfPropertyPreviewControllers() {
+        return listOfPropertyPreviewControllers;
     }
 }
 

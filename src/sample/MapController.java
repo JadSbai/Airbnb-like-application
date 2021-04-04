@@ -135,7 +135,7 @@ public class MapController {
     private void closeAllPropertyListStages()
     {
         Iterator<Stage> iterator = listOfPropertyListStages.iterator();
-        Stage stage = null;
+        Stage stage;
         while (iterator.hasNext()) {
             stage = iterator.next();
             stage.close();

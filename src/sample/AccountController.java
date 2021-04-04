@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -15,6 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.scene.paint.ImagePattern;
@@ -161,12 +161,15 @@ public class AccountController
     /**
      * Scene loaded when a user wants to sign in their account
      */
-    private Scene signInScene;
+    private Pane signInPanel;
 
     /**
      * Scene loaded when a user wants to create a new account
      */
-    private Scene createAccountScene;
+    private Pane createAccountPanel;
+
+    @FXML
+    private Scene accountScene;
 
     /**
      * Stage containing either one of the two account scenes ("sign in" ore "create account")
@@ -231,15 +234,17 @@ public class AccountController
         signedInLoader.setController(this);
         signedInBar = signedInLoader.load();
 
+        FXMLLoader createAccountStage = new FXMLLoader(getClass().getResource("AccountStage.fxml"));
+        createAccountStage.setController(this);
+        accountStage = createAccountStage.load();
+
         FXMLLoader signInPanelLoader = new FXMLLoader(getClass().getResource("sign_in_panel.fxml"));
         signInPanelLoader.setController(this);
-        Pane signInPanel = signInPanelLoader.load();
-        signInScene = new Scene(signInPanel);
+        signInPanel = signInPanelLoader.load();
 
         FXMLLoader createAccountPanelLoader = new FXMLLoader(getClass().getResource("create_account_panel.fxml"));
         createAccountPanelLoader.setController(this);
-        Pane createAccountPanel = createAccountPanelLoader.load();
-        createAccountScene = new Scene(createAccountPanel);
+        createAccountPanel = createAccountPanelLoader.load();
 
         FXMLLoader accountPanelLoader = new FXMLLoader(getClass().getResource("AccountPanel.fxml"));
         accountPanel = accountPanelLoader.load();
@@ -250,9 +255,8 @@ public class AccountController
 
         formatPopUpMenu();
         setAccountUsername("");
-
-        accountStage = new Stage();
     }
+
 
     /**
      * This method opens a new window for the user to sign in into their account unless an "account window" is already open (either "sign in"  or "create account")
@@ -261,25 +265,18 @@ public class AccountController
     @FXML
     private void signIn(ActionEvent e)
     {
-        if(!isAccountWindowOpen) {
+        if(!accountStage.isShowing()) {
 
-            resetSignInSceneFields();
-            accountStage.setScene(signInScene);
+            resetSignInPanelFields();
+            accountScene.setRoot(signInPanel);
             accountStage.setTitle("Sign in");
-            accountStage.show();
-            isAccountWindowOpen = true;
-            // We use a window listener to avoid having multiple similar windows open at the same time
-            accountStage.setOnCloseRequest(event -> {
-                        isAccountWindowOpen = false;
-                    }
-            );
         }
         else{
             // Throws an alert to signal that a window is already open
             warningAlert("An account window is already open", "window already open");
             accountStage.close();
-            accountStage.show();
         }
+        accountStage.show();
     }
 
     /**
@@ -289,24 +286,17 @@ public class AccountController
     @FXML
     private void createAccount(ActionEvent e)
     {
-        if(!isAccountWindowOpen){
+        if(!accountStage.isShowing()){
 
             resetCreateAccountFields();
-            accountStage.setScene(createAccountScene);
+            accountScene.setRoot(createAccountPanel);
             accountStage.setTitle("Create a new account");
-            accountStage.show();
-            isAccountWindowOpen = true;
-            accountStage.setOnCloseRequest(event -> {
-                        isAccountWindowOpen = false;
-                    }
-            );
         }
         else{
             warningAlert("An account window is already open", "window already open");
             accountStage.close();
-            accountStage.show();
-
         }
+        accountStage.show();
     }
 
     /**
@@ -317,7 +307,6 @@ public class AccountController
     private void createAccountLink(ActionEvent e)
     {
         accountStage.close();
-        isAccountWindowOpen = false;
         createAccount(e);
     }
 
@@ -351,7 +340,6 @@ public class AccountController
             accountBar.setRight(signedInBar);
 
             accountStage.close();
-            isAccountWindowOpen = false;
 
             if(welcomeController.isSearched()){
                 closeAllPropertyWindows();
@@ -388,7 +376,6 @@ public class AccountController
             accountBar.setRight(signedInBar);
 
             accountStage.close();
-            isAccountWindowOpen = false;
 
             if(welcomeController.isSearched()){
                 closeAllPropertyWindows();
@@ -407,6 +394,7 @@ public class AccountController
     private void signOutAction(ActionEvent e) throws IOException
     {
         saveAllSettingsAndData();
+        closeAllAccountWindows();
 
         currentAccount = null;
         setAccountUsername("");
@@ -421,7 +409,11 @@ public class AccountController
             closeAllPropertyWindows();
             setDefaultSettingsAndData();
         }
+
     }
+
+
+
 
     /**
      * This method throws an info alert via a method call to indicate to the user the password restrictions in place
@@ -642,40 +634,32 @@ public class AccountController
      * @param confirmPassword the confirmation password entered
      * @return true if the password entered is strong and is equal to the confirmation password, false otherwise
      */
-    public boolean checkPassword(String password, String confirmPassword, Label label)
-    {
+    public boolean checkPassword(String password, String confirmPassword, Label label) {
         label.setText("");
-
-        if(password.length() == 0){
+        if (password.length() == 0) {
             label.setText("Please enter a password");
             return false;
-        }
-        else {
+        } else {
             return checkPasswordStrength(password, label) && checkPasswordEquality(password, confirmPassword, label);
         }
     }
-
     /**
      * This method returns whether the password entered in the "create account" window is valid or not, i.e., if it follows the right pattern to be strong enough
      * If it is not valid, it throws an alert and prints an error (in the corresponding error label)
      * @param password The password entered
      * @return true if the password entered is deemed strong and false otherwise
      */
-    private boolean checkPasswordStrength(String password, Label label)
-    {
+    private boolean checkPasswordStrength(String password, Label label) {
         label.setText("");
-
-        // We do not claim ownership of the following line of code: URL =...
-        // It creates a regex corresponding to certain password restrictions (...)
         String regex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!?.><:;])(?=\\S+$).{8,}";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(password);
-
-        if(!matcher.matches()){
+        if (!matcher.matches()) {
             label.setText("This password is too weak.");
             return false;
+        } else {
+            return true;
         }
-        return true;
     }
 
     /**
@@ -685,16 +669,16 @@ public class AccountController
      * @param confirmPassword The confirmation password entered
      * @return true if the password and confirmation password match, false otherwise
      */
-    private boolean checkPasswordEquality(String password, String confirmPassword, Label label)
-    {
+    private boolean checkPasswordEquality(String password, String confirmPassword, Label label) {
         label.setText("");
-
-        if(!password.equals(confirmPassword)){
+        if (!password.equals(confirmPassword)) {
             label.setText("Passwords do not match");
             return false;
+        } else {
+            return true;
         }
-        return true;
     }
+
 
     /**
      * This method loads all GUI-related elements that are proper to the account (state of the save button ...)
@@ -717,7 +701,7 @@ public class AccountController
     /**
      * This method resets all the text fields of the "sign in" window
      */
-    private void resetSignInSceneFields()
+    private void resetSignInPanelFields()
     {
         signInEmail.setText("");
         signInPassword.setText("");
@@ -845,8 +829,7 @@ public class AccountController
     }
 
     @FXML
-    public void accountDetailsAction()
-    {
+    public void accountDetailsAction() throws IOException {
         accountPanelController.loadFavourites();
         accountPanelController.loadBookings();
         if(accountPanelStage.isShowing()){
@@ -873,6 +856,19 @@ public class AccountController
             isSettingsShowed = false;
         }
     }
+
+    private void closeAllAccountWindows() {
+
+        for (PropertyPreviewController propertyPreviewController : this.currentAccount.getListOfPropertyPreviewControllers()) {
+            if (propertyPreviewController.getPropertyStage() != null && propertyPreviewController.getPropertyStage().isShowing()) {
+                propertyPreviewController.getPropertyStage().close();
+            }
+        }
+
+        accountPanelStage.close();
+    }
+
+
 
     public void changeUsername(String username)
     {
