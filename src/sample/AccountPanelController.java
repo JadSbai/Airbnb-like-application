@@ -39,19 +39,22 @@ public class AccountPanelController{
 
     @FXML
     private Button chooseFileButton;
+
     @FXML
     private Label imagePathLabel;
 
-
     @FXML
     private Label changeUsernameErrorLabel;
+
     @FXML
     private TextField changeUsernameField;
+
     @FXML
     private TextField emailField;
 
     @FXML
     private Label saveFeedbackLabel;
+
     @FXML
     private Label passwordFeedbackLabel;
 
@@ -60,13 +63,15 @@ public class AccountPanelController{
 
     @FXML
     private TextField currentPasswordField;
+
     @FXML
     private TextField newPasswordField;
+
     @FXML
     private TextField confirmPasswordField;
+
     @FXML
     private Label changePasswordErrorField;
-
 
     @FXML
     private ListView<BorderPane> listOfBookings;
@@ -75,6 +80,15 @@ public class AccountPanelController{
     private ListView<Pane> listOfFavourites;
 
     @FXML private Label currentUsernameLabel;
+
+    @FXML
+    private Label emptyListLabel;
+
+    @FXML
+    private Label emptyListLabel2;
+
+    @FXML
+    public static final String IMAGE_PATH_DEFAULT = "No file chosen";
 
     private Image bufferImage;
 
@@ -90,14 +104,6 @@ public class AccountPanelController{
 
     private AccountController accountController;
 
-    @FXML
-    private Label emptyListLabel;
-    @FXML
-    private Label emptyListLabel2;
-
-
-    @FXML
-    public static final String IMAGE_PATH_DEFAULT = "No file chosen";
 
     public void initialize(AccountPanelController apc, AccountController accountController, BorderPane accountPanel) throws IOException {
 

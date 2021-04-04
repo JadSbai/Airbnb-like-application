@@ -44,7 +44,7 @@ public class WelcomeController {
     private MainController mainController;
 
 
-    public void initialize(Button leftArrow, Button rightArrow, Label priceLabel, MainController mainController) {
+    public void initialize(Button leftArrow, Button rightArrow, Label priceLabel, MainController  mainController) {
 
         this.leftArrow = leftArrow;
         this.rightArrow = rightArrow;
@@ -100,6 +100,7 @@ public class WelcomeController {
                 setSearched(true);
             }
             mainController.rightButtonAction(e);
+
 
         }
         else if(valid && isNewPrice)
@@ -195,6 +196,11 @@ public class WelcomeController {
 
     public int getMaxPrice() {
         return maxPrice;
+    }
+
+    private void rightArrowAction(ActionEvent event)
+    {
+
     }
 }
 

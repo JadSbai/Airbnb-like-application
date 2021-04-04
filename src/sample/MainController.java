@@ -77,7 +77,7 @@ public class MainController {
     }
 
     @FXML
-    private void leftButtonAction(ActionEvent e) throws IOException {
+    private void leftButtonAction(ActionEvent e){
         if(mainPane.getCenter() == welcomeRoot){
             mainPane.setCenter(statisticsRoot);
         }
