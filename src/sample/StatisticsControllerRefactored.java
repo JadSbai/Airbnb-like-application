@@ -1,32 +1,17 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package sample;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
-import java.util.*;
-//import java.util.Map;
-//import java.util.HashMap;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-
-public class StatisticsController {
-
-
-    // Declare all of the elements of the GUI
+public class StatisticsControllerRefactored extends MainControllerRefactored
+{
 
     @FXML
     private Button backButtonStatistics1;
@@ -44,7 +29,6 @@ public class StatisticsController {
     private Button backButtonStatistics4;
     @FXML
     private Button forwardButtonStatistics4;
-
     @FXML
     public Label statistic1;
     @FXML
@@ -57,8 +41,6 @@ public class StatisticsController {
     private HashMap<String, Boolean> statistics;
 
     // Array extracted from the CSV with all of the statistics required
-
-    private AirbnbDataLoader loader;
     private ArrayList<AirbnbListing> properties;
 
     // map all the neighbourhoods to their total price
@@ -70,14 +52,10 @@ public class StatisticsController {
     // keeps track of the statistics list
     private int index;
 
-    // !!List of properties within the price range -> create list and then iterate it in all of the methods instead
-    // of the list of all properties
-    //Controller priceRange;
-    // when the price range changes ->> should make sure the statistics labels update to display the correct computtions
 
-    public void initialize(AirbnbDataLoader dataLoader){ //inainte de constructor
+    protected void initialize() throws IOException
+    {
         statistics = new HashMap<>();
-        loader = dataLoader;
         properties = dataLoader.getListings();
         index = 0;
         setTextToInitialLabels();
@@ -107,13 +85,6 @@ public class StatisticsController {
         statistics.put("stat8", false);
     }
 
-    // if + return for each corresponding button/statistic
-//!!!!!!!!!
-    // link each statistic to its corresponding method and concatenate texts!!
-
-    // iterate where i left off in the statistics array?? displays only 2 stats on each statistic if others not changed
-    //less code duplication -> all buttons share the same functionality
-
     @FXML
     private void backButtonStatistics1Pressed(ActionEvent e) {
 
@@ -137,20 +108,9 @@ public class StatisticsController {
                 statistic1.setText(statisticString);
                 // change statisticString status => changes to shown
                 statistics.put(statisticString, true);
-
-                //System.out.println("current " + statisticString);
-                //System.out.println();
-
                 break;
             }
         }
-
-           /*//just testing
-           System.out.println("stat1: " + statistic1.getText() +  " " + statistics.get(statistic1.getText()) + " aloalo");
-           System.out.println("list:");
-           for (Map.Entry<String, Boolean> entry2 : statistics.entrySet()) {
-               System.out.println(entry2.getKey());
-           }*/
     }
 
     @FXML
@@ -183,24 +143,11 @@ public class StatisticsController {
                 break;
             }
         }
-
-        /*//just testing
-        System.out.println("stat1: " + statistic2.getText() +  " " + statistics.get(statistic2.getText()) + " aloalo");
-        System.out.println("list:");
-        for (Map.Entry<String, Boolean> entry2 : statistics.entrySet()) {
-            System.out.println(entry2.getKey() + " " + entry2.getValue());
-        }*/
     }
 
     @FXML
-    private void backButtonStatistics3Pressed(ActionEvent e) {
-
-        //testing
-        /*for (Map.Entry<String, Boolean> entry1 : statistics.entrySet()) {
-            System.out.println(entry1.getKey() + " " + entry1.getValue());
-        }
-        System.out.println();*/
-
+    private void backButtonStatistics3Pressed(ActionEvent e)
+    {
         for (Map.Entry<String, Boolean> entry : statistics.entrySet()) {
             String statisticString = entry.getKey();
             Boolean statisticIsShown = entry.getValue();
@@ -222,24 +169,11 @@ public class StatisticsController {
                 break;
             }
         }
-
-        /*//just testing
-        System.out.println("stat1: " + statistic3.getText() +  " " + statistics.get(statistic3.getText()) + " aloalo");
-        System.out.println("list:");
-        for (Map.Entry<String, Boolean> entry2 : statistics.entrySet()) {
-            System.out.println(entry2.getKey() + " " + entry2.getValue());
-        }*/
     }
 
     @FXML
-    private void backButtonStatistics4Pressed(ActionEvent e) {
-
-        /*//testing
-        for (Map.Entry<String, Boolean> entry1 : statistics.entrySet()) {
-            System.out.println(entry1.getKey() + " " + entry1.getValue());
-        }
-        System.out.println();*/
-
+    private void backButtonStatistics4Pressed(ActionEvent e)
+    {
         for (Map.Entry<String, Boolean> entry : statistics.entrySet()) {
             String statisticString = entry.getKey();
             Boolean statisticIsShown = entry.getValue();
@@ -261,13 +195,6 @@ public class StatisticsController {
                 break;
             }
         }
-
-        /*//just testing
-        System.out.println("stat1: " + statistic4.getText() +  " " + statistics.get(statistic4.getText()) + " aloalo");
-        System.out.println("list:");
-        for (Map.Entry<String, Boolean> entry2 : statistics.entrySet()) {
-            System.out.println(entry2.getKey() + " " + entry2.getValue());
-        }*/
     }
 
     // returns an int average
@@ -299,7 +226,8 @@ public class StatisticsController {
 
     // The number of entire home and apartments (as opposed to private rooms).
 
-    private int getNumberOfEntireHomeOrApartments() {
+    private int getNumberOfEntireHomeOrApartments()
+    {
         int numberOfEntireHomeOrApartments = 0;
         for(AirbnbListing p: properties) {
             if(p.getRoom_type().equals("Entire home/apt"))
@@ -308,12 +236,8 @@ public class StatisticsController {
         return numberOfEntireHomeOrApartments;
     }
 
-    // The most expensive borough. // medie cu nr de propr/borough
-
-    // most expensive based on the total price of the properties from the borough
-    // !!!based on the price range!!!
-
-    private String getMostExpensiveBorough() {
+    private String getMostExpensiveBorough()
+    {
         boroughs = new HashMap<>();
         setTotalPriceForEachBorough();
         String mostExpensiveBorough = "borough";
@@ -345,13 +269,8 @@ public class StatisticsController {
         }
     }
 
-    //get most number of reviews with last review after a certain date??
-
-    // cheapest host
-
-    // host with most properties
-
-    private String getHostWithMostProperties() {
+    private String getHostWithMostProperties()
+    {
         hosts = new HashMap<>();
         setNumberOfPropertiesForEachHost();
         String hostWithMostProperties = "host";
@@ -367,7 +286,8 @@ public class StatisticsController {
         return hostWithMostProperties + " " + mostNumberOfProperties;
     }
 
-    private void setNumberOfPropertiesForEachHost() {
+    private void setNumberOfPropertiesForEachHost()
+    {
         //hosts = new HashMap<>();
         int numberOfProperties = 0;
         for(AirbnbListing p: properties) {
@@ -384,30 +304,8 @@ public class StatisticsController {
         }
     }
 
-    /*
-    private String setTotalPriceForEachHost() {
-        hosts = new HashMap<>();
-        for(AirbnbListing p: properties) {
-            String hostId = p.getHost_id();
-            int totalHostPrice = 0;
-            if( !hosts.containsKey(hostId) ) {
-                totalHostPrice = p.getMinimumPrice();
-                hosts.put(hostId, totalHostPrice);
-            }
-            else {
-                totalHostPrice = hosts.get(hostId) + p.getMinimumPrice();
-                hosts.put(hostId, totalHostPrice);
-            }
-        }
-    }*/
-
-    // most number of reviews based on 10 cheapest hosts??
-
-    // average price per night based on most 10 reviewed properties??
-
-    // most western??
-
-    private String getMostReviewedProperty() {
+    private String getMostReviewedProperty()
+    {
         String mostReviewedProperty = "";
         int maxNumberOfReviews = 0;
         for(AirbnbListing p: properties) {
@@ -418,6 +316,4 @@ public class StatisticsController {
         }
         return mostReviewedProperty + " " + maxNumberOfReviews;
     }
-
-
 }

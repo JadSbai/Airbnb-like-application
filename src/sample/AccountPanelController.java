@@ -102,10 +102,10 @@ public class AccountPanelController{
 
     private Pane changePasswordMenu;
 
-    private AccountController accountController;
+    private AccountAccessController accountAccessController;
 
 
-    public void initialize(AccountPanelController apc, AccountController accountController, BorderPane accountPanel) throws IOException {
+    public void initialize(AccountPanelController apc, AccountAccessController accountAccessController, BorderPane accountPanel) throws IOException {
 
         FXMLLoader accountSettingsLoader = new FXMLLoader(getClass().getResource("AccountSettings.fxml"));
         accountSettingsLoader.setController(apc);
@@ -126,7 +126,7 @@ public class AccountPanelController{
         accountDetailsLoader.setController(apc);
         accountDetails = accountDetailsLoader.load();
 
-        this.accountController = accountController;
+        this.accountAccessController = accountAccessController;
         this.accountPanel = accountPanel;
 
         chooseFileButton.setOnAction(e-> {
@@ -228,8 +228,8 @@ public class AccountPanelController{
         boolean changes = false;
         String newUsername = changeUsernameField.getText();
 
-        if (checkChangeUsernameValidity(newUsername) && accountController.checkUsername(newUsername, changeUsernameErrorLabel)) {
-            accountController.changeUsername(newUsername);
+        if (checkChangeUsernameValidity(newUsername) && accountAccessController.checkUsername(newUsername, changeUsernameErrorLabel)) {
+            accountAccessController.changeUsername(newUsername);
             changeUsernameField.setPromptText(newUsername);
             currentUsernameLabel.setText(newUsername);
             changes = true;
@@ -237,7 +237,7 @@ public class AccountPanelController{
         if (bufferImage != null)
         {
             currentAccount.setProfilePicture(bufferImage);
-            accountController.setProfileCircles();
+            accountAccessController.setProfileCircles();
             setCircles();
             changes = true;
         }
@@ -315,7 +315,7 @@ public class AccountPanelController{
         String newPassword = newPasswordField.getText();
         String confirmPassword = confirmPasswordField.getText();
 
-        if (checkValidityOfCurrentPassword(currentPassword, newPassword) && accountController.checkPassword(newPassword, confirmPassword, changePasswordErrorField))
+        if (checkValidityOfCurrentPassword(currentPassword, newPassword) && accountAccessController.checkPassword(newPassword, confirmPassword, changePasswordErrorField))
         {
             currentAccount.setPassword(newPassword);
             passwordFeedbackLabel.setText("Password changed successfully");
@@ -395,7 +395,7 @@ public class AccountPanelController{
     @FXML
     private void accountSettingsAction()
     {
-        BorderPane accountPanel = accountController.getAccountPanel();
+        BorderPane accountPanel = accountAccessController.getAccountPanel();
         accountPanel.setCenter(accountSettings);
         stage.sizeToScene();
     }
@@ -405,7 +405,7 @@ public class AccountPanelController{
         loadFavourites();
         loadBookings();
         stage.sizeToScene();
-        BorderPane accountPanel = accountController.getAccountPanel();
+        BorderPane accountPanel = accountAccessController.getAccountPanel();
         accountPanel.setCenter(accountDetails);
     }
 

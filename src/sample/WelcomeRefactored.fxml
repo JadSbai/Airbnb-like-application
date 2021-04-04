@@ -34,42 +34,16 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<StackPane alignment="TOP_RIGHT" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainController">
+<StackPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.WelcomeControllerRefactored">
    <children>
-      <BorderPane fx:id="mainPane">
-         <bottom>
-            <VBox style="-fx-border-color: black;" BorderPane.alignment="CENTER">
-               <children>
-                  <BorderPane style="-fx-padding: 5;">
-                     <left>
-                        <Button fx:id="leftButton" mnemonicParsing="false" onAction="#leftButtonAction" text="&lt;" BorderPane.alignment="CENTER">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </Button>
-                     </left>
-                     <right>
-                        <Button fx:id="rightButton" mnemonicParsing="false" onAction="#rightButtonAction" text="&gt;" BorderPane.alignment="CENTER">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </Button>
-                     </right>
-                     <center>
-                        <Label fx:id="currentPriceRangeLabel" BorderPane.alignment="CENTER" />
-                     </center>
-                  </BorderPane>
-               </children>
-            </VBox>
-         </bottom>
-         <top>
-            <BorderPane fx:id="accountBar" BorderPane.alignment="CENTER" />
-         </top>
-      </BorderPane>
+      <VBox fx:id="welcomeVBox" alignment="CENTER" spacing="30.0" styleClass="vboxes" stylesheets="@WelcomePanelStyle.css" StackPane.alignment="CENTER">
+         <children>
+            <Label fx:id="welcomeLabel" text="Welcome to AirBnb London" />
+            <Button mnemonicParsing="false" onAction="#printInstructions" styleClass="buttons" stylesheets="@WelcomePanelStyle.css" text="Help" />
+         </children>
+      </VBox>
    </children>
 </StackPane>

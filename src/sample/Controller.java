@@ -1,20 +1,22 @@
 package sample;
 
+import java.io.IOException;
+
 public abstract class Controller
 {
-    private static final AirbnbDataLoader dataLoader = new AirbnbDataLoader();
+    AirbnbDataLoader dataLoader = new AirbnbDataLoader();
 
-    private Account account;
+    private Account currentAccount;
 
-    protected void initialize(Account account){
-        this.account = account;
+    protected abstract void initialize() throws IOException;
+
+    protected Account getCurrentAccount() {
+        return currentAccount;
     }
 
-    public Account getAccount() {
-        return account;
+    protected void setCurrentAccount(Account account) {
+        this.currentAccount = account;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
-    }
+
 }

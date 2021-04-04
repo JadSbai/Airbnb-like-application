@@ -30,11 +30,11 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException, URISyntaxException {
 
         // We use the FXMLLoader class to load the fxml files created with the SceneBuilder
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainRefactored.fxml"));
         // The root of panel is retrieved from the fxml file
         StackPane root = loader.load();
-        MainController mainController = loader.getController();
-        mainController.initialize(root);
+        MainControllerRefactored mainControllerRefactored = loader.getController();
+        mainControllerRefactored.initialize(root);
 
         primaryStage.setTitle("Airbnb London");
         // The scene is set with the retrieved root
