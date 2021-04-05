@@ -78,7 +78,7 @@ public abstract class MainControllerRefactored extends Controller
         welcomeRoot = loader.load();
 
 
-        loader = new FXMLLoader(getClass().getResource("map.fxml"));
+        loader = new FXMLLoader(getClass().getResource("Map.fxml"));
         mapRoot = loader.load();
 
         loader = new FXMLLoader(getClass().getResource("Statistics.fxml"));
