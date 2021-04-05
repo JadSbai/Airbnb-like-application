@@ -269,6 +269,11 @@ public class AirbnbListing {
         return availability365;
     }
 
+    /**
+     * This method computes and returns the minimum price for the booking,
+     * calculated based on the minimum number of nights and the price per night's stay
+     * @return The minimum price per stay
+     */
     public int getMinimumPrice() {
         minimumPrice = price * minimumNights;
         return minimumPrice;
