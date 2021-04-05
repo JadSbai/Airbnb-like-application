@@ -49,7 +49,7 @@ public class StatisticsController {
 
     // Array extracted from the CSV with all of the properties
     private AirbnbDataLoader loader;
-    private ArrayList<AirbnbListing> properties;
+    private ArrayList<AirbnbListing> allProperties;
 
     // map all the neighbourhoods to their total price
     private HashMap<String, Integer> boroughs;
@@ -63,30 +63,49 @@ public class StatisticsController {
     // keeps track of the statistics list
     private int index;
 
-    // !!List of properties within the price range -> create list and then iterate it in all of the methods instead
-    // of the list of all properties
-    //Controller priceRange;
-    // when the price range changes ->> should make sure the statistics labels update to display the correct computtions
+    // list of properties within the current price range
+    private ArrayList<AirbnbListing> properties;
+
+    //
+    private WelcomeController priceRange;
 
     public StatisticsController() {
         statistics = new HashMap<>();
         loader = new AirbnbDataLoader();
         properties = loader.load();
-
+        //allProperties = loader.load();
+        //priceRange = ;
     }
 
     public void initialize(){
+        //if(priceRange.getMinPrice() != null && priceRange.getMaxPrice() != null)
+            //setPriceRangeProperties();
         setTextToInitialLabels();
         addToStatisticsArray();
     }
 
+
+    // !!! resize + price range
+    // each time the price range is changed, setTextToInitialLabels and addToStatisticsArray are called; currently they
+    // are called in the constructor
+    // ==> everytime the price range is changed, the string is reinitialized and computated again
+
+
+    // create list of properties within the price range
+    /*private void setPriceRangeProperties() {
+        for(AirbnbListing p: allProperties)
+            if(p.getPrice() >= priceRange.getMinPrice() && p.getPrice() <= priceRange.getMaxPrice())
+                properties.add(p);
+    }*/
+
+
 //set text to initial labels
 
     public void setTextToInitialLabels(){
-        statistic1.setText("Average number of reviews" + '\n' + getAverageNumberOfReviews());
-        statistic2.setText("Available properties" + '\n' + getNumberOfAvailableProperties());
-        statistic3.setText("Number of entire home/apartments" + '\n' + getNumberOfEntireHomeOrApartments());
-        statistic4.setText("Most expensive borough" + '\n' + getMostExpensiveBorough());
+        statistic1.setText("Average number of reviews" + '\n' + '\n' + getAverageNumberOfReviews());
+        statistic2.setText("Available properties" + '\n' + '\n' + getNumberOfAvailableProperties());
+        statistic3.setText("Number of entire home/apartments" + '\n' + '\n' + getNumberOfEntireHomeOrApartments());
+        statistic4.setText("Most expensive borough" + '\n' + '\n' + getMostExpensiveBorough());
     }
 
     // the hashmap value is true if the label is being shown on the panel, false otherwise
@@ -97,10 +116,10 @@ public class StatisticsController {
         statistics.put(statistic3.getText(), true);
         statistics.put(statistic4.getText(), true);
 
-        statistics.put("Host with most properties" + '\n' + getHostWithMostProperties(), false);
-        statistics.put("Cheapest host" + '\n' + getCheapestHost(), false);
-        statistics.put("Most reviewed property" + '\n' + getMostReviewedProperty(), false);
-        statistics.put("Average price per night" + '\n' + getAveragePricePerNight(), false);
+        statistics.put("Host with most properties" + '\n' + '\n' + getHostWithMostProperties(), false);
+        statistics.put("Cheapest host" + '\n' + '\n' + getCheapestHost(), false);
+        statistics.put("Most reviewed property" + '\n' + '\n' + getMostReviewedProperty(), false);
+        statistics.put("Average price per night" + '\n' + '\n' + getAveragePricePerNight(), false);
     }
 
 
