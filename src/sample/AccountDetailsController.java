@@ -1,10 +1,14 @@
 package sample;
 
+import javafx.fxml.FXMLLoader;
+
 import java.io.IOException;
 
 public class AccountDetailsController extends AccountController
 {
-    protected void initialize() throws IOException {
+    public void initialize() throws IOException
+    {
+
 
     }
 }

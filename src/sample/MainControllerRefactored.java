@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -61,7 +62,7 @@ public abstract class MainControllerRefactored extends Controller
 
     private MapControllerRefactored mapControllerRefactored;
 
-    public void initialize(StackPane mainRoot) throws IOException
+    public void initialize(Pane mainRoot) throws IOException
     {
         this.mainRoot = mainRoot;
 
@@ -75,18 +76,13 @@ public abstract class MainControllerRefactored extends Controller
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("WelcomeRefactored.fxml"));
         welcomeRoot = loader.load();
-        WelcomeControllerRefactored welcomeControllerRefactored= loader.getController();
-        welcomeControllerRefactored.initialize();
+
 
         loader = new FXMLLoader(getClass().getResource("map.fxml"));
         mapRoot = loader.load();
-        mapControllerRefactored = loader.getController();
-        mapControllerRefactored.initialize();
 
-        loader = new FXMLLoader(getClass().getResource("statistics.fxml"));
+        loader = new FXMLLoader(getClass().getResource("Statistics.fxml"));
         statisticsRoot = loader.load();
-        StatisticsControllerRefactored statisticsControllerRefactored = loader.getController();
-        statisticsControllerRefactored.initialize();
 
         mainPane.setCenter(welcomeRoot);
 
@@ -97,21 +93,11 @@ public abstract class MainControllerRefactored extends Controller
         listOfRoots.add(2, statisticsRoot);
         trackingIndex = 0;
 
-        loader = new FXMLLoader(getClass().getResource("accountPopUpMenu.fxml"));
+        loader = new FXMLLoader(getClass().getResource("AccountDropDownMenu.fxml"));
         VBox popUpRoot = loader.load();
         mainRoot.getChildren().add(popUpRoot);
         AccountController accountController = loader.getController();
-        accountController.initialize();
-
-        loader = new FXMLLoader(getClass().getResource("signed_out.fxml"));
-        Pane signedOutBar = loader.load();
-        AccountAccessController accountAccessController = loader.getController();
-        accountAccessController.initialize();
-
-        accountBar.setRight(signedOutBar);
-
-
-
+        accountController.initialize(this);
     }
 
     @FXML
@@ -238,5 +224,13 @@ public abstract class MainControllerRefactored extends Controller
 
     protected Pane getStatisticsRoot() {
         return statisticsRoot;
+    }
+
+    public BorderPane getAccountBar() {
+        return accountBar;
+    }
+
+    public MapControllerRefactored getMapControllerRefactored() {
+        return mapControllerRefactored;
     }
 }

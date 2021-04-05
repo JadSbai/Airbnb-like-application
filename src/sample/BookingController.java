@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -29,6 +31,12 @@ public class BookingController
     private Account currentAccount;
 
     private AirbnbListing listing;
+
+    @FXML
+    private ListView<BorderPane> listOfBookings;
+
+    @FXML
+    private Label emptyListLabel2;
 
     public void initialize(AirbnbListing listing, Button reserveButton, Account currentAccount, LocalDate inDate, LocalDate outDate) throws IOException {
 
@@ -76,5 +84,14 @@ public class BookingController
     {
         currentAccount.removeFromBookings(listing);
         reserveButton.setDisable(false);
+    }
+
+    public void loadBookings()
+    {
+        emptyListLabel2.setText("");
+        listOfBookings.setItems(currentAccount.getListViewOfBookings().getItems());
+        if(listOfBookings.getItems().isEmpty()){
+            emptyListLabel2.setText("You currently have no bookings. Click on the \"Reserve\" button to add a booking.");
+        }
     }
 }

@@ -6,12 +6,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<VBox fx:id="subPane" alignment="CENTER" maxHeight="200.0" maxWidth="150.0" prefHeight="200.0" prefWidth="500.0" spacing="10.0" style="-fx-border-color: black; -fx-background-color: rgb(220,220,220);" visible="false" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AccountController">
+<VBox fx:id="dropDownPane" alignment="CENTER" maxHeight="200.0" maxWidth="150.0" prefHeight="200.0" prefWidth="500.0" spacing="10.0" style="-fx-border-color: black; -fx-background-color: rgb(220,220,220);" visible="false" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AccountController">
    <children>
       <VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: rgb(180,180,180);">
          <children>
             <Circle fx:id="profileCircle2" fill="WHITE" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
-            <Label fx:id="accountUsername" text="Username">
+            <Label fx:id="accountUsernameLabel" text="Username">
                <padding>
                   <Insets bottom="20.0" />
                </padding>
@@ -23,8 +23,8 @@
       </VBox>
       <VBox alignment="CENTER" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#accountSettingsAction" text="Account settings" />
-            <Button mnemonicParsing="false" onAction="#accountDetailsAction" text="Account details" />
+            <Button mnemonicParsing="false" onAction="#goToAccountSettings" text="Account settings" />
+            <Button mnemonicParsing="false" onAction="#goToAccountDetailsAction" text="Account details" />
             <Button mnemonicParsing="false" onAction="#signOutAction" text="Sign out" />
          </children>
          <padding>

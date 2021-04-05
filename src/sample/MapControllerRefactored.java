@@ -148,7 +148,6 @@ public class MapControllerRefactored extends MainControllerRefactored
     }
 
     public void loadCurrentAccount(Account currentAccount) throws IOException {
-        setCurrentAccount(currentAccount);
         if(listOfProperties != null){
             listOfProperties.reload(boroughListings, currentAccount);
         }
