@@ -270,7 +270,8 @@ public class AirbnbListing {
     }
 
     public int getMinimumPrice() {
-        return price * minimumNights;
+        minimumPrice = price * minimumNights;
+        return minimumPrice;
     }
 
     @Override
