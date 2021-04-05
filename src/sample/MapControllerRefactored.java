@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 
-public class MapControllerRefactored extends MainControllerRefactored
+public class MapControllerRefactored extends Controller
 {
     @FXML
     private Button ENFI, BARN, HRGY, WALT, HRRW, BREN, CAMD, ISLI, HACK, REDB, HAVE, HILL, EALI, KENS, WSTM, TOWH, NEWH, BARK, HOUN, HAMM, WAND, CITY, GWCH, BEXL, RICH, MERT, LAMB, STHW, LEWS, KING, SUTT, CROY, BROM;
@@ -27,8 +28,11 @@ public class MapControllerRefactored extends MainControllerRefactored
 
     private ArrayList<Button> hexagons;
 
+    private int minPrice;
+    private int maxPrice;
 
-    protected void initialize() throws IOException
+
+    public void initialize() throws IOException
     {
         hexagons = new ArrayList<>(Arrays.asList(ENFI, BARN, HRGY, WALT, HRRW, BREN, CAMD, ISLI, HACK, REDB, HAVE, HILL, EALI, KENS, WSTM, TOWH, NEWH, BARK, HOUN, HAMM, WAND, CITY, GWCH, BEXL, RICH, MERT, LAMB, STHW, LEWS, KING, SUTT, CROY, BROM));
         listOfPropertyListStages = new ArrayList<>();
@@ -41,13 +45,9 @@ public class MapControllerRefactored extends MainControllerRefactored
         String boroughAbbreviation = ((Button) event.getSource()).getText();
         reloadBoroughListings(boroughAbbreviation);
 
-        if(isNewSearch()){
-            setNewSearch(false);
-        }
-
         if(!listOfPropertyListStages.isEmpty()){
 
-            FXMLLoader propertyList = getPropertyListLoader();
+            FXMLLoader propertyList = new FXMLLoader(getClass().getResource("AirbnbViewerList.fxml"));
             setPropertyListStage(propertyList, boroughAbbreviation);
 
             if(!propertyListStage.isShowing()) {
@@ -65,12 +65,12 @@ public class MapControllerRefactored extends MainControllerRefactored
 
     private void reloadBoroughListings(String boroughAbbreviation)
     {
-        boroughListings = dataLoader.loadFromBoroughAtPrice(boroughAbbreviation, getMinPrice(), getMaxPrice());
+        boroughListings = getDataLoader().loadFromBoroughAtPrice(boroughAbbreviation, minPrice, maxPrice);
     }
 
     private void loadAndInitializePropertyListStage(String boroughAbbreviation) throws IOException
     {
-        FXMLLoader propertyList = getPropertyListLoader();
+        FXMLLoader propertyList = new FXMLLoader(getClass().getResource("AirbnbViewerList.fxml"));
         setPropertyListStage(propertyList, boroughAbbreviation);
         initializePropertyListStage(propertyList);
     }
@@ -80,13 +80,8 @@ public class MapControllerRefactored extends MainControllerRefactored
         listOfPropertyListStages.add(propertyListStage);
         listOfProperties = propertyList.getController();
         listOfPropertyListControllers.add(listOfProperties);
-        listOfProperties.initialize(boroughListings, getCurrentAccount());
+        listOfProperties.initialize(boroughListings);
         propertyListStage.show();
-    }
-
-    private FXMLLoader getPropertyListLoader()
-    {
-        return new FXMLLoader(getClass().getResource("AirbnbViewerList.fxml"));
     }
 
     private void setPropertyListStage(FXMLLoader propertyList, String boroughAbbreviation) throws IOException
@@ -98,14 +93,14 @@ public class MapControllerRefactored extends MainControllerRefactored
     public void setColor(){
         int maxSize = 0;
         for (Button borough: hexagons) {
-            int numberOfPropertiesInBorough = dataLoader.loadFromBoroughAtPrice(borough.getText(), getMinPrice(), getMaxPrice()).size();
+            int numberOfPropertiesInBorough = getDataLoader().loadFromBoroughAtPrice(borough.getText(), minPrice, maxPrice).size();
             if(maxSize<numberOfPropertiesInBorough){
                 maxSize = numberOfPropertiesInBorough;
             }
         }
 
         for (Button borough: hexagons) {
-            int boroughSize = dataLoader.loadFromBoroughAtPrice(borough.getText(), getMinPrice(), getMaxPrice()).size();
+            int boroughSize = getDataLoader().loadFromBoroughAtPrice(borough.getText(), minPrice, maxPrice).size();
             String hexTransparency = Integer.toHexString((int) ((boroughSize*0.001/maxSize)*255000));
             if(hexTransparency.toCharArray().length==1){
                 hexTransparency = "0" + hexTransparency;
@@ -149,7 +144,12 @@ public class MapControllerRefactored extends MainControllerRefactored
 
     public void loadCurrentAccount(Account currentAccount) throws IOException {
         if(listOfProperties != null){
-            listOfProperties.reload(boroughListings, currentAccount);
+            listOfProperties.reload(boroughListings);
         }
+    }
+    public void setPriceRange(int minPrice, int maxPrice)
+    {
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
     }
 }

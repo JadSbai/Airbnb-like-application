@@ -4,12 +4,11 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ import java.util.ArrayList;
  * @author Jacqueline Ilie, Liam Clark Gutiérrez, Dexter Trower and Jad Sbaï
  * @version 29/03/2021
  */
-public abstract class MainControllerRefactored extends Controller
+public class MainControllerRefactored extends Controller
 {
 
     @FXML
@@ -36,9 +35,7 @@ public abstract class MainControllerRefactored extends Controller
     @FXML
     private BorderPane accountBar;
     @FXML
-    private ComboBox<Integer> minimumPrice;
-    @FXML
-    private ComboBox<Integer> maximumPrice;
+    private ComboBox<Integer> minimumPrice, maximumPrice;
     @FXML
     private Button searchButton;
 
@@ -50,6 +47,7 @@ public abstract class MainControllerRefactored extends Controller
 
     private static final int MAX_VALUE = 500;
     private static final int MIN_VALUE = 0;
+
     private int minPrice;
     private int maxPrice;
 
@@ -60,29 +58,42 @@ public abstract class MainControllerRefactored extends Controller
     private int trackingIndex;
     private int mapRootIndex;
 
+    private VBox dropDownRoot;
+
     private MapControllerRefactored mapControllerRefactored;
 
-    public void initialize(Pane mainRoot) throws IOException
+    public void initialize() throws IOException
     {
-        this.mainRoot = mainRoot;
-
-        rightButton.setDisable(true);
-        leftButton.setDisable(true);
-
-        isSearched = false;
-
-        minimumPrice.setItems(FXCollections.observableArrayList(getPriceRange(MIN_VALUE, MAX_VALUE)));
-        maximumPrice.setItems(FXCollections.observableArrayList(getPriceRange(MIN_VALUE, MAX_VALUE)));
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("WelcomeRefactored.fxml"));
         welcomeRoot = loader.load();
-
+        WelcomeControllerRefactored welcomeControllerRefactored = loader.getController();
+        welcomeControllerRefactored.setWelcomeRoot(welcomeRoot);
 
         loader = new FXMLLoader(getClass().getResource("Map.fxml"));
         mapRoot = loader.load();
+        mapControllerRefactored = loader.getController();
 
         loader = new FXMLLoader(getClass().getResource("Statistics.fxml"));
         statisticsRoot = loader.load();
+
+        loader = new FXMLLoader(getClass().getResource("AccountDropDownMenu.fxml"));
+        dropDownRoot = loader.load();
+        AccountController accountController = loader.getController();
+        accountController.setMapControllerRefactored(this);
+
+        loader = new FXMLLoader(getClass().getResource("AccountStage.fxml"));
+        loader.setController(accountController);
+        Stage accountStage = loader.load();
+        accountController.setAccountStage(accountStage);
+
+        rightButton.setDisable(true);
+        leftButton.setDisable(true);
+        listOfRoots = new ArrayList<>();
+
+        isSearched = false;
+
+        minimumPrice.setItems(FXCollections.observableArrayList(getPriceRange()));
+        maximumPrice.setItems(FXCollections.observableArrayList(getPriceRange()));
 
         mainPane.setCenter(welcomeRoot);
 
@@ -92,16 +103,16 @@ public abstract class MainControllerRefactored extends Controller
         mapRootIndex = 1;
         listOfRoots.add(2, statisticsRoot);
         trackingIndex = 0;
+    }
 
-        loader = new FXMLLoader(getClass().getResource("AccountDropDownMenu.fxml"));
-        VBox popUpRoot = loader.load();
-        mainRoot.getChildren().add(popUpRoot);
-        AccountController accountController = loader.getController();
-        accountController.initialize(this);
+    public void setMainRoot(Pane root)
+    {
+        this.mainRoot = root;
+        mainRoot.getChildren().add(dropDownRoot);
     }
 
     @FXML
-    private void rightButtonAction()
+    private void rightButtonAction(ActionEvent e)
     {
         trackingIndex = (trackingIndex + 1) % (listOfRoots.size());
         Pane nextPane = listOfRoots.get(trackingIndex);
@@ -140,13 +151,19 @@ public abstract class MainControllerRefactored extends Controller
         if (valid && maxPrice > minPrice && isNewPrice)
         {
             currentPriceRangeLabel.setText("Price range: " + minPrice + "-" + maxPrice);
+            mapControllerRefactored.setPriceRange(minPrice, maxPrice);
             isNewSearch = true;
             if(!isSearched){
                 rightButton.setDisable(false);
                 leftButton.setDisable(false);
+                mapControllerRefactored.setColor();
+                rightButtonAction(e);
                 setSearched(true);
             }
-            jumpToNewMap();
+            else{
+                jumpToNewMap();
+            }
+
         }
         else if(valid && isNewPrice)
         {
@@ -166,9 +183,9 @@ public abstract class MainControllerRefactored extends Controller
         mainPane.setCenter(mapRoot);
     }
 
-    protected ArrayList<Integer> getPriceRange(int min, int max) {
+    protected ArrayList<Integer> getPriceRange() {
         ArrayList<Integer> priceRange = new ArrayList<>();
-        for (int i = min; i <= max; i = (int) (i + ((max - min)) * 0.1)) {
+        for (int i = MIN_VALUE; i <= MAX_VALUE; i = (int) (i + ((MAX_VALUE - MIN_VALUE)) * 0.1)) {
             priceRange.add(i);
         }
         return priceRange;
@@ -209,6 +226,7 @@ public abstract class MainControllerRefactored extends Controller
     protected int getMaxPrice() {
         return maxPrice;
     }
+
 
     protected Pane getMainRoot() {
         return mainRoot;

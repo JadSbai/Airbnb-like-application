@@ -20,16 +20,7 @@ public class AccountSettingsController extends AccountController
 {
 
     @FXML
-    private Circle profileCircle;
-
-    @FXML
-    private Circle changeAvatarCircle;
-
-    @FXML
     private Button chooseFileButton;
-
-    @FXML
-    private Label imagePathLabel;
 
     @FXML
     private Label changeUsernameErrorLabel;
@@ -43,11 +34,24 @@ public class AccountSettingsController extends AccountController
     @FXML
     private Label saveFeedbackLabel;
 
-    @FXML
-    private Label passwordFeedbackLabel;
+    @FXML private Label currentUsernameLabel;
+
+    private Pane changePasswordMenu;
+
+    private Image bufferImage;
+
+    private Image bufferedBasicAvatar;
+
+    private Pane chooseAvatarMenu;
 
     @FXML
-    private TilePane pfpGrid;
+    private Circle changeAvatarCircle;
+
+    @FXML
+    private Label imagePathLabel;
+
+    @FXML
+    private Circle profileCircle;
 
     @FXML
     private TextField currentPasswordField;
@@ -61,34 +65,18 @@ public class AccountSettingsController extends AccountController
     @FXML
     private Label changePasswordErrorField;
 
-    @FXML private Label currentUsernameLabel;
-
     @FXML
-    public static final String IMAGE_PATH_DEFAULT = "No file chosen";
-
-    private Image bufferImage;
-
-    private Image bufferedBasicAvatar;
-
-    private Pane chooseAvatarMenu;
-
-    private Pane changePasswordMenu;
+    private Label passwordFeedbackLabel;
 
 
     public void initialize() throws IOException
     {
 
-
         FXMLLoader pfpGridLoader = new FXMLLoader(getClass().getResource("ProfilePicturesGrid.fxml"));
-        pfpGridLoader.setController(this);
         chooseAvatarMenu = pfpGridLoader.load();
 
         FXMLLoader changePasswordLoader = new FXMLLoader(getClass().getResource("ChangePassword.fxml"));
-        changePasswordLoader.setController(this);
         changePasswordMenu = changePasswordLoader.load();
-
-        pfpGrid.setVgap(20);
-        pfpGrid.setHgap(20);
 
         chooseFileButton.setOnAction(e-> {
             try {
@@ -100,8 +88,6 @@ public class AccountSettingsController extends AccountController
 
         Image cursor = new Image("/sample/crossout.png");
         emailField.setCursor(new ImageCursor(cursor, cursor.getWidth()/2, cursor.getHeight()/2));
-        loadBasicAvatars();
-
     }
 
     @FXML
@@ -113,6 +99,13 @@ public class AccountSettingsController extends AccountController
         {
             openFile(file);
         }
+    }
+
+    @FXML
+    private void chooseBasicPfpAction()
+    {
+        getAccountPanel().setCenter(getChooseAvatarMenu());
+        getAccountStage().sizeToScene();
     }
 
     private void openFile(File file)
@@ -154,7 +147,7 @@ public class AccountSettingsController extends AccountController
         }
         if (bufferImage != null)
         {
-            getCurrentAccount().setProfilePicture(bufferImage);
+            getAccount().setProfilePicture(bufferImage);
             setProfileCircles();
             setCircles();
             changes = true;
@@ -172,32 +165,7 @@ public class AccountSettingsController extends AccountController
 
     private boolean checkChangeUsernameValidity(String newUsername)
     {
-        return (!newUsername.equals("") && !newUsername.equals(getCurrentAccount().getUsername()));
-    }
-
-    @FXML
-    private void chooseBasicPfpAction()
-    {
-        getAccountPanel().setCenter(chooseAvatarMenu);
-        getAccountStage().sizeToScene();
-    }
-
-    @FXML
-    private void exitAvatarMenu()
-    {
-        profileCircle.setFill(new ImagePattern(getCurrentAccount().getProfilePicture()));
-        bufferedBasicAvatar = null;
-        getAccountPanel().setCenter(getAccountSettings());
-    }
-
-    @FXML
-    private void confirmAvatarAction()
-    {
-        bufferImage = bufferedBasicAvatar;
-        changeAvatarCircle.setFill(new ImagePattern(bufferImage));
-        imagePathLabel.setText(IMAGE_PATH_DEFAULT);
-
-        exitAvatarMenu();
+        return (!newUsername.equals("") && !newUsername.equals(getAccount().getUsername()));
     }
 
     @FXML
@@ -205,12 +173,6 @@ public class AccountSettingsController extends AccountController
     {
         resetPasswordFields();
         getAccountPanel().setCenter(changePasswordMenu);
-    }
-
-    @FXML
-    private void exitChangePasswordMenu()
-    {
-        getAccountPanel().setCenter(getAccountSettings());
     }
 
     private void resetPasswordFields()
@@ -221,86 +183,74 @@ public class AccountSettingsController extends AccountController
         changePasswordErrorField.setText("");
     }
 
-    @FXML
-    private void confirmNewPassword()
-    {
-        String currentPassword = currentPasswordField.getText();
-        String newPassword = newPasswordField.getText();
-        String confirmPassword = confirmPasswordField.getText();
-
-        if (checkValidityOfCurrentPassword(currentPassword, newPassword) && checkPassword(newPassword, confirmPassword, changePasswordErrorField))
-        {
-            getCurrentAccount().setPassword(newPassword);
-            passwordFeedbackLabel.setText("Password changed successfully");
-            exitChangePasswordMenu();
-        }
-    }
-
-    private boolean checkValidityOfCurrentPassword(String currentPassword, String newPassword)
-    {
-        boolean valid = false;
-        String password = getCurrentAccount().getPassword();
-
-        if (!currentPassword.equals(password))
-        {
-            changePasswordErrorField.setText("Current password is incorrect");
-        } else if (newPassword.equals(password))
-        {
-            changePasswordErrorField.setText("New password is the same as current");
-        } else
-        {
-            valid = true;
-        }
-
-        return valid;
-    }
-
-    @FXML
-    private void loadBasicAvatars() {
-
-        File dir = new File("src/sample/pfp/");
-        File[] directoryList = dir.listFiles();
-
-        if (directoryList != null) {
-            for (File file : directoryList) {
-                String imagePath = file.toURI().toString();
-                Image im = new Image(imagePath);
-                if (im != null && !im.isError())
-                {
-                    Circle avatarPreview = new Circle(50);
-                    avatarPreview.setFill(new ImagePattern(im));
-                    avatarPreview.setOnMouseClicked(e-> {
-                        if (e.getButton() == MouseButton.PRIMARY)
-                        {
-                            selectBasicAvatar(im);
-                        }
-                    });
-                    pfpGrid.getChildren().add(avatarPreview);
-                }
-            }
-        }
-    }
-
-    private void selectBasicAvatar(Image image)
-    {
-        bufferedBasicAvatar = image;
-        profileCircle.setFill(new ImagePattern(bufferedBasicAvatar));
-    }
-
-    public void resetAccountSettings()
-    {
-        saveFeedbackLabel.setText("");
-        changeUsernameField.setText("");
-        changeUsernameErrorLabel.setText("");
-        changeAvatarCircle.setFill(new ImagePattern(getCurrentAccount().getProfilePicture()));
-        profileCircle.setFill(new ImagePattern(getCurrentAccount().getProfilePicture()));
-        bufferImage = null;
-        imagePathLabel.setText(IMAGE_PATH_DEFAULT);
-    }
-
     private void setCircles()
     {
-        profileCircle.setFill(new ImagePattern(getCurrentAccount().getProfilePicture()));
-        changeAvatarCircle.setFill(new ImagePattern(getCurrentAccount().getProfilePicture()));
+        profileCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
+        changeAvatarCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
+    }
+
+
+    public TextField getCurrentPasswordField() {
+        return currentPasswordField;
+    }
+
+    public TextField getNewPasswordField() {
+        return newPasswordField;
+    }
+
+    public TextField getConfirmPasswordField() {
+        return confirmPasswordField;
+    }
+
+    public Label getChangePasswordErrorField() {
+        return changePasswordErrorField;
+    }
+
+    public Label getPasswordFeedbackLabel() {
+        return passwordFeedbackLabel;
+    }
+
+    public Image getBufferImage() {
+        return bufferImage;
+    }
+
+    public Image getBufferedBasicAvatar() {
+        return bufferedBasicAvatar;
+    }
+
+    public Pane getChooseAvatarMenu() {
+        return chooseAvatarMenu;
+    }
+
+    public Circle getChangeAvatarCircle() {
+        return changeAvatarCircle;
+    }
+
+    public Circle getProfileCircle() {
+        return profileCircle;
+    }
+
+    public void setBufferImage(Image bufferImage) {
+        this.bufferImage = bufferImage;
+    }
+
+    public void setBufferedBasicAvatar(Image bufferedBasicAvatar) {
+        this.bufferedBasicAvatar = bufferedBasicAvatar;
+    }
+
+    public Label getImagePathLabel() {
+        return imagePathLabel;
+    }
+
+    public Label getChangeUsernameErrorLabel() {
+        return changeUsernameErrorLabel;
+    }
+
+    public TextField getChangeUsernameField() {
+        return changeUsernameField;
+    }
+
+    public Label getSaveFeedbackLabel() {
+        return saveFeedbackLabel;
     }
 }

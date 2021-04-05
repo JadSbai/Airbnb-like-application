@@ -4,11 +4,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-public class WelcomeControllerRefactored extends MainControllerRefactored
+public class WelcomeControllerRefactored extends Controller
 {
 
     @FXML
@@ -19,7 +20,9 @@ public class WelcomeControllerRefactored extends MainControllerRefactored
 
     private VBox infoBox;
 
-    protected void initialize() throws IOException
+    private Pane welcomeRoot;
+
+    public void initialize() throws IOException
     {
         Label instructionsLabel = new Label();
         instructionsLabel.setText("Instructions...");
@@ -29,17 +32,22 @@ public class WelcomeControllerRefactored extends MainControllerRefactored
         infoBox = new VBox(instructionsLabel, okButton);
         infoBox.getStyleClass().add("vboxes");
     }
+    
+    public void setWelcomeRoot(Pane root)
+        {
+            this.welcomeRoot = root;
+        }
 
     @FXML
     private void printInstructions(ActionEvent e)
     {
-        getWelcomeRoot().getChildren().clear();
-        getWelcomeRoot().getChildren().add(infoBox);
+        welcomeRoot.getChildren().clear();
+        welcomeRoot.getChildren().add(infoBox);
     }
 
     private void okAction(ActionEvent e)
     {
-        getWelcomeRoot().getChildren().clear();
-        getWelcomeRoot().getChildren().add(welcomeVBox);
+        welcomeRoot.getChildren().clear();
+        welcomeRoot.getChildren().add(welcomeVBox);
     }
 }

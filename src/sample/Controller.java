@@ -4,13 +4,16 @@ import java.io.IOException;
 
 public abstract class Controller
 {
-    AirbnbDataLoader dataLoader = new AirbnbDataLoader();
+
+    private static final AirbnbDataLoader dataLoader = new AirbnbDataLoader();
 
     private Account currentAccount;
 
-    protected abstract void initialize() throws IOException;
+    protected static AirbnbDataLoader getDataLoader() {
+        return dataLoader;
+    }
 
-    protected Account getCurrentAccount() {
+    protected Account getAccount() {
         return currentAccount;
     }
 

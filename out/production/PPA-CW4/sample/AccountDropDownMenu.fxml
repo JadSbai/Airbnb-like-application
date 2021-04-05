@@ -23,8 +23,8 @@
       </VBox>
       <VBox alignment="CENTER" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#goToAccountSettings" text="Account settings" />
-            <Button mnemonicParsing="false" onAction="#goToAccountDetailsAction" text="Account details" />
+            <Button mnemonicParsing="false" onAction="#openAccountSettings" text="Account settings" />
+            <Button mnemonicParsing="false" onAction="#openAccountDetails" text="Account details" />
             <Button mnemonicParsing="false" onAction="#signOutAction" text="Sign out" />
          </children>
          <padding>

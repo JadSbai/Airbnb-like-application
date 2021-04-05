@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StatisticsControllerRefactored extends MainControllerRefactored
+public class StatisticsControllerRefactored extends Controller
 {
 
     @FXML
@@ -52,11 +52,10 @@ public class StatisticsControllerRefactored extends MainControllerRefactored
     // keeps track of the statistics list
     private int index;
 
-
-    protected void initialize() throws IOException
+    public void initialize() throws IOException
     {
         statistics = new HashMap<>();
-        properties = dataLoader.getListings();
+        properties = getDataLoader().getListings();
         index = 0;
         setTextToInitialLabels();
         addToStatisticsArray();

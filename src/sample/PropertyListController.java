@@ -10,11 +10,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import sample.ListingController;
 
 import java.io.IOException;
 import java.util.*;
 
-public class PropertyListController {
+public class PropertyListController{
 
     private PropertyPreviewController propertyPreviewController;
 
@@ -36,19 +37,20 @@ public class PropertyListController {
     private List<EntryInteger> numberOfReviewsOrder;
 
 
-    public void initialize(ArrayList<AirbnbListing> boroughListings) throws IOException {
+    public void initialize(ArrayList<AirbnbListing> boroughListings) throws IOException
+    {
         listOfPropertyPreviewControllers = new ArrayList<>();
         createChoiceBoxOptions();
         createSortedLists();
 
         for (AirbnbListing listing : boroughListings) {
             FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
+            PropertyPreviewController propertyPreviewController = new PropertyPreviewController(listing);
+            preview.setController(propertyPreviewController);
             Pane propertyPreviewPane = preview.load();
-            PropertyPreviewController propertyPreviewController = preview.getController();
 
             this.propertyPreviewController = propertyPreviewController;
             listOfPropertyPreviewControllers.add(propertyPreviewController);
-            propertyPreviewController.initialize(listing);
 
             listView.getItems().add(propertyPreviewPane);
             addToSortedLists(listing, propertyPreviewPane);
@@ -198,29 +200,3 @@ public class PropertyListController {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

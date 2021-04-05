@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class AccountController extends Controller
+public class AccountController extends Controller
 {
     @FXML
     private BorderPane accountPanel;
@@ -59,28 +59,37 @@ public abstract class AccountController extends Controller
 
     private Pane signedInBar;
 
+    private Pane signInPanel;
 
-    public void initialize(MainControllerRefactored mainControllerRefactored) throws IOException
+    private Pane createAccountPanel;
+
+
+    public void initialize() throws IOException
     {
-        this.mainControllerRefactored = mainControllerRefactored;
-        mapControllerRefactored = mainControllerRefactored.getMapControllerRefactored();
         listOfAccounts = new ArrayList<>();
         accountsMap = new HashMap<>();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("AccountStage.fxml"));
-        loader.setController(this);
-        accountStage = loader.load();
 
-        loader = new FXMLLoader(getClass().getResource("SignedOutBar.fxml"));
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("SignedOutBar.fxml"));
         signedOutBar = loader.load();
         AccountAccessController accountAccessController = loader.getController();
-        accountAccessController.initialize();
 
         FXMLLoader signedInLoader = new FXMLLoader(getClass().getResource("SignedInBar.fxml"));
-        signedInLoader.setController(this);
+        signedInLoader.setController(accountAccessController);
         signedInBar = signedInLoader.load();
 
-        setAccountBar(signedOutBar);
+        FXMLLoader createAccountStage = new FXMLLoader(getClass().getResource("AccountAccessStage.fxml"));
+        createAccountStage.setController(accountAccessController);
+        accountAccessStage = createAccountStage.load();
+
+        FXMLLoader signInPanelLoader = new FXMLLoader(getClass().getResource("SignInPanel.fxml"));
+        signInPanelLoader.setController(accountAccessController);
+        signInPanel = signInPanelLoader.load();
+
+        FXMLLoader createAccountPanelLoader = new FXMLLoader(getClass().getResource("CreateAccountPanel.fxml"));
+        createAccountPanelLoader.setController(accountAccessController);
+        createAccountPanel = createAccountPanelLoader.load();
 
         FXMLLoader accountSettingsLoader = new FXMLLoader(getClass().getResource("AccountSettings.fxml"));
         setAccountSettings(accountSettingsLoader.load());
@@ -89,11 +98,16 @@ public abstract class AccountController extends Controller
 
         FXMLLoader accountDetailsLoader = new FXMLLoader(getClass().getResource("AccountDetails.fxml"));
         accountDetails = accountDetailsLoader.load();
-        AccountDetailsController accountDetailsController = loader.getController();
-        accountDetailsController.initialize();
+
 
         formatDropDownMenu();
     }
+
+    public void setAccountStage(Stage accountStage)
+    {
+        this.accountStage = accountStage;
+    }
+
 
     /**
      * This method saves all data and settings of the current account and signs it out
@@ -142,7 +156,7 @@ public abstract class AccountController extends Controller
      */
     protected void loadAccount(Account account) throws IOException
     {
-        mapControllerRefactored.loadCurrentAccount(getCurrentAccount());
+        mapControllerRefactored.loadCurrentAccount(getAccount());
     }
 
     /**
@@ -155,7 +169,7 @@ public abstract class AccountController extends Controller
     }
 
     private void closeAllAccountWindows() {
-        for (PropertyPreviewController propertyPreviewController : getCurrentAccount().getListOfPropertyPreviewControllers()) {
+        for (PropertyPreviewController propertyPreviewController : getAccount().getListOfPropertyPreviewControllers()) {
             if (propertyPreviewController.getPropertyStage() != null && propertyPreviewController.getPropertyStage().isShowing()) {
                 propertyPreviewController.getPropertyStage().close();
             }
@@ -171,17 +185,6 @@ public abstract class AccountController extends Controller
         mapControllerRefactored.closeAllMapStages();
     }
 
-    /**
-     * This method displays or hides the account's drop-down menu each time the profile circle is clicked (the one at the top right of the main frame)
-     * @param e The mouse event that triggers the method call
-     */
-    @FXML
-    private void profileClicked(MouseEvent e)
-    {
-        if (e.getButton() == MouseButton.PRIMARY) {
-            dropDownPane.setVisible(!dropDownPane.isVisible());
-        }
-    }
 
     @FXML
     private void goToAccountSettings()
@@ -191,7 +194,7 @@ public abstract class AccountController extends Controller
     }
 
     @FXML
-    private void goToAccountDetailsAction() throws IOException {
+    private void goToAccountDetails() throws IOException {
         //loadFavourites();
         //loadBookings();
         accountPanel.setCenter(accountDetails);
@@ -225,7 +228,7 @@ public abstract class AccountController extends Controller
 
     public void changeUsername(String username)
     {
-        getCurrentAccount().setUsername(username);
+        getAccount().setUsername(username);
         setAccountUsernameLabel(username);
     }
 
@@ -233,8 +236,8 @@ public abstract class AccountController extends Controller
      * This method sets both the profile pictures to the one specified
      */
     public void setProfileCircles() {
-        profileCircle.setFill(new ImagePattern(getCurrentAccount().getProfilePicture()));
-        profileCircle2.setFill(new ImagePattern(getCurrentAccount().getProfilePicture()));
+        profileCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
+        profileCircle2.setFill(new ImagePattern(getAccount().getProfilePicture()));
     }
 
     /**
@@ -397,5 +400,30 @@ public abstract class AccountController extends Controller
 
     public Pane getSignedInBar() {
         return signedInBar;
+    }
+
+    public void setMapControllerRefactored(MainControllerRefactored mainControllerRefactored) {
+        this.mainControllerRefactored = mainControllerRefactored;
+        mapControllerRefactored = this.mainControllerRefactored.getMapControllerRefactored();
+        setAccountBar(signedOutBar);
+    }
+
+    /**
+     * Scene loaded when a user wants to sign in their account
+     */
+    public Pane getSignInPanel() {
+        return signInPanel;
+    }
+
+    /**
+     * Scene loaded when a user wants to create a new account
+     *
+     */
+    public Pane getCreateAccountPanel() {
+        return createAccountPanel;
+    }
+
+    public Stage getAccountAccessStage() {
+        return accountAccessStage;
     }
 }

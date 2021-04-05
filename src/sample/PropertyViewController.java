@@ -45,11 +45,15 @@ public class PropertyViewController extends ListingController {
     private Hyperlink locationLink;
     @FXML
     private Label favouriteTextLabel;
+    
+    public PropertyViewController(AirbnbListing listing)
+    {
+        super(listing);
+    }
 
 
-    public void initialize(AirbnbListing listing){
-        super.initialize(listing);
-
+    public void initialize() throws IOException
+    {
         favouriteTextLabel.setText("");
 
         setHeader();
@@ -256,10 +260,10 @@ public class PropertyViewController extends ListingController {
         }
     }
 
-    public void reload(AirbnbListing listing)
+    public void reload()
     {
         if(getAccount() == null){
-            listing.setFavourite(false);
+            getListing().setFavourite(false);
             setSaveBox(false);
         }
         else{
@@ -308,4 +312,5 @@ public class PropertyViewController extends ListingController {
         getAccount().addToBookings(getListing(), booking);
         reserveButton.setDisable(true);
     }
+
 }

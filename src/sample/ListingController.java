@@ -1,10 +1,12 @@
 package sample;
 
-public abstract class ListingController extends Controller {
+import java.io.IOException;
 
+public abstract class ListingController extends Controller
+{
     private AirbnbListing listing;
 
-    public void initialize(AirbnbListing listing){
+    public ListingController(AirbnbListing listing) {
         this.listing = listing;
     }
 

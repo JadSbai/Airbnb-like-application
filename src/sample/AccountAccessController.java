@@ -3,7 +3,6 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
@@ -112,46 +111,13 @@ public class AccountAccessController extends AccountController
 
 
 
-
-
-    // Other fields (non-FXML fields):
-    /**
-     * Scene loaded when a user wants to sign in their account
-     */
-    private Pane signInPanel;
-
-    /**
-     * Scene loaded when a user wants to create a new account
-     */
-    private Pane createAccountPanel;
-
-    /**
-     * Stage containing either one of the two account scenes ("sign in" ore "create account")
-     */
-    private Stage accountAccessStage;
-
-
-
     /**
      * The constructor initializes all the non-FXML fields, loads all the account related fxml files, sets their controller and displays the resulting stage.
      * @throws IOException if the designated files are not loaded successfully
      */
 
-    protected void initialize() throws IOException
+    public void initialize() throws IOException
     {
-        FXMLLoader createAccountStage = new FXMLLoader(getClass().getResource("AccountAccessStage.fxml"));
-        createAccountStage.setController(this);
-        accountAccessStage = createAccountStage.load();
-
-        FXMLLoader signInPanelLoader = new FXMLLoader(getClass().getResource("SignInPanel.fxml"));
-        signInPanelLoader.setController(this);
-        signInPanel = signInPanelLoader.load();
-
-        FXMLLoader createAccountPanelLoader = new FXMLLoader(getClass().getResource("CreateAccountPanel.fxml"));
-        createAccountPanelLoader.setController(this);
-        createAccountPanel = createAccountPanelLoader.load();
-
-        setAccountUsernameLabel("");
     }
 
 
@@ -162,18 +128,18 @@ public class AccountAccessController extends AccountController
     @FXML
     private void signIn(ActionEvent e)
     {
-        if(!accountAccessStage.isShowing()) {
+        if(!getAccountAccessStage().isShowing()) {
 
             resetSignInPanelFields();
-            accountAccessScene.setRoot(signInPanel);
-            accountAccessStage.setTitle("Sign in");
+            accountAccessScene.setRoot(getSignInPanel());
+            getAccountAccessStage().setTitle("Sign in");
         }
         else{
             // Throws an alert to signal that a window is already open
             warningAlert("An account window is already open", "window already open");
-            accountAccessStage.close();
+            getAccountAccessStage().close();
         }
-        accountAccessStage.show();
+        getAccountAccessStage().show();
     }
 
     /**
@@ -183,17 +149,17 @@ public class AccountAccessController extends AccountController
     @FXML
     private void createAccount(ActionEvent e)
     {
-        if(!accountAccessStage.isShowing()){
+        if(!getAccountAccessStage().isShowing()){
 
             resetCreateAccountFields();
-            accountAccessScene.setRoot(createAccountPanel);
-            accountAccessStage.setTitle("Create a new account");
+            accountAccessScene.setRoot(getCreateAccountPanel());
+            getAccountAccessStage().setTitle("Create a new account");
         }
         else{
             warningAlert("An account window is already open", "window already open");
-            accountAccessStage.close();
+            getAccountAccessStage().close();
         }
-        accountAccessStage.show();
+        getAccountAccessStage().show();
     }
 
     /**
@@ -203,7 +169,7 @@ public class AccountAccessController extends AccountController
     @FXML
     private void createAccountLink(ActionEvent e)
     {
-        accountAccessStage.close();
+        getAccountAccessStage().close();
         createAccount(e);
     }
 
@@ -233,11 +199,11 @@ public class AccountAccessController extends AccountController
 
             setAccountBar(getSignedInBar());
 
-            accountAccessStage.close();
+            getAccountAccessStage().close();
 
             if(isSearched()){
                 closeAllPropertyWindows();
-                loadAccount(getCurrentAccount());
+                loadAccount(getAccount());
             }
 
         }
@@ -261,17 +227,17 @@ public class AccountAccessController extends AccountController
             setCurrentAccount(getAccount(email));
 
             setProfileCircles();
-            setAccountUsernameLabel(getCurrentAccount().getUsername());
+            setAccountUsernameLabel(getAccount().getUsername());
 
-            loadDataAndSettings(getCurrentAccount());
+            loadDataAndSettings(getAccount());
 
             setAccountBar(getSignedInBar());
 
-            accountAccessStage.close();
+            getAccountAccessStage().close();
 
             if(isSearched()){
                 closeAllPropertyWindows();
-                loadAccount(getCurrentAccount());
+                loadAccount(getAccount());
             }
         }
     }
@@ -461,6 +427,18 @@ public class AccountAccessController extends AccountController
         emailCreateAccountErrorLabel.setText("");
         passwordCreateAccountErrorLabel.setText("");
         confirmPasswordCreateAccountErrorLabel.setText("");
+    }
+
+    /**
+     * This method displays or hides the account's drop-down menu each time the profile circle is clicked (the one at the top right of the main frame)
+     * @param e The mouse event that triggers the method call
+     */
+    @FXML
+    private void profileClicked(MouseEvent e)
+    {
+        if (e.getButton() == MouseButton.PRIMARY) {
+            getDropDownPane().setVisible(!getDropDownPane().isVisible());
+        }
     }
 
     /**

@@ -162,10 +162,11 @@ public class Account {
      * @param listing The property to be added
      */
     public void addToFavouriteProperties(AirbnbListing listing) throws IOException {
-        FXMLLoader preview  = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
+        FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
+        PropertyPreviewController propertyPreviewController = new PropertyPreviewController(listing);
+        preview.setController(propertyPreviewController);
         Pane propertyPreviewPane = preview.load();
-        PropertyPreviewController propertyPreviewController = preview.getController();
-        propertyPreviewController.initialize(listing);
+
         listOfPropertyPreviewControllers.add(propertyPreviewController);
         paneToPropertyPreviewControllerMap.put(propertyPreviewPane, propertyPreviewController);
         favouritePropertyToPropertyPreviewPaneMap.put(listing, propertyPreviewPane);
@@ -230,11 +231,12 @@ public class Account {
 
     public void addToBookings(AirbnbListing listing, BorderPane booking) throws IOException
     {
-        FXMLLoader preview  = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
+        FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
+        PropertyPreviewController propertyPreviewController = new PropertyPreviewController(listing);
+        preview.setController(propertyPreviewController);
         Pane propertyPreviewPane = preview.load();
-        PropertyPreviewController propertyPreviewController = preview.getController();
+
         listOfPropertyPreviewControllers.add(propertyPreviewController);
-        propertyPreviewController.initialize(listing);
         booking.setCenter(propertyPreviewPane);
         paneToPropertyPreviewControllerMap.put(booking,propertyPreviewController);
         propertyToBookingMap.put(listing, booking);

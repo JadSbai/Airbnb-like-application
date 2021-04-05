@@ -31,11 +31,9 @@ public class Main extends Application {
 
         // We use the FXMLLoader class to load the fxml files created with the SceneBuilder
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainRefactored.fxml"));
-        // The root of panel is retrieved from the fxml file
-        StackPane root = loader.load();
+        Pane root = loader.load();
         MainControllerRefactored mainControllerRefactored = loader.getController();
-        mainControllerRefactored.initialize(root);
-
+        mainControllerRefactored.setMainRoot(root);
         primaryStage.setTitle("Airbnb London");
         // The scene is set with the retrieved root
         Scene scene = new Scene(root);
