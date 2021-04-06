@@ -12,13 +12,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 
 public class AccountDetailsController extends Controller
 {
-
-    @FXML
-    private ListView<BorderPane> bookingsListView;
 
     @FXML
     private ListView<Pane> listOfFavourites;
@@ -30,23 +28,30 @@ public class AccountDetailsController extends Controller
     @FXML
     private Label emptyListLabel2;
 
+    private HashMap<BorderPane, Stage> bookingToBookingDetailsMap;
+
     public AccountDetailsController(Account account) {
         super(account);
+        bookingToBookingDetailsMap = new HashMap<>();
     }
 
-    public void initialize()
+    public void initialize() throws IOException
     {
-        emptyListLabel.setText("");
-        emptyListLabel2.setText("");
+
     }
 
+    public void loadFavAndBook() throws IOException {
+        loadFavourites();
+        loadBookings();
+    }
     public void loadFavourites() throws IOException
     {
+        listOfFavourites.getItems().clear();
         listOfFavourites.setItems(getAccount().getListViewOfFavourites().getItems());
-        emptyListLabel.setText("");
-        //listOfFavourites.setItems(currentAccount.getListViewOfFavourites().getItems());
         if(listOfFavourites.getItems().isEmpty()){
             emptyListLabel.setText("You currently have no favourites. Click on the \"Save\" button to add a favourite.");
+        } else {
+            emptyListLabel.setText("");
         }
     }
 
@@ -58,7 +63,9 @@ public class AccountDetailsController extends Controller
         BorderPane bookingPane = getBookingFromButton(e);
         AirbnbListing listing = getAccount().getBookingToListingMap().get(bookingPane);
         Stage bookingDetailsStage = getAccount().getListingToBookingDetailsMap().get(listing);
-        
+
+        bookingToBookingDetailsMap.put(bookingPane, bookingDetailsStage);
+
         if(bookingDetailsStage.isShowing()){
             bookingDetailsStage.close();
         }
@@ -72,6 +79,11 @@ public class AccountDetailsController extends Controller
     {
         BorderPane booking = getBookingFromButton(e);
         getAccount().removeFromBookings(booking);
+        Stage bookingDetailsStage = bookingToBookingDetailsMap.get(booking);
+        if(bookingDetailsStage.isShowing()){
+            bookingDetailsStage.close();
+        }
+        loadBookings();
     }
 
     private BorderPane getBookingFromButton(ActionEvent e)
@@ -81,11 +93,12 @@ public class AccountDetailsController extends Controller
 
     public void loadBookings()
     {
-        bookingsListView.setItems(getAccount().getListViewOfBookings().getItems());
-        emptyListLabel2.setText("");
+        listOfBookings.getItems().clear();
         listOfBookings.setItems(getAccount().getListViewOfBookings().getItems());
         if(listOfBookings.getItems().isEmpty()){
             emptyListLabel2.setText("You currently have no bookings. Click on the \"Reserve\" button to add a booking.");
+        } else {
+            emptyListLabel2.setText("");
         }
     }
 

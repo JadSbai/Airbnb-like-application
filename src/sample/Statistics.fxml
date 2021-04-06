@@ -1,73 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--<GridPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="449.0" prefWidth="609.0" stylesheets="@hexagons.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/15.0.1" fx:controller="sample.MapController">-->
-<!--xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" -->
-<!--<GridPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="449.0" prefWidth="609.0" stylesheets="@hexagons.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/15.0.1" fx:controller="sample.MapController">-->
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" xmlns:xsi="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" styleClass="label" stylesheets="@StatisticsPanelStyle.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <MenuBar VBox.vgrow="NEVER">
-            <menus>
-                <Menu mnemonicParsing="false" text="File">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="New" />
-                        <MenuItem mnemonicParsing="false" text="Open…" />
-                        <Menu mnemonicParsing="false" text="Open Recent" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Close" />
-                        <MenuItem mnemonicParsing="false" text="Save" />
-                        <MenuItem mnemonicParsing="false" text="Save As…" />
-                        <MenuItem mnemonicParsing="false" text="Revert" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Preferences…" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Quit" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Undo" />
-                        <MenuItem mnemonicParsing="false" text="Redo" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Cut" />
-                        <MenuItem mnemonicParsing="false" text="Copy" />
-                        <MenuItem mnemonicParsing="false" text="Paste" />
-                        <MenuItem mnemonicParsing="false" text="Delete" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Select All" />
-                        <MenuItem mnemonicParsing="false" text="Unselect All" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
         <BorderPane prefHeight="201.0" prefWidth="640.0">
-            <bottom>
-                <BorderPane BorderPane.alignment="CENTER">
-                    <left>
-                        <Button mnemonicParsing="false" text="&lt;" BorderPane.alignment="CENTER" />
-                    </left>
-                    <right>
-                        <Button mnemonicParsing="false" text="&gt;" BorderPane.alignment="CENTER" />
-                    </right>
-                </BorderPane>
-            </bottom>
             <center>
                 <GridPane BorderPane.alignment="CENTER">
                     <columnConstraints>
@@ -81,60 +24,60 @@
                     <children>
                         <BorderPane prefHeight="200.0" prefWidth="200.0">
                             <left>
-                                <Button fx:id="backButtonStatistics1" mnemonicParsing="false" onAction="#backButtonStatistics1Pressed" text="&lt;" BorderPane.alignment="CENTER" />
+                                <Button fx:id="backButtonStatistics1" mnemonicParsing="false" onAction="#statisticsButtonPressed" prefHeight="100.0" text="&lt;" BorderPane.alignment="CENTER" />
                             </left>
                             <right>
-                                <Button fx:id="forwardButtonStatistics1" mnemonicParsing="false" onAction="#backButtonStatistics1Pressed" text="&gt;" BorderPane.alignment="CENTER" />
+                                <Button fx:id="forwardButtonStatistics1" mnemonicParsing="false" onAction="#statisticsButtonPressed" prefHeight="100.0" text="&gt;" BorderPane.alignment="CENTER" />
                             </right>
                             <center>
                                 <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                     <children>
-                                        <Label fx:id="statistic1" alignment="TOP_CENTER" prefHeight="43.0" prefWidth="218.0" text="Average number of reviews per property" />
+                                        <Label fx:id="statistic1" alignment="TOP_CENTER" text="Average number of reviews per property" textAlignment="CENTER" wrapText="true" />
                                     </children>
                                 </VBox>
                             </center>
                         </BorderPane>
                         <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                             <left>
-                                <Button fx:id="backButtonStatistics2" mnemonicParsing="false" onAction="#backButtonStatistics2Pressed" text="&lt;" BorderPane.alignment="CENTER" />
+                                <Button fx:id="backButtonStatistics2" mnemonicParsing="false" onAction="#statisticsButtonPressed" prefHeight="100.0" text="&lt;" BorderPane.alignment="CENTER" />
                             </left>
                             <right>
-                                <Button fx:id="forwardButtonStatistics2" mnemonicParsing="false" onAction="#backButtonStatistics2Pressed" text="&gt;" BorderPane.alignment="CENTER" />
+                                <Button fx:id="forwardButtonStatistics2" mnemonicParsing="false" onAction="#statisticsButtonPressed" prefHeight="100.0" text="&gt;" BorderPane.alignment="CENTER" />
                             </right>
                             <center>
-                                <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                     <children>
-                                        <Label fx:id="statistic2" alignment="TOP_CENTER" text="Total number of available properties" />
+                                        <Label fx:id="statistic2" alignment="TOP_CENTER" text="Total number of available properties" textAlignment="CENTER" wrapText="true" />
                                     </children>
                                 </VBox>
                             </center>
                         </BorderPane>
                         <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                             <left>
-                                <Button fx:id="backButtonStatistics3" mnemonicParsing="false" onAction="#backButtonStatistics3Pressed" text="&lt;" BorderPane.alignment="CENTER" />
+                                <Button fx:id="backButtonStatistics3" mnemonicParsing="false" onAction="#statisticsButtonPressed" prefHeight="100.0" text="&lt;" BorderPane.alignment="CENTER" />
                             </left>
                             <right>
-                                <Button fx:id="forwardButtonStatistics3" mnemonicParsing="false" onAction="#backButtonStatistics3Pressed" text="&gt;" BorderPane.alignment="CENTER" />
+                                <Button fx:id="forwardButtonStatistics3" mnemonicParsing="false" onAction="#statisticsButtonPressed" prefHeight="100.0" text="&gt;" BorderPane.alignment="CENTER" />
                             </right>
                             <center>
                                 <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                     <children>
-                                        <Label fx:id="statistic3" prefHeight="29.0" prefWidth="268.0" text="The number of entire home and apartments (as opposed to private rooms)" />
+                                        <Label fx:id="statistic3" text="The number of entire home and apartments" textAlignment="CENTER" wrapText="true" />
                                     </children>
                                 </VBox>
                             </center>
                         </BorderPane>
                         <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <left>
-                                <Button fx:id="backButtonStatistics4" mnemonicParsing="false" onAction="#backButtonStatistics4Pressed" text="&lt;" BorderPane.alignment="CENTER" />
+                                <Button fx:id="backButtonStatistics4" mnemonicParsing="false" onAction="#statisticsButtonPressed" prefHeight="100.0" text="&lt;" BorderPane.alignment="CENTER" />
                             </left>
                             <right>
-                                <Button fx:id="forwardButtonStatistics4" mnemonicParsing="false" onAction="#backButtonStatistics4Pressed" text="&gt;" BorderPane.alignment="CENTER" />
+                                <Button fx:id="forwardButtonStatistics4" mnemonicParsing="false" onAction="#statisticsButtonPressed" prefHeight="100.0" text="&gt;" BorderPane.alignment="CENTER" />
                             </right>
                             <center>
-                                <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                     <children>
-                                        <Label fx:id="statistic4" alignment="TOP_CENTER" contentDisplay="CENTER" text="The most expensive borough." />
+                                        <Label fx:id="statistic4" alignment="TOP_CENTER" contentDisplay="CENTER" text="The most expensive borough." textAlignment="CENTER" wrapText="true" />
                                     </children>
                                 </VBox>
                             </center>

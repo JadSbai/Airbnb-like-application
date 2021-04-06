@@ -36,7 +36,7 @@ public class ProfilePicturesGridController extends AccountController
     @FXML
     private void exitAvatarMenu()
    {
-        accountSettingsController.getChangeAvatarCircle().setFill(new ImagePattern(getAccount().getProfilePicture()));
+        accountSettingsController.getAccountStageProfileCircle().setFill(new ImagePattern(getAccount().getProfilePicture()));
         accountSettingsController.setBufferedBasicAvatar(null);
         getAccountPanel().setCenter(accountSettingsController.getAccountSettingsPanel());
     }
@@ -44,11 +44,13 @@ public class ProfilePicturesGridController extends AccountController
     @FXML
     private void confirmAvatarAction()
     {
-        Image bufferImage = accountSettingsController.getBufferImage();
+        Image bufferImage = accountSettingsController.getBufferedBasicAvatar();
+        if (bufferImage != null)
+        {
         accountSettingsController.setBufferImage(bufferImage);
         accountSettingsController.getChangeAvatarCircle().setFill(new ImagePattern(bufferImage));
         accountSettingsController.getImagePathLabel().setText(AccountSettingsController.IMAGE_PATH_DEFAULT);
-
+        }
         exitAvatarMenu();
     }
 
@@ -81,7 +83,7 @@ public class ProfilePicturesGridController extends AccountController
     private void selectBasicAvatar(Image image)
     {
         accountSettingsController.setBufferedBasicAvatar(image);
-        accountSettingsController.getChangeAvatarCircle().setFill(new ImagePattern(accountSettingsController.getBufferedBasicAvatar()));
+        accountSettingsController.getAccountStageProfileCircle().setFill(new ImagePattern(accountSettingsController.getBufferedBasicAvatar()));
     }
 
 

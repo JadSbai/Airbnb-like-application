@@ -30,7 +30,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException, URISyntaxException {
 
         // We use the FXMLLoader class to load the fxml files created with the SceneBuilder
-        MainControllerRefactored mainControllerRefactored = new MainControllerRefactored(null);
+        Account initializedAccount = new Account("null", "null@null.com", "null");
+        
+        MainControllerRefactored mainControllerRefactored = new MainControllerRefactored(initializedAccount);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainRefactored.fxml"));
         loader.setController(mainControllerRefactored);
         Pane root = loader.load();

@@ -61,20 +61,23 @@ public class AccountSettingsController extends AccountController
     @FXML
     private Label changePasswordErrorField;
 
+    private Circle accountStageProfileCircle;
+
     @FXML
     private Label passwordFeedbackLabel;
 
+
     @FXML
     public static final String IMAGE_PATH_DEFAULT = "No file chosen";
-
 
     private Pane accountSettingsPanel;
 
     private BorderPane accountPanel;
 
-    public AccountSettingsController(Account account, Stage accountStage, Pane accountSettingsPanel) throws IOException {
+    public AccountSettingsController(Account account, Stage accountStage, Pane accountSettingsPanel, Circle accountStageProfileCircle) throws IOException {
         super(account, accountStage);
         this.accountSettingsPanel = accountSettingsPanel;
+        this.accountStageProfileCircle = accountStageProfileCircle;
     }
 
 
@@ -159,7 +162,7 @@ public class AccountSettingsController extends AccountController
         if (bufferImage != null)
         {
             getAccount().setProfilePicture(bufferImage);
-            //setProfileCircles();
+            setProfileCircles();
             setCircles();
             changes = true;
         }
@@ -315,5 +318,10 @@ public class AccountSettingsController extends AccountController
 
     public Pane getAccountSettingsPanel() {
         return accountSettingsPanel;
+    }
+
+    public Circle getAccountStageProfileCircle()
+    {
+        return accountStageProfileCircle;
     }
 }

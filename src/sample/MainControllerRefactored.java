@@ -65,6 +65,7 @@ public class MainControllerRefactored extends Controller
     private Pane signedOutBar;
 
     private MapControllerRefactored mapController;
+    private StatisticsController statisticsController;
 
     public MainControllerRefactored(Account account) {
         super(account);
@@ -72,39 +73,40 @@ public class MainControllerRefactored extends Controller
 
     public void initialize() throws IOException
     {
-        WelcomeControllerRefactored welcomeController = new WelcomeControllerRefactored(null);
+        WelcomeControllerRefactored welcomeController = new WelcomeControllerRefactored(getAccount());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("WelcomeRefactored.fxml"));
         loader.setController(welcomeController);
         welcomeRoot = loader.load();
 
         welcomeController.setWelcomeRoot(welcomeRoot);
 
-        mapController = new MapControllerRefactored(null);
+        mapController = new MapControllerRefactored(getAccount());
         loader = new FXMLLoader(getClass().getResource("Map.fxml"));
         loader.setController(mapController);
         mapRoot = loader.load();
 
-        StatisticsControllerRefactored statisticsController = new StatisticsControllerRefactored(null);
+        statisticsController = new StatisticsController(getAccount());
         loader = new FXMLLoader(getClass().getResource("Statistics.fxml"));
         loader.setController(statisticsController);
         statisticsRoot = loader.load();
 
-        AccountStageController accountStageController = new AccountStageController(null, null, mapController);
+        AccountStageController accountStageController = new AccountStageController(getAccount(), null, mapController);
         loader = new FXMLLoader(getClass().getResource("AccountStage.fxml"));
         loader.setController(accountStageController);
         Stage accountStage = loader.load();
         accountStageController.setAccountStage(accountStage);
+        accountStageController.initializeControllers();
 
-        DropDownMenuController dropDownMenuController = new DropDownMenuController(null, accountStage, accountStageController);
+        DropDownMenuController dropDownMenuController = new DropDownMenuController(getAccount(), accountStage, accountStageController);
         loader = new FXMLLoader(getClass().getResource("AccountDropDownMenu.fxml"));
         loader.setController(dropDownMenuController);
         dropDownRoot = loader.load();
 
-        StackPane.setMargin(dropDownRoot, new Insets(145,0,0,0));
+        StackPane.setMargin(dropDownRoot, new Insets(147,0,0,0));
 
         Label usernameLabel = dropDownMenuController.getAccountUsernameLabel();
 
-        AccountAccessController accountAccessController = new AccountAccessController(null, accountStage);
+        AccountAccessController accountAccessController = new AccountAccessController(getAccount(), accountStage);
         loader = new FXMLLoader(getClass().getResource("SignedOutBar.fxml"));
         loader.setController(accountAccessController);
         signedOutBar = loader.load();
@@ -132,6 +134,7 @@ public class MainControllerRefactored extends Controller
         accountAccessController.setMapControllerRefactored(mapController);
 
         accountBar.setRight(signedOutBar);
+        setCurrentAccount(null);
 
         rightButton.setDisable(true);
         leftButton.setDisable(true);
@@ -199,6 +202,7 @@ public class MainControllerRefactored extends Controller
         {
             currentPriceRangeLabel.setText("Price range: " + minPrice + "-" + maxPrice);
             mapController.setPriceRange(minPrice, maxPrice);
+            statisticsController.setPriceRange(minPrice, maxPrice);
             isNewSearch = true;
             if(!isSearched){
                 rightButton.setDisable(false);

@@ -128,6 +128,7 @@ public class AccountAccessController extends AccountController
 
     private MapControllerRefactored mapControllerRefactored;
 
+
     @FXML
     private Circle profileCircle;
 
@@ -218,7 +219,6 @@ public class AccountAccessController extends AccountController
             getAccountsMap().put(email, newAccount);
 
             setCurrentAccount(newAccount);
-            mapControllerRefactored.setCurrentAccount(newAccount);
             profileCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
             userNameLabel.setText(getAccount().getUsername());
 
@@ -228,8 +228,6 @@ public class AccountAccessController extends AccountController
 
             closeAllPropertyWindows();
             loadAccount();
-
-
         }
 
     }
@@ -252,9 +250,7 @@ public class AccountAccessController extends AccountController
             userNameLabel.setText(getAccount().getUsername());
 
             profileCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
-
-            //loadDataAndSettings(getAccount());
-
+            
             accountBar.setRight(signedInBar);
 
             accountAccessStage.close();
@@ -286,7 +282,7 @@ public class AccountAccessController extends AccountController
         setDefaultSettingsAndData();
 
     }
-    
+
     /**
      * This method throws an info alert via a method call to indicate to the user the password restrictions in place
      * @param e The event (button click) that triggers the method call

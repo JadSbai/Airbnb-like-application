@@ -17,10 +17,14 @@ public class AccountStageController extends AccountController
     private Pane accountSettingsPanel;
 
     private Pane accountDetailsPanel;
-    
+
     @FXML
-    private Circle AccountStageProfileCircle;
-    
+    private Circle accountStageProfileCircle;
+
+    private AccountSettingsController accountSettingsController;
+
+    private AccountDetailsController accountDetailsController;
+
     MapControllerRefactored mapController;
 
 
@@ -30,17 +34,23 @@ public class AccountStageController extends AccountController
         this.mapController = mapController;
     }
 
-    public void initialize() throws IOException
+    public void initialize()
     {
-        AccountSettingsController accountSettingsController = new AccountSettingsController(getAccount(), getAccountStage(), accountSettingsPanel);
+
+    }
+
+    public void initializeControllers() throws IOException
+    {
+        accountSettingsController = new AccountSettingsController(getAccount(), getAccountStage(), accountSettingsPanel, accountStageProfileCircle);
         FXMLLoader accountSettingsLoader = new FXMLLoader(getClass().getResource("AccountSettings.fxml"));
         accountSettingsLoader.setController(accountSettingsController);
         accountSettingsPanel = accountSettingsLoader.load();
 
-        AccountDetailsController accountDetailsController = new AccountDetailsController(getAccount());
+        accountDetailsController = new AccountDetailsController(getAccount());
         FXMLLoader accountDetailsLoader = new FXMLLoader(getClass().getResource("AccountDetails.fxml"));
-        accountSettingsLoader.setController(accountDetailsController);
+        accountDetailsLoader.setController(accountDetailsController);
         accountDetailsPanel = accountDetailsLoader.load();
+
         mapController.addAccountController(accountDetailsController);
 
         accountSettingsController.setAccountPanel(accountPanel);
@@ -56,9 +66,9 @@ public class AccountStageController extends AccountController
 
     @FXML
     private void goToAccountDetails() throws IOException {
-        //loadFavourites();
         accountPanel.setCenter(accountDetailsPanel);
         getAccountStage().sizeToScene();
+        accountDetailsController.loadFavAndBook();
     }
 
     public BorderPane getAccountPanel() {
@@ -72,4 +82,6 @@ public class AccountStageController extends AccountController
     public Pane getAccountDetailsPanel() {
         return accountDetailsPanel;
     }
+
+
 }

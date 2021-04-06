@@ -213,8 +213,6 @@ public class Account {
         paneToPropertyPreviewControllerMap.remove(propertyPreviewPane);
 
     }
-
-
     public ListView<Pane> getListViewOfFavourites() {
         return listViewOfFavourites;
     }
