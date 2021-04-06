@@ -46,10 +46,13 @@ public class PropertyViewController extends ListingController {
     private Hyperlink locationLink;
     @FXML
     private Label favouriteTextLabel;
+    
+    private AccountDetailsController accountDetailsController;
 
-    public PropertyViewController(Account account, AirbnbListing listing)
+    public PropertyViewController(Account account, AirbnbListing listing, AccountDetailsController accountDetailsController)
     {
         super(account, listing);
+        this.accountDetailsController = accountDetailsController;
     }
 
 
@@ -131,14 +134,14 @@ public class PropertyViewController extends ListingController {
     }
 
     @FXML
-    public void saveFavourites() throws IOException {
+    public void saveFavourites() throws IOException
+    {
         if(getAccount() == null){
             setSaveBox(false);
             warningAlert("If you want to save this property into your favourites, you must first sign in to your account. If you don't have an account, create one", "Not signed in");
         }
         else {
             getListing().setFavourite(!getListing().isFavourite());
-            getAccount().addToFavouriteProperties(getListing());
             if (getListing().isFavourite()) {
                 addToFavourites();
             }
@@ -292,25 +295,27 @@ public class PropertyViewController extends ListingController {
     }
 
     private void addToFavourites() throws IOException {
-        getAccount().addToFavouriteProperties(getListing());
+        getAccount().addToFavouriteProperties(getListing(), accountDetailsController);
         setFavouriteTextLabel("This property has been added to your favourites");
         setSaveBox(true);
+        accountDetailsController.loadFavourites();
     }
 
-    private void removeFromFavourites()
-    {
+    private void removeFromFavourites() throws IOException {
         getAccount().removeFromFavourites(getListing());
         setFavouriteTextLabel("This property has been removed from your favourites");
         setSaveBox(false);
+        accountDetailsController.loadFavourites();
     }
 
     private void addToBookings() throws IOException
     {
-        AccountDetailsController accountDetailsController = new AccountDetailsController(getAccount());
+
         FXMLLoader bookingLoader = new FXMLLoader(getClass().getResource("Booking.fxml"));
         bookingLoader.setController(accountDetailsController);
         BorderPane booking = bookingLoader.load();
-        getAccount().addToBookings(getListing(), booking);
+        getAccount().addToBookings(getListing(), booking, accountDetailsController);
+        accountDetailsController.loadBookings();
 
         FXMLLoader bookingDetailsLoader = new FXMLLoader(getClass().getResource("BookingDetails.fxml"));
         Stage bookingDetailsStage = bookingDetailsLoader.load();

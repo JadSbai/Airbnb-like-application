@@ -36,12 +36,13 @@ public class AccountDetailsController extends Controller
 
     public void initialize()
     {
-        listOfFavourites.setItems(getAccount().getListViewOfFavourites().getItems());
-        bookingsListView.setItems(getAccount().getListViewOfBookings().getItems());
+        emptyListLabel.setText("");
+        emptyListLabel2.setText("");
     }
 
     public void loadFavourites() throws IOException
     {
+        listOfFavourites.setItems(getAccount().getListViewOfFavourites().getItems());
         emptyListLabel.setText("");
         //listOfFavourites.setItems(currentAccount.getListViewOfFavourites().getItems());
         if(listOfFavourites.getItems().isEmpty()){
@@ -80,6 +81,7 @@ public class AccountDetailsController extends Controller
 
     public void loadBookings()
     {
+        bookingsListView.setItems(getAccount().getListViewOfBookings().getItems());
         emptyListLabel2.setText("");
         listOfBookings.setItems(getAccount().getListViewOfBookings().getItems());
         if(listOfBookings.getItems().isEmpty()){

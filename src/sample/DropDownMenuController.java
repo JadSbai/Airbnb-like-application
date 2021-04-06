@@ -1,13 +1,10 @@
 package sample;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
@@ -45,7 +42,7 @@ public class DropDownMenuController extends AccountController
     @FXML
     public void openAccountSettings() throws IOException
     {
-        accountStageController.getAccountPanel().setCenter(accountStageController.getAccountSettings());
+        accountStageController.getAccountPanel().setCenter(accountStageController.getAccountSettingsPanel());
         dropDownPane.setVisible(false);
         if(getAccountStage().isShowing()){
             getAccountStage().close();
@@ -57,7 +54,7 @@ public class DropDownMenuController extends AccountController
     @FXML
     public void openAccountDetails() throws IOException {
         //loadFavourites();
-        accountStageController.getAccountPanel().setCenter(accountStageController.getAccountDetails());
+        accountStageController.getAccountPanel().setCenter(accountStageController.getAccountDetailsPanel());
         dropDownPane.setVisible(false);
         if(getAccountStage().isShowing()){
             getAccountStage().close();

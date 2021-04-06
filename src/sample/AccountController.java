@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -10,6 +11,8 @@ public abstract class AccountController extends Controller
 {
     private Stage accountStage;
 
+    private BorderPane accountPanel;
+
     private ArrayList<Account> listOfAccounts;
 
     private HashMap<String, Account> accountsMap;
@@ -19,6 +22,10 @@ public abstract class AccountController extends Controller
         listOfAccounts = new ArrayList<>();
         accountsMap = new HashMap<>();
         this.accountStage = accountStage;
+        if(accountStage != null){
+            this.accountPanel = (BorderPane) accountStage.getScene().getRoot();
+        }
+
     }
 
     public Stage getAccountStage(){
@@ -40,5 +47,9 @@ public abstract class AccountController extends Controller
      */
     public HashMap<String, Account> getAccountsMap() {
         return accountsMap;
+    }
+
+    public BorderPane getAccountPanel() {
+        return accountPanel;
     }
 }

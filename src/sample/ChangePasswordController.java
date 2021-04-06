@@ -1,35 +1,35 @@
 // package sample;
-//
+// 
 // import javafx.fxml.FXML;
 // import javafx.scene.control.Label;
 // import javafx.scene.control.TextField;
 // import javafx.stage.Stage;
-//
+// 
 // import java.io.IOException;
-//
+// 
 // public class ChangePasswordController extends AccountController
 // {
 //     public ChangePasswordController(Stage accountStage) throws IOException {
 //         super(accountStage);
 //     }
-//
+// 
 //     public void initialize()
 //     {
 //     }
-//
+// 
 //     @FXML
 //     private void exitChangePasswordMenu()
 //     {
 //         getAccountPanel().setCenter(getAccountSettings());
 //     }
-//
+// 
 //     @FXML
 //     private void confirmNewPassword()
 //     {
 //         String currentPassword = getCurrentPasswordField().getText();
 //         String newPassword = getNewPasswordField().getText();
 //         String confirmPassword = getConfirmPasswordField().getText();
-//
+// 
 //         if (checkValidityOfCurrentPassword(currentPassword, newPassword) && checkPassword(newPassword, confirmPassword, getChangePasswordErrorField()))
 //         {
 //             getAccount().setPassword(newPassword);
@@ -41,7 +41,7 @@
 //     {
 //         boolean valid = false;
 //         String password = getAccount().getPassword();
-//
+// 
 //         if (!currentPassword.equals(password))
 //         {
 //             getChangePasswordErrorField().setText("Current password is incorrect");
@@ -52,7 +52,7 @@
 //         {
 //             valid = true;
 //         }
-//
+// 
 //         return valid;
 //     }
 // }

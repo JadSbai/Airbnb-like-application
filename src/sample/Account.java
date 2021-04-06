@@ -68,7 +68,7 @@ public class Account {
      * @param username the account's username
      * @param password the account's password
      */
-    public Account(String username, String email, String password) 
+    public Account(String username, String email, String password)
     {
         this.email = email;
         this.username = username.trim();
@@ -162,9 +162,10 @@ public class Account {
      *
      * @param listing The property to be added
      */
-    public void addToFavouriteProperties(AirbnbListing listing) throws IOException {
+    public void addToFavouriteProperties(AirbnbListing listing, AccountDetailsController accountDetailsController) throws IOException
+    {
         FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
-        PropertyPreviewController propertyPreviewController = new PropertyPreviewController(this, listing);
+        PropertyPreviewController propertyPreviewController = new PropertyPreviewController(this, listing, accountDetailsController);
         preview.setController(propertyPreviewController);
         Pane propertyPreviewPane = preview.load();
 
@@ -226,10 +227,10 @@ public class Account {
         this.listViewOfBookings = listViewOfBookings;
     }
 
-    public void addToBookings(AirbnbListing listing, BorderPane booking) throws IOException
+    public void addToBookings(AirbnbListing listing, BorderPane booking, AccountDetailsController accountDetailsController) throws IOException
     {
         FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
-        PropertyPreviewController propertyPreviewController = new PropertyPreviewController(this, listing);
+        PropertyPreviewController propertyPreviewController = new PropertyPreviewController(this, listing, accountDetailsController);
         preview.setController(propertyPreviewController);
         Pane propertyPreviewPane = preview.load();
 
@@ -239,7 +240,7 @@ public class Account {
         paneToPropertyPreviewControllerMap.put(booking,propertyPreviewController);
         addToListViewOfBookings(booking);
     }
-    
+
     public void addToBookingDetailsMap(AirbnbListing listing, Stage bookingDetailsStage){
         listingToBookingDetailsMap.put(listing, bookingDetailsStage);
     }

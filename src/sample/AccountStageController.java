@@ -2,9 +2,9 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -14,27 +14,34 @@ public class AccountStageController extends AccountController
     @FXML
     private BorderPane accountPanel;
 
-    private Pane accountSettings;
+    private Pane accountSettingsPanel;
 
-    private Pane accountDetails;
+    private Pane accountDetailsPanel;
+    
+    @FXML
+    private Circle AccountStageProfileCircle;
+    
+    MapControllerRefactored mapController;
 
 
-    public AccountStageController(Account account, Stage accountStage)
+    public AccountStageController(Account account, Stage accountStage, MapControllerRefactored mapController)
     {
         super(account, accountStage);
+        this.mapController = mapController;
     }
 
     public void initialize() throws IOException
     {
-        AccountSettingsController accountSettingsController = new AccountSettingsController(getAccount(), getAccountStage());
+        AccountSettingsController accountSettingsController = new AccountSettingsController(getAccount(), getAccountStage(), accountSettingsPanel);
         FXMLLoader accountSettingsLoader = new FXMLLoader(getClass().getResource("AccountSettings.fxml"));
         accountSettingsLoader.setController(accountSettingsController);
-        accountSettings = accountSettingsLoader.load();
+        accountSettingsPanel = accountSettingsLoader.load();
 
-        AccountSettingsController accountDetailsController = new AccountSettingsController(getAccount(), getAccountStage());
+        AccountDetailsController accountDetailsController = new AccountDetailsController(getAccount());
         FXMLLoader accountDetailsLoader = new FXMLLoader(getClass().getResource("AccountDetails.fxml"));
         accountSettingsLoader.setController(accountDetailsController);
-        accountDetails = accountDetailsLoader.load();
+        accountDetailsPanel = accountDetailsLoader.load();
+        mapController.addAccountController(accountDetailsController);
 
         accountSettingsController.setAccountPanel(accountPanel);
     }
@@ -42,7 +49,7 @@ public class AccountStageController extends AccountController
     @FXML
     private void goToAccountSettings()
     {
-        accountPanel.setCenter(accountSettings);
+        accountPanel.setCenter(accountSettingsPanel);
         getAccountStage().sizeToScene();
         getAccountStage().show();
     }
@@ -50,7 +57,7 @@ public class AccountStageController extends AccountController
     @FXML
     private void goToAccountDetails() throws IOException {
         //loadFavourites();
-        accountPanel.setCenter(accountDetails);
+        accountPanel.setCenter(accountDetailsPanel);
         getAccountStage().sizeToScene();
     }
 
@@ -58,11 +65,11 @@ public class AccountStageController extends AccountController
         return accountPanel;
     }
 
-    public Pane getAccountSettings() {
-        return accountSettings;
+    public Pane getAccountSettingsPanel() {
+        return accountSettingsPanel;
     }
 
-    public Pane getAccountDetails() {
-        return accountDetails;
+    public Pane getAccountDetailsPanel() {
+        return accountDetailsPanel;
     }
 }

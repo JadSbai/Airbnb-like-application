@@ -4,9 +4,11 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -87,7 +89,7 @@ public class MainControllerRefactored extends Controller
         loader.setController(statisticsController);
         statisticsRoot = loader.load();
 
-        AccountStageController accountStageController = new AccountStageController(null, null);
+        AccountStageController accountStageController = new AccountStageController(null, null, mapController);
         loader = new FXMLLoader(getClass().getResource("AccountStage.fxml"));
         loader.setController(accountStageController);
         Stage accountStage = loader.load();
@@ -97,6 +99,8 @@ public class MainControllerRefactored extends Controller
         loader = new FXMLLoader(getClass().getResource("AccountDropDownMenu.fxml"));
         loader.setController(dropDownMenuController);
         dropDownRoot = loader.load();
+
+        StackPane.setMargin(dropDownRoot, new Insets(145,0,0,0));
 
         Label usernameLabel = dropDownMenuController.getAccountUsernameLabel();
 

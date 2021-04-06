@@ -18,10 +18,13 @@ public class PropertyPreviewController extends ListingController {
     private Stage propertyStage;
 
     private boolean isPropertyWindowOpen;
+    
+    private AccountDetailsController accountDetailsController;
 
-    public PropertyPreviewController(Account account, AirbnbListing listing)
+    public PropertyPreviewController(Account account, AirbnbListing listing, AccountDetailsController accountDetailsController)
     {
         super(account, listing);
+        this.accountDetailsController = accountDetailsController;
     }
 
     public void initialize() throws IOException
@@ -38,7 +41,7 @@ public class PropertyPreviewController extends ListingController {
     {
         if(!isPropertyWindowOpen) {
 
-            PropertyViewController propertyViewController = new PropertyViewController(getAccount(), getListing());
+            PropertyViewController propertyViewController = new PropertyViewController(getAccount(), getListing(), accountDetailsController);
             FXMLLoader property = new FXMLLoader(getClass().getResource("AirbnbView.fxml"));
             property.setController(propertyViewController);
             viewController = propertyViewController;
@@ -60,8 +63,8 @@ public class PropertyPreviewController extends ListingController {
         }
     }
 
-    public void reload(AirbnbListing listing) throws IOException {
-        PropertyViewController propertyViewController = new PropertyViewController(getAccount(),getListing());
+    public void reload() throws IOException {
+        PropertyViewController propertyViewController = new PropertyViewController(getAccount(), getListing(), accountDetailsController);
         FXMLLoader property = new FXMLLoader(getClass().getResource("AirbnbView.fxml"));
         property.setController(propertyViewController);
         propertyStage = property.load();
@@ -69,6 +72,7 @@ public class PropertyPreviewController extends ListingController {
 
         viewController.reload();
     }
+
 
     public Stage getPropertyStage() {
         return propertyStage;

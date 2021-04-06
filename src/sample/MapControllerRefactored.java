@@ -18,8 +18,6 @@ public class MapControllerRefactored extends Controller
     @FXML
     private Button ENFI, BARN, HRGY, WALT, HRRW, BREN, CAMD, ISLI, HACK, REDB, HAVE, HILL, EALI, KENS, WSTM, TOWH, NEWH, BARK, HOUN, HAMM, WAND, CITY, GWCH, BEXL, RICH, MERT, LAMB, STHW, LEWS, KING, SUTT, CROY, BROM;
 
-    private ArrayList<AirbnbListing> boroughListings;
-
     private PropertyListController listOfProperties;
     private ArrayList<PropertyListController> listOfPropertyListControllers;
 
@@ -30,6 +28,8 @@ public class MapControllerRefactored extends Controller
 
     private int minPrice;
     private int maxPrice;
+
+    private AccountDetailsController accountDetailsController;
 
     public MapControllerRefactored(Account account)
     {
@@ -48,17 +48,17 @@ public class MapControllerRefactored extends Controller
     public void boroughSearch(ActionEvent event) throws IOException
     {
         String boroughAbbreviation = ((Button) event.getSource()).getText();
-        reloadBoroughListings(boroughAbbreviation);
-
+        ArrayList<AirbnbListing> boroughListings = getDataLoader().loadFromBoroughAtPrice(boroughAbbreviation, minPrice, maxPrice);
 
         if(!listOfPropertyListStages.isEmpty()){
 
-            PropertyListController propertyListController = new PropertyListController(null);
+
+            PropertyListController propertyListController = new PropertyListController(getAccount(), accountDetailsController);
             FXMLLoader propertyList = new FXMLLoader(getClass().getResource("AirbnbViewerList.fxml"));
-            setPropertyListStage(propertyList,propertyListController, boroughAbbreviation);
+            setPropertyListStage(propertyList, propertyListController, boroughAbbreviation);
 
             if(!propertyListStage.isShowing()) {
-                initializePropertyListStage(propertyList);
+                initializePropertyListStage(propertyList, boroughListings);
             }
             else{
                 propertyListStage.close();
@@ -66,31 +66,16 @@ public class MapControllerRefactored extends Controller
             }
         }
         else{
-            PropertyListController propertyListController = new PropertyListController(getAccount());
-            loadAndInitializePropertyListStage(boroughAbbreviation);
+            loadAndInitializePropertyListStage(boroughAbbreviation, boroughListings);
         }
     }
 
-    private void reloadBoroughListings(String boroughAbbreviation)
+    private void loadAndInitializePropertyListStage(String boroughAbbreviation, ArrayList<AirbnbListing> boroughListings) throws IOException
     {
-        boroughListings = getDataLoader().loadFromBoroughAtPrice(boroughAbbreviation, minPrice, maxPrice);
-    }
-
-    private void loadAndInitializePropertyListStage(String boroughAbbreviation) throws IOException
-    {
-        PropertyListController propertyListController = new PropertyListController(getAccount());
+        PropertyListController propertyListController = new PropertyListController(getAccount(), accountDetailsController);
         FXMLLoader propertyList = new FXMLLoader(getClass().getResource("AirbnbViewerList.fxml"));
         setPropertyListStage(propertyList, propertyListController, boroughAbbreviation);
-        initializePropertyListStage(propertyList);
-    }
-
-    private void initializePropertyListStage(FXMLLoader propertyList ) throws IOException
-    {
-        listOfPropertyListStages.add(propertyListStage);
-        listOfProperties = propertyList.getController();
-        listOfPropertyListControllers.add(listOfProperties);
-        listOfProperties.initialize(boroughListings);
-        propertyListStage.show();
+        initializePropertyListStage(propertyList, boroughListings);
     }
 
     private void setPropertyListStage(FXMLLoader propertyList, PropertyListController controller, String boroughAbbreviation) throws IOException
@@ -99,6 +84,15 @@ public class MapControllerRefactored extends Controller
         propertyListStage = propertyList.load();
         propertyListStage.setTitle("AirBnB's in " + AirbnbListing.getFullBoroughName(boroughAbbreviation));
     }
+
+    private void initializePropertyListStage(FXMLLoader propertyList, ArrayList<AirbnbListing> boroughListings ) throws IOException
+    {
+        listOfPropertyListStages.add(propertyListStage);
+        listOfProperties = propertyList.getController();
+        listOfPropertyListControllers.add(listOfProperties);
+        listOfProperties.initialize(boroughListings);
+        propertyListStage.show();
+   }
 
     public void setColor(){
         int maxSize = 0;
@@ -153,13 +147,19 @@ public class MapControllerRefactored extends Controller
     }
 
     public void loadCurrentAccount() throws IOException {
-        if(listOfProperties != null){
-            listOfProperties.reload(boroughListings);
+        for(PropertyListController propertyListController : listOfPropertyListControllers){
+            if(propertyListController != null){
+                propertyListController.reload();
+            }
+            
         }
     }
     public void setPriceRange(int minPrice, int maxPrice)
     {
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
+    }
+    public void addAccountController(AccountDetailsController accountDetailsController){
+        this.accountDetailsController = accountDetailsController;
     }
 }

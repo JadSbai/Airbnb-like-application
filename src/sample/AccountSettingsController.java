@@ -50,9 +50,6 @@ public class AccountSettingsController extends AccountController
     private Label imagePathLabel;
 
     @FXML
-    private Circle profileCircle;
-
-    @FXML
     private TextField currentPasswordField;
 
     @FXML
@@ -67,22 +64,30 @@ public class AccountSettingsController extends AccountController
     @FXML
     private Label passwordFeedbackLabel;
 
+    @FXML
+    public static final String IMAGE_PATH_DEFAULT = "No file chosen";
+
+
+    private Pane accountSettingsPanel;
+
     private BorderPane accountPanel;
 
-    public AccountSettingsController(Account account, Stage accountStage) throws IOException {
+    public AccountSettingsController(Account account, Stage accountStage, Pane accountSettingsPanel) throws IOException {
         super(account, accountStage);
+        this.accountSettingsPanel = accountSettingsPanel;
     }
 
 
     public void initialize() throws IOException
     {
-        //ProfilePicturesGridController profilePicturesGridController = new ProfilePicturesGridController(getAccountStage(), accountPanel, profileCircle, bufferedBasicAvatar,  );
-       // FXMLLoader pfpGridLoader = new FXMLLoader(getClass().getResource("ProfilePicturesGrid.fxml"));
-       // chooseAvatarMenu = pfpGridLoader.load();
+        ProfilePicturesGridController profilePicturesGridController = new ProfilePicturesGridController(getAccount(), getAccountStage(), this);
+        FXMLLoader pfpGridLoader = new FXMLLoader(getClass().getResource("ProfilePicturesGrid.fxml"));
+        pfpGridLoader.setController(profilePicturesGridController);
+        chooseAvatarMenu = pfpGridLoader.load();
 
         //ChangePasswordController changePasswordController = new ChangePasswordController(getAccountStage());
-       // FXMLLoader changePasswordLoader = new FXMLLoader(getClass().getResource("ChangePassword.fxml"));
-       // changePasswordMenu = changePasswordLoader.load();
+        //FXMLLoader changePasswordLoader = new FXMLLoader(getClass().getResource("ChangePassword.fxml"));
+        //changePasswordMenu = changePasswordLoader.load();
 
         chooseFileButton.setOnAction(e-> {
             try {
@@ -207,23 +212,33 @@ public class AccountSettingsController extends AccountController
     {
         currentPasswordField.setText("");
         newPasswordField.setText("");
-        confirmPasswordField.setText("");
+//         confirmPasswordField.setText("");
         changePasswordErrorField.setText("");
     }
 
     private void setCircles()
     {
-        profileCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
+        //profileCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
         changeAvatarCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
     }
+
+    public void resetAccountSettings()
+     {
+         getSaveFeedbackLabel().setText("");
+         getChangePasswordErrorField().setText("");
+         getChangeUsernameErrorLabel().setText("");
+         getChangeAvatarCircle().setFill(new ImagePattern(getAccount().getProfilePicture()));
+         setBufferImage(null);
+         getImagePathLabel().setText(IMAGE_PATH_DEFAULT);
+     }
 
     /**
      * This method sets both the profile pictures to the one specified
      */
-    // public void setProfileCircles() {
-    //    profileCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
-    //    profileCircle2.setFill(new ImagePattern(getAccount().getProfilePicture()));
-    // }
+    public void setProfileCircles() {
+        //profileCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
+       //profileCircle2.setFill(new ImagePattern(getAccount().getProfilePicture()));
+    }
 
 
     public TextField getCurrentPasswordField() {
@@ -262,9 +277,9 @@ public class AccountSettingsController extends AccountController
         return changeAvatarCircle;
     }
 
-    public Circle getProfileCircle() {
-        return profileCircle;
-    }
+//     public Circle getProfileCircle() {
+//         return profileCircle;
+//     }
 
     public void setBufferImage(Image bufferImage) {
         this.bufferImage = bufferImage;
@@ -292,5 +307,13 @@ public class AccountSettingsController extends AccountController
 
     public void setAccountPanel(BorderPane accountPanel) {
         this.accountPanel = accountPanel;
+    }
+
+    public BorderPane getAccountPanel() {
+        return accountPanel;
+    }
+
+    public Pane getAccountSettingsPanel() {
+        return accountSettingsPanel;
     }
 }
