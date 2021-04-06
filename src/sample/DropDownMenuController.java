@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class DropDownMenuController extends AccountController
 {
-    
+
     @FXML
     private Label accountUsernameLabel;
 
@@ -57,7 +57,6 @@ public class DropDownMenuController extends AccountController
     @FXML
     public void openAccountDetails() throws IOException {
         //loadFavourites();
-        //loadBookings();
         accountStageController.getAccountPanel().setCenter(accountStageController.getAccountDetails());
         dropDownPane.setVisible(false);
         if(getAccountStage().isShowing()){
@@ -66,7 +65,7 @@ public class DropDownMenuController extends AccountController
         getAccountStage().show();
     }
 
-    
+
 
     public void changeUsername(String username)
     {
@@ -89,8 +88,8 @@ public class DropDownMenuController extends AccountController
         StackPane.setMargin(getDropDownPane(), new Insets(70,20,0,0));
     }
 
-    
-    
+
+
     /**
      * Label situated in the account's drop down menu (i.e., the subPane field) that displays the account's username
      */

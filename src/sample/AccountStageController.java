@@ -2,6 +2,7 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -30,6 +31,11 @@ public class AccountStageController extends AccountController
         accountSettingsLoader.setController(accountSettingsController);
         accountSettings = accountSettingsLoader.load();
 
+        AccountSettingsController accountDetailsController = new AccountSettingsController(getAccount(), getAccountStage());
+        FXMLLoader accountDetailsLoader = new FXMLLoader(getClass().getResource("AccountDetails.fxml"));
+        accountSettingsLoader.setController(accountDetailsController);
+        accountDetails = accountDetailsLoader.load();
+
         accountSettingsController.setAccountPanel(accountPanel);
     }
 
@@ -44,7 +50,6 @@ public class AccountStageController extends AccountController
     @FXML
     private void goToAccountDetails() throws IOException {
         //loadFavourites();
-        //loadBookings();
         accountPanel.setCenter(accountDetails);
         getAccountStage().sizeToScene();
     }

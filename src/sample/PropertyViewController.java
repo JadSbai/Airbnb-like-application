@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 import java.io.File;
 
@@ -45,7 +46,7 @@ public class PropertyViewController extends ListingController {
     private Hyperlink locationLink;
     @FXML
     private Label favouriteTextLabel;
-    
+
     public PropertyViewController(Account account, AirbnbListing listing)
     {
         super(account, listing);
@@ -137,7 +138,7 @@ public class PropertyViewController extends ListingController {
         }
         else {
             getListing().setFavourite(!getListing().isFavourite());
-
+            getAccount().addToFavouriteProperties(getListing());
             if (getListing().isFavourite()) {
                 addToFavourites();
             }
@@ -305,11 +306,18 @@ public class PropertyViewController extends ListingController {
 
     private void addToBookings() throws IOException
     {
+        AccountDetailsController accountDetailsController = new AccountDetailsController(getAccount());
         FXMLLoader bookingLoader = new FXMLLoader(getClass().getResource("Booking.fxml"));
+        bookingLoader.setController(accountDetailsController);
         BorderPane booking = bookingLoader.load();
-        BookingController bookingController = bookingLoader.getController();
-        bookingController.initialize(getListing(), reserveButton, getAccount(), inDate, outDate);
         getAccount().addToBookings(getListing(), booking);
+
+        FXMLLoader bookingDetailsLoader = new FXMLLoader(getClass().getResource("BookingDetails.fxml"));
+        Stage bookingDetailsStage = bookingDetailsLoader.load();
+        BookingDetailsController bookingDetailsController = bookingDetailsLoader.getController();
+        bookingDetailsController.initialize(getListing(), inDate, outDate);
+        getAccount().addToBookingDetailsMap(getListing(), bookingDetailsStage);
+
         reserveButton.setDisable(true);
     }
 

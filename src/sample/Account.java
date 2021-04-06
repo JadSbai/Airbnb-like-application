@@ -10,6 +10,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 
 /**
@@ -44,15 +45,15 @@ public class Account {
 
     private ListView<Pane> listViewOfFavourites;
 
-    private HashMap<AirbnbListing, BorderPane> propertyToBookingMap;
-
     private ListView<BorderPane> listViewOfBookings;
-
-    private ArrayList<AirbnbListing> listOfBookings;
 
     private ArrayList<PropertyPreviewController> listOfPropertyPreviewControllers;
 
     private HashMap<Pane, PropertyPreviewController> paneToPropertyPreviewControllerMap;
+
+    private HashMap<BorderPane, AirbnbListing> bookingToListingMap;
+
+    private HashMap<AirbnbListing, Stage> listingToBookingDetailsMap;
 
     /**
      * The account's profile picture
@@ -67,20 +68,20 @@ public class Account {
      * @param username the account's username
      * @param password the account's password
      */
-    public Account(String username, String email, String password) {
+    public Account(String username, String email, String password) 
+    {
         this.email = email;
         this.username = username.trim();
         this.password = password;
         profilePicture = new Image("/sample/nopfp.png");
         listViewOfFavourites = new ListView<>();
-        listOfBookings = new ArrayList<>();
         listViewOfBookings = new ListView<>();
         favouritePropertyToPropertyPreviewPaneMap = new HashMap<>();
         listOfFavouriteProperties = new ArrayList<>();
-        propertyToBookingMap = new HashMap<>();
         listOfPropertyPreviewControllers = new ArrayList<>();
         paneToPropertyPreviewControllerMap = new HashMap<>();
-
+        bookingToListingMap = new HashMap<>();
+        listingToBookingDetailsMap = new HashMap<>();
     }
 
     /**
@@ -225,10 +226,6 @@ public class Account {
         this.listViewOfBookings = listViewOfBookings;
     }
 
-    public ArrayList<AirbnbListing> getListOfBookings() {
-        return listOfBookings;
-    }
-
     public void addToBookings(AirbnbListing listing, BorderPane booking) throws IOException
     {
         FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
@@ -236,27 +233,28 @@ public class Account {
         preview.setController(propertyPreviewController);
         Pane propertyPreviewPane = preview.load();
 
+        bookingToListingMap.put(booking, listing);
         listOfPropertyPreviewControllers.add(propertyPreviewController);
         booking.setCenter(propertyPreviewPane);
         paneToPropertyPreviewControllerMap.put(booking,propertyPreviewController);
-        propertyToBookingMap.put(listing, booking);
-        listOfBookings.add(listing);
         addToListViewOfBookings(booking);
+    }
+    
+    public void addToBookingDetailsMap(AirbnbListing listing, Stage bookingDetailsStage){
+        listingToBookingDetailsMap.put(listing, bookingDetailsStage);
     }
 
     private void addToListViewOfBookings(BorderPane pane) {
         listViewOfBookings.getItems().add(pane);
     }
 
-    public void removeFromBookings(AirbnbListing listing)
+    public void removeFromBookings(BorderPane booking)
     {
-        BorderPane booking = propertyToBookingMap.get(listing);
         PropertyPreviewController propertyPreviewController = paneToPropertyPreviewControllerMap.get(booking);
         removeFromListOfPropertyPreviewControllers(propertyPreviewController);
         paneToPropertyPreviewControllerMap.remove(booking);
         removeFromListViewOfBookings(booking);
-        propertyToBookingMap.remove(listing);
-        removeFromListOfBookings(listing);
+        bookingToListingMap.remove(booking);
     }
 
     private void removeFromListViewOfBookings(BorderPane booking)
@@ -264,23 +262,6 @@ public class Account {
         listViewOfBookings.getItems().remove(booking);
     }
 
-    /**
-     * This method removes the specified property from the account's list of favourites
-     *
-     * @param listing The property to be removed from the list
-     */
-    public void removeFromListOfBookings(AirbnbListing listing) {
-        // Use of an iterator object to avoid index errors in the list
-        Iterator<AirbnbListing> iterator = listOfBookings.iterator();
-        AirbnbListing property;
-        while (iterator.hasNext()) {
-            property = iterator.next();
-            if (property == listing) {
-                iterator.remove();
-                break;
-            }
-        }
-    }
 
     public void removeFromListOfPropertyPreviewControllers(PropertyPreviewController propertyPreviewController)
     {
@@ -297,6 +278,14 @@ public class Account {
 
     public ArrayList<PropertyPreviewController> getListOfPropertyPreviewControllers() {
         return listOfPropertyPreviewControllers;
+    }
+
+    public HashMap<BorderPane, AirbnbListing> getBookingToListingMap() {
+        return bookingToListingMap;
+    }
+
+    public HashMap<AirbnbListing, Stage> getListingToBookingDetailsMap() {
+        return listingToBookingDetailsMap;
     }
 }
 
