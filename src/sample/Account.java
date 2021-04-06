@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -43,9 +45,9 @@ public class Account {
 
     private ArrayList<AirbnbListing> listOfFavouriteProperties;
 
-    private ListView<Pane> listViewOfFavourites;
+    private ArrayList<Pane> listViewOfFavourites;
 
-    private ListView<BorderPane> listViewOfBookings;
+    private ArrayList<BorderPane> listViewOfBookings;
 
     private ArrayList<PropertyPreviewController> listOfPropertyPreviewControllers;
 
@@ -74,8 +76,8 @@ public class Account {
         this.username = username.trim();
         this.password = password;
         profilePicture = new Image("/sample/nopfp.png");
-        listViewOfFavourites = new ListView<>();
-        listViewOfBookings = new ListView<>();
+        listViewOfFavourites = new ArrayList<>();
+        listViewOfBookings = new ArrayList<>();
         favouritePropertyToPropertyPreviewPaneMap = new HashMap<>();
         listOfFavouriteProperties = new ArrayList<>();
         listOfPropertyPreviewControllers = new ArrayList<>();
@@ -195,11 +197,11 @@ public class Account {
     }
 
     private void addToListViewOfFavourites(Pane pane) {
-        listViewOfFavourites.getItems().add(pane);
+        listViewOfFavourites.add(pane);
     }
 
     private void removeFromListViewOfFavourites(Pane pane) {
-        listViewOfFavourites.getItems().remove(pane);
+        listViewOfFavourites.remove(pane);
     }
 
     public void removeFromFavourites(AirbnbListing listing)
@@ -213,15 +215,15 @@ public class Account {
         paneToPropertyPreviewControllerMap.remove(propertyPreviewPane);
 
     }
-    public ListView<Pane> getListViewOfFavourites() {
+    public ArrayList<Pane> getListOfFavourites() {
         return listViewOfFavourites;
     }
 
-    public ListView<BorderPane> getListViewOfBookings() {
+    public ArrayList<BorderPane> getListViewOfBookings() {
         return listViewOfBookings;
     }
 
-    public void setListViewOfBookings(ListView<BorderPane> listViewOfBookings) {
+    public void setListViewOfBookings(ArrayList<BorderPane> listViewOfBookings) {
         this.listViewOfBookings = listViewOfBookings;
     }
 
@@ -244,7 +246,7 @@ public class Account {
     }
 
     private void addToListViewOfBookings(BorderPane pane) {
-        listViewOfBookings.getItems().add(pane);
+        listViewOfBookings.add(pane);
     }
 
     public void removeFromBookings(BorderPane booking)
@@ -258,7 +260,7 @@ public class Account {
 
     private void removeFromListViewOfBookings(BorderPane booking)
     {
-        listViewOfBookings.getItems().remove(booking);
+        listViewOfBookings.remove(booking);
     }
 
 

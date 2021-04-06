@@ -157,7 +157,7 @@ public class StatisticsController extends Controller {
         statistic1.setText("Average number of reviews" + '\n' + '\n' + getAverageNumberOfReviews());
         statistic2.setText("Available properties" + '\n' + '\n' + getNumberOfAvailableProperties());
         statistic3.setText("Number of entire home/apartments" + '\n' + '\n' + getNumberOfEntireHomeOrApartments());
-        statistic4.setText("Average number of reviews" + '\n' + '\n' + getAverageNumberOfReviews());
+        statistic4.setText("Most expensive borough" + '\n' + '\n' + getMostExpensiveBorough());
     }
 
     /**

@@ -36,7 +36,7 @@ public class AccountStageController extends AccountController
 
     public void initialize()
     {
-
+        AccountCircles.getInstance().getAccountCircles().add(accountStageProfileCircle);
     }
 
     public void initializeControllers() throws IOException

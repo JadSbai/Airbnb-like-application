@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,7 +48,7 @@ public class AccountDetailsController extends Controller
     public void loadFavourites() throws IOException
     {
         listOfFavourites.getItems().clear();
-        listOfFavourites.setItems(getAccount().getListViewOfFavourites().getItems());
+        listOfFavourites.setItems(FXCollections.observableArrayList(getAccount().getListOfFavourites()));
         if(listOfFavourites.getItems().isEmpty()){
             emptyListLabel.setText("You currently have no favourites. Click on the \"Save\" button to add a favourite.");
         } else {
@@ -94,7 +95,7 @@ public class AccountDetailsController extends Controller
     public void loadBookings()
     {
         listOfBookings.getItems().clear();
-        listOfBookings.setItems(getAccount().getListViewOfBookings().getItems());
+        listOfBookings.setItems(FXCollections.observableArrayList(getAccount().getListViewOfBookings());
         if(listOfBookings.getItems().isEmpty()){
             emptyListLabel2.setText("You currently have no bookings. Click on the \"Reserve\" button to add a booking.");
         } else {

@@ -33,7 +33,8 @@ public class AccountSettingsController extends AccountController
     @FXML
     private Label saveFeedbackLabel;
 
-    @FXML private Label currentUsernameLabel;
+    @FXML
+    private Label currentUsernameLabel;
 
     private Pane changePasswordMenu;
 
@@ -99,6 +100,8 @@ public class AccountSettingsController extends AccountController
                 ioException.printStackTrace();
             }
         });
+
+        AccountCircles.getInstance().getAccountCircles().add(changeAvatarCircle);
 
         Image cursor = new Image("/sample/crossout.png");
         emailField.setCursor(new ImageCursor(cursor, cursor.getWidth()/2, cursor.getHeight()/2));

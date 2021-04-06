@@ -37,6 +37,7 @@ public class DropDownMenuController extends AccountController
     public void initialize() throws IOException
     {
         formatDropDownMenu();
+        AccountCircles.getInstance().getAccountCircles().add(profileCircle);
     }
 
     @FXML
