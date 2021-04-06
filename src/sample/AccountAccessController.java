@@ -2,12 +2,13 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -109,7 +110,30 @@ public class AccountAccessController extends AccountController
     @FXML
     private Scene accountAccessScene;
 
+    private Stage accountAccessStage;
 
+    private Pane signedOutBar;
+
+    private Pane signedInBar;
+
+    private Pane signInPanel;
+
+    private Pane createAccountPanel;
+
+    private Pane dropDownPane;
+
+    private BorderPane accountBar;
+
+    private Label userNameLabel;
+
+    private MapControllerRefactored mapControllerRefactored;
+
+    @FXML
+    private Circle profileCircle;
+
+    public AccountAccessController(Account account, Stage accountStage) {
+        super(account, accountStage);
+    }
 
     /**
      * The constructor initializes all the non-FXML fields, loads all the account related fxml files, sets their controller and displays the resulting stage.
@@ -128,18 +152,18 @@ public class AccountAccessController extends AccountController
     @FXML
     private void signIn(ActionEvent e)
     {
-        if(!getAccountAccessStage().isShowing()) {
+        if(!accountAccessStage.isShowing()) {
 
             resetSignInPanelFields();
-            accountAccessScene.setRoot(getSignInPanel());
-            getAccountAccessStage().setTitle("Sign in");
+            accountAccessScene.setRoot(signInPanel);
+            accountAccessStage.setTitle("Sign in");
         }
         else{
             // Throws an alert to signal that a window is already open
             warningAlert("An account window is already open", "window already open");
-            getAccountAccessStage().close();
+            accountAccessStage.close();
         }
-        getAccountAccessStage().show();
+        accountAccessStage.show();
     }
 
     /**
@@ -149,17 +173,17 @@ public class AccountAccessController extends AccountController
     @FXML
     private void createAccount(ActionEvent e)
     {
-        if(!getAccountAccessStage().isShowing()){
+        if(!accountAccessStage.isShowing()){
 
             resetCreateAccountFields();
-            accountAccessScene.setRoot(getCreateAccountPanel());
-            getAccountAccessStage().setTitle("Create a new account");
+            accountAccessScene.setRoot(createAccountPanel);
+            accountAccessStage.setTitle("Create a new account");
         }
         else{
             warningAlert("An account window is already open", "window already open");
-            getAccountAccessStage().close();
+            accountAccessStage.close();
         }
-        getAccountAccessStage().show();
+        accountAccessStage.show();
     }
 
     /**
@@ -169,7 +193,7 @@ public class AccountAccessController extends AccountController
     @FXML
     private void createAccountLink(ActionEvent e)
     {
-        getAccountAccessStage().close();
+        accountAccessStage.close();
         createAccount(e);
     }
 
@@ -194,17 +218,17 @@ public class AccountAccessController extends AccountController
             getAccountsMap().put(email, newAccount);
 
             setCurrentAccount(newAccount);
-            setProfileCircles();
-            setAccountUsernameLabel(username);
+            mapControllerRefactored.setCurrentAccount(newAccount);
+            profileCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
+            userNameLabel.setText(getAccount().getUsername());
 
-            setAccountBar(getSignedInBar());
+            accountBar.setRight(signedInBar);
 
-            getAccountAccessStage().close();
+            accountAccessStage.close();
 
-            if(isSearched()){
-                closeAllPropertyWindows();
-                loadAccount(getAccount());
-            }
+            closeAllPropertyWindows();
+            loadAccount();
+
 
         }
 
@@ -225,25 +249,44 @@ public class AccountAccessController extends AccountController
 
         if(checkValidityOfSignInFields(email, password)){
             setCurrentAccount(getAccount(email));
+            userNameLabel.setText(getAccount().getUsername());
 
-            setProfileCircles();
-            setAccountUsernameLabel(getAccount().getUsername());
+            profileCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
 
-            loadDataAndSettings(getAccount());
+            //loadDataAndSettings(getAccount());
 
-            setAccountBar(getSignedInBar());
+            accountBar.setRight(signedInBar);
 
-            getAccountAccessStage().close();
+            accountAccessStage.close();
 
-            if(isSearched()){
-                closeAllPropertyWindows();
-                loadAccount(getAccount());
-            }
+            closeAllPropertyWindows();
+            loadAccount();
+
         }
     }
 
+    /**
+     * This method saves all data and settings of the current account and signs it out
+     * It then sets the top of the main frame to the "signed out" layout and makes the account's drop-down menu invisible (i.e., the subPane)
+     * If a price range has been entered, then it loads the default map view GUI elements
+     */
+    @FXML
+    protected void signOutAction() throws IOException {
 
+        closeAllAccountWindows();
 
+        setCurrentAccount(null);
+        userNameLabel.setText("");
+
+        accountBar.setRight(signedOutBar);
+
+        dropDownPane.setVisible(false);
+
+        closeAllPropertyWindows();
+        setDefaultSettingsAndData();
+
+    }
+    
     /**
      * This method throws an info alert via a method call to indicate to the user the password restrictions in place
      * @param e The event (button click) that triggers the method call
@@ -292,7 +335,7 @@ public class AccountAccessController extends AccountController
      */
     private boolean checkValidityOfCreateAccountFields(String username, String email, String password, String confirmPassword)
     {
-        return (checkUsername(username, emailCreateAccountErrorLabel) && checkEmail(email) && checkPassword(password, confirmPassword, passwordCreateAccountErrorLabel));
+        return (checkAccountUsername(username, emailCreateAccountErrorLabel) && checkEmail(email) && checkPassword(password, confirmPassword, passwordCreateAccountErrorLabel));
     }
 
     /**
@@ -437,8 +480,130 @@ public class AccountAccessController extends AccountController
     private void profileClicked(MouseEvent e)
     {
         if (e.getButton() == MouseButton.PRIMARY) {
-            getDropDownPane().setVisible(!getDropDownPane().isVisible());
+            dropDownPane.setVisible(!dropDownPane.isVisible());
         }
+    }
+
+    /**
+     * This method returns whether the password entered in the "create account" window is valid or not, i.e., if it is strong enough
+     * and is equal to the confirmation password
+     * If it is empty, prints an error (in the corresponding error label)
+     * @param password The password entered
+     * @param confirmPassword the confirmation password entered
+     * @return true if the password entered is strong and is equal to the confirmation password, false otherwise
+     */
+    public boolean checkPassword(String password, String confirmPassword, Label label) {
+        label.setText("");
+        if (password.length() == 0) {
+            label.setText("Please enter a password");
+            return false;
+        } else {
+            return checkPasswordStrength(password, label) && checkPasswordEquality(password, confirmPassword, label);
+        }
+    }
+    /**
+     * This method returns whether the password entered in the "create account" window is valid or not, i.e., if it follows the right pattern to be strong enough
+     * If it is not valid, it throws an alert and prints an error (in the corresponding error label)
+     * @param password The password entered
+     * @return true if the password entered is deemed strong and false otherwise
+     */
+    private boolean checkPasswordStrength(String password, Label label) {
+        label.setText("");
+        String regex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!?.><:;])(?=\\S+$).{8,}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(password);
+        if (!matcher.matches()) {
+            label.setText("This password is too weak.");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * This method returns whether the password and confirmation password are equal or not. Prints an error (in the corresponding error label) if not.
+     * If it is not valid, prints an error in the corresponding error label
+     * @param password The password entered
+     * @param confirmPassword The confirmation password entered
+     * @return true if the password and confirmation password match, false otherwise
+     */
+    private boolean checkPasswordEquality(String password, String confirmPassword, Label label) {
+        label.setText("");
+        if (!password.equals(confirmPassword)) {
+            label.setText("Passwords do not match");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    /**
+     * This method returns whether the username entered in the "create account" window is valid or not, i.e., if it is not already taken by another account
+     * If it is not valid, prints an error in the corresponding error label
+     * @param username The username entered
+     * @return true if the username entered isn't already taken by another account and false otherwise
+     */
+    public boolean checkAccountUsername(String username, Label label)
+    {
+        label.setText("");
+
+        if(username.length() == 0){
+            label.setText("Please choose a username ");
+            return false;
+        }
+        for(Account account : getListOfAccounts()){
+            if(username.equals(account.getUsername())){
+                label.setText("This field is already taken by another account. Please choose another username");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * This method loads all GUI-related elements that are proper to the account (state of the save button ...)
+     */
+    protected void loadAccount() throws IOException
+    {
+        mapControllerRefactored.loadCurrentAccount();
+    }
+
+    /**
+     * This method saves all data and settings of the current account by updating the appropriate fields in the account panel
+     */
+    private void saveAllSettingsAndData()
+    {
+        System.out.println("All account settings and data successfully saved");
+    }
+
+    /**
+     * This method sets all the settings and data of the account to default values
+     * It also loads the default map view GUI elements
+     */
+    private void setDefaultSettingsAndData() throws IOException
+    {
+        setCurrentAccount(null);
+        loadAccount();
+    }
+
+    private void closeAllAccountWindows() {
+        for (PropertyPreviewController propertyPreviewController : getAccount().getListOfPropertyPreviewControllers()) {
+            if (propertyPreviewController.getPropertyStage() != null && propertyPreviewController.getPropertyStage().isShowing()) {
+                propertyPreviewController.getPropertyStage().close();
+            }
+        }
+        getAccountStage().close();
+    }
+
+
+
+    /**
+     * This method closes all windows opened when consulting AirBnB properties
+     */
+    protected void closeAllPropertyWindows()
+    {
+        mapControllerRefactored.closeAllMapStages();
     }
 
     /**
@@ -450,4 +615,39 @@ public class AccountAccessController extends AccountController
         return getAccountsMap().get(email);
     }
 
+    public void setSignedInBar(Pane signedInBar) {
+        this.signedInBar = signedInBar;
+    }
+
+    public void setSignInPanel(Pane signInPanel) {
+        this.signInPanel = signInPanel;
+    }
+
+    public void setCreateAccountPanel(Pane createAccountPanel) {
+        this.createAccountPanel = createAccountPanel;
+    }
+
+    public void setAccountAccessStage(Stage accountAccessStage) {
+        this.accountAccessStage = accountAccessStage;
+    }
+
+    public void setSignedOutBar(Pane signedOutBar) {
+        this.signedOutBar = signedOutBar;
+    }
+
+    public void setDropDownPane(Pane dropDownPane) {
+        this.dropDownPane = dropDownPane;
+    }
+
+    public void setAccountBar(BorderPane accountBar) {
+        this.accountBar = accountBar;
+    }
+
+    public void setUserNameLabel(Label userNameLabel) {
+        this.userNameLabel = userNameLabel;
+    }
+
+    public void setMapControllerRefactored(MapControllerRefactored mapControllerRefactored) {
+        this.mapControllerRefactored = mapControllerRefactored;
+    }
 }

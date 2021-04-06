@@ -5,9 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseButton;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
@@ -68,15 +67,22 @@ public class AccountSettingsController extends AccountController
     @FXML
     private Label passwordFeedbackLabel;
 
+    private BorderPane accountPanel;
+
+    public AccountSettingsController(Account account, Stage accountStage) throws IOException {
+        super(account, accountStage);
+    }
+
 
     public void initialize() throws IOException
     {
+        //ProfilePicturesGridController profilePicturesGridController = new ProfilePicturesGridController(getAccountStage(), accountPanel, profileCircle, bufferedBasicAvatar,  );
+       // FXMLLoader pfpGridLoader = new FXMLLoader(getClass().getResource("ProfilePicturesGrid.fxml"));
+       // chooseAvatarMenu = pfpGridLoader.load();
 
-        FXMLLoader pfpGridLoader = new FXMLLoader(getClass().getResource("ProfilePicturesGrid.fxml"));
-        chooseAvatarMenu = pfpGridLoader.load();
-
-        FXMLLoader changePasswordLoader = new FXMLLoader(getClass().getResource("ChangePassword.fxml"));
-        changePasswordMenu = changePasswordLoader.load();
+        //ChangePasswordController changePasswordController = new ChangePasswordController(getAccountStage());
+       // FXMLLoader changePasswordLoader = new FXMLLoader(getClass().getResource("ChangePassword.fxml"));
+       // changePasswordMenu = changePasswordLoader.load();
 
         chooseFileButton.setOnAction(e-> {
             try {
@@ -104,7 +110,7 @@ public class AccountSettingsController extends AccountController
     @FXML
     private void chooseBasicPfpAction()
     {
-        getAccountPanel().setCenter(getChooseAvatarMenu());
+        accountPanel.setCenter(getChooseAvatarMenu());
         getAccountStage().sizeToScene();
     }
 
@@ -148,7 +154,7 @@ public class AccountSettingsController extends AccountController
         if (bufferImage != null)
         {
             getAccount().setProfilePicture(bufferImage);
-            setProfileCircles();
+            //setProfileCircles();
             setCircles();
             changes = true;
         }
@@ -162,6 +168,28 @@ public class AccountSettingsController extends AccountController
         }
     }
 
+    public void changeUsername(String username)
+    {
+        getAccount().setUsername(username);
+        //setAccountUsername(username);
+    }
+
+    private boolean checkUsername(String newUsername, Label label)
+    {
+        label.setText("");
+
+        if(newUsername.length() == 0){
+            label.setText("Please choose a username ");
+            return false;
+        }
+        for(Account account : getListOfAccounts()){
+            if(newUsername.equals(account.getUsername())){
+                label.setText("This field is already taken by another account. Please choose another username");
+                return false;
+            }
+        }
+        return true;
+    }
 
     private boolean checkChangeUsernameValidity(String newUsername)
     {
@@ -172,7 +200,7 @@ public class AccountSettingsController extends AccountController
     private void changePasswordMenuAction()
     {
         resetPasswordFields();
-        getAccountPanel().setCenter(changePasswordMenu);
+        accountPanel.setCenter(changePasswordMenu);
     }
 
     private void resetPasswordFields()
@@ -188,6 +216,14 @@ public class AccountSettingsController extends AccountController
         profileCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
         changeAvatarCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
     }
+
+    /**
+     * This method sets both the profile pictures to the one specified
+     */
+    // public void setProfileCircles() {
+    //    profileCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
+    //    profileCircle2.setFill(new ImagePattern(getAccount().getProfilePicture()));
+    // }
 
 
     public TextField getCurrentPasswordField() {
@@ -252,5 +288,9 @@ public class AccountSettingsController extends AccountController
 
     public Label getSaveFeedbackLabel() {
         return saveFeedbackLabel;
+    }
+
+    public void setAccountPanel(BorderPane accountPanel) {
+        this.accountPanel = accountPanel;
     }
 }

@@ -37,7 +37,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.WelcomeControllerRefactored">
+<StackPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox fx:id="welcomeVBox" alignment="CENTER" spacing="30.0" styleClass="vboxes" stylesheets="@WelcomePanelStyle.css" StackPane.alignment="CENTER">
          <children>

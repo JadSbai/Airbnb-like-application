@@ -15,7 +15,7 @@ import sample.ListingController;
 import java.io.IOException;
 import java.util.*;
 
-public class PropertyListController{
+public class PropertyListController extends Controller{
 
     private PropertyPreviewController propertyPreviewController;
 
@@ -36,6 +36,10 @@ public class PropertyListController{
     private List<EntryInteger> invertedPriceOrder;
     private List<EntryInteger> numberOfReviewsOrder;
 
+    public PropertyListController(Account account) {
+        super(account);
+    }
+
 
     public void initialize(ArrayList<AirbnbListing> boroughListings) throws IOException
     {
@@ -45,7 +49,7 @@ public class PropertyListController{
 
         for (AirbnbListing listing : boroughListings) {
             FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
-            PropertyPreviewController propertyPreviewController = new PropertyPreviewController(listing);
+            PropertyPreviewController propertyPreviewController = new PropertyPreviewController(getAccount(),listing);
             preview.setController(propertyPreviewController);
             Pane propertyPreviewPane = preview.load();
 

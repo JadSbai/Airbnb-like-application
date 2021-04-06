@@ -51,6 +51,10 @@ public class StatisticsControllerRefactored extends Controller
 
     // keeps track of the statistics list
     private int index;
+    
+    public StatisticsControllerRefactored(Account account){
+        super(account);
+    }
 
     public void initialize() throws IOException
     {

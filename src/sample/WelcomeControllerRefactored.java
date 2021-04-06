@@ -21,6 +21,10 @@ public class WelcomeControllerRefactored extends Controller
     private VBox infoBox;
 
     private Pane welcomeRoot;
+    
+    public WelcomeControllerRefactored(Account account){
+        super(account);
+    }
 
     public void initialize() throws IOException
     {

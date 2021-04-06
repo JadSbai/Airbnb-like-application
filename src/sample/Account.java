@@ -163,7 +163,7 @@ public class Account {
      */
     public void addToFavouriteProperties(AirbnbListing listing) throws IOException {
         FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
-        PropertyPreviewController propertyPreviewController = new PropertyPreviewController(listing);
+        PropertyPreviewController propertyPreviewController = new PropertyPreviewController(this, listing);
         preview.setController(propertyPreviewController);
         Pane propertyPreviewPane = preview.load();
 
@@ -232,7 +232,7 @@ public class Account {
     public void addToBookings(AirbnbListing listing, BorderPane booking) throws IOException
     {
         FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
-        PropertyPreviewController propertyPreviewController = new PropertyPreviewController(listing);
+        PropertyPreviewController propertyPreviewController = new PropertyPreviewController(this, listing);
         preview.setController(propertyPreviewController);
         Pane propertyPreviewPane = preview.load();
 

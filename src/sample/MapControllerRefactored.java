@@ -31,6 +31,11 @@ public class MapControllerRefactored extends Controller
     private int minPrice;
     private int maxPrice;
 
+    public MapControllerRefactored(Account account)
+    {
+        super(account);
+    }
+
 
     public void initialize() throws IOException
     {
@@ -45,10 +50,12 @@ public class MapControllerRefactored extends Controller
         String boroughAbbreviation = ((Button) event.getSource()).getText();
         reloadBoroughListings(boroughAbbreviation);
 
+
         if(!listOfPropertyListStages.isEmpty()){
 
+            PropertyListController propertyListController = new PropertyListController(null);
             FXMLLoader propertyList = new FXMLLoader(getClass().getResource("AirbnbViewerList.fxml"));
-            setPropertyListStage(propertyList, boroughAbbreviation);
+            setPropertyListStage(propertyList,propertyListController, boroughAbbreviation);
 
             if(!propertyListStage.isShowing()) {
                 initializePropertyListStage(propertyList);
@@ -59,6 +66,7 @@ public class MapControllerRefactored extends Controller
             }
         }
         else{
+            PropertyListController propertyListController = new PropertyListController(getAccount());
             loadAndInitializePropertyListStage(boroughAbbreviation);
         }
     }
@@ -70,8 +78,9 @@ public class MapControllerRefactored extends Controller
 
     private void loadAndInitializePropertyListStage(String boroughAbbreviation) throws IOException
     {
+        PropertyListController propertyListController = new PropertyListController(getAccount());
         FXMLLoader propertyList = new FXMLLoader(getClass().getResource("AirbnbViewerList.fxml"));
-        setPropertyListStage(propertyList, boroughAbbreviation);
+        setPropertyListStage(propertyList, propertyListController, boroughAbbreviation);
         initializePropertyListStage(propertyList);
     }
 
@@ -84,8 +93,9 @@ public class MapControllerRefactored extends Controller
         propertyListStage.show();
     }
 
-    private void setPropertyListStage(FXMLLoader propertyList, String boroughAbbreviation) throws IOException
+    private void setPropertyListStage(FXMLLoader propertyList, PropertyListController controller, String boroughAbbreviation) throws IOException
     {
+        propertyList.setController(controller);
         propertyListStage = propertyList.load();
         propertyListStage.setTitle("AirBnB's in " + AirbnbListing.getFullBoroughName(boroughAbbreviation));
     }
@@ -142,7 +152,7 @@ public class MapControllerRefactored extends Controller
         listOfPropertyListControllers.clear();
     }
 
-    public void loadCurrentAccount(Account currentAccount) throws IOException {
+    public void loadCurrentAccount() throws IOException {
         if(listOfProperties != null){
             listOfProperties.reload(boroughListings);
         }

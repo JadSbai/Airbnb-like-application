@@ -19,9 +19,9 @@ public class PropertyPreviewController extends ListingController {
 
     private boolean isPropertyWindowOpen;
 
-    public PropertyPreviewController(AirbnbListing listing)
+    public PropertyPreviewController(Account account, AirbnbListing listing)
     {
-        super(listing);
+        super(account, listing);
     }
 
     public void initialize() throws IOException
@@ -38,7 +38,7 @@ public class PropertyPreviewController extends ListingController {
     {
         if(!isPropertyWindowOpen) {
 
-            PropertyViewController propertyViewController = new PropertyViewController(getListing());
+            PropertyViewController propertyViewController = new PropertyViewController(getAccount(), getListing());
             FXMLLoader property = new FXMLLoader(getClass().getResource("AirbnbView.fxml"));
             property.setController(propertyViewController);
             viewController = propertyViewController;
@@ -61,7 +61,7 @@ public class PropertyPreviewController extends ListingController {
     }
 
     public void reload(AirbnbListing listing) throws IOException {
-        PropertyViewController propertyViewController = new PropertyViewController(getListing());
+        PropertyViewController propertyViewController = new PropertyViewController(getAccount(),getListing());
         FXMLLoader property = new FXMLLoader(getClass().getResource("AirbnbView.fxml"));
         property.setController(propertyViewController);
         propertyStage = property.load();

@@ -2,11 +2,12 @@ package sample;
 
 import java.io.IOException;
 
-public abstract class ListingController extends Controller
+public class ListingController extends Controller
 {
     private AirbnbListing listing;
 
-    public ListingController(AirbnbListing listing) {
+    public ListingController(Account account, AirbnbListing listing) {
+        super(account);
         this.listing = listing;
     }
 

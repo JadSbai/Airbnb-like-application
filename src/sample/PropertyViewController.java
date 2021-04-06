@@ -46,9 +46,9 @@ public class PropertyViewController extends ListingController {
     @FXML
     private Label favouriteTextLabel;
     
-    public PropertyViewController(AirbnbListing listing)
+    public PropertyViewController(Account account, AirbnbListing listing)
     {
-        super(listing);
+        super(account, listing);
     }
 
 

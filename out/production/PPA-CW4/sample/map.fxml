@@ -2,180 +2,183 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mapPane" stylesheets="@MapPanelStyle.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MapControllerRefactored">
-   <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="subMapPane">
-      <Button fx:id="WALT" layoutX="400.0" layoutY="75.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="WALT" AnchorPane.topAnchor="75.0">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="BARN" layoutX="200.0" layoutY="75.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BARN">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="HRGY" layoutX="300.0" layoutY="75.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HRGY">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="ENFI" layoutX="350.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="ENFI" AnchorPane.topAnchor="0.0">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="HRRW" layoutX="50.0" layoutY="150.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HRRW">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="BREN" layoutX="150.0" layoutY="150.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BREN">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="CAMD" layoutX="250.0" layoutY="150.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="CAMD">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="ISLI" layoutX="350.0" layoutY="150.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="ISLI">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button layoutX="500.0" layoutY="75.0" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="VOID" visible="false">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="HACK" layoutX="450.0" layoutY="150.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HACK">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="EALI" layoutX="100.0" layoutY="225.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="EALI">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="HILL" layoutY="225.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HILL">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="KENS" layoutX="200.0" layoutY="225.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="KENS">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="WSTM" layoutX="300.0" layoutY="225.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="WSTM">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="TOWH" layoutX="400.0" layoutY="225.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="TOWH">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="HOUN" layoutX="50.0" layoutY="300.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HOUN">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="HAMM" layoutX="150.0" layoutY="300.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HAMM">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="WAND" layoutX="250.0" layoutY="300.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="WAND">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="CITY" layoutX="350.0" layoutY="300.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="CITY">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="GWCH" layoutX="450.0" layoutY="300.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="GWCH">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="REDB" layoutX="550.0" layoutY="150.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="REDB">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="NEWH" layoutX="500.0" layoutY="225.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="NEWH">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="HAVE" layoutX="650.0" layoutY="150.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HAVE">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="BARK" layoutX="600.0" layoutY="225.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BARK">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="BEXL" layoutX="550.0" layoutY="300.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BEXL">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="RICH" layoutX="100.0" layoutY="375.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="RICH">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="MERT" layoutX="200.0" layoutY="375.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="MERT">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="LAMB" layoutX="300.0" layoutY="375.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="LAMB">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="STHW" layoutX="400.0" layoutY="375.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="STHW">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="LEWS" layoutX="500.0" layoutY="375.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="LEWS">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="BROM" layoutX="450.0" layoutY="450.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BROM">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="CROY" layoutX="350.0" layoutY="450.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="CROY">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="SUTT" layoutX="250.0" layoutY="450.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="SUTT">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-      <Button fx:id="KING" layoutX="150.0" layoutY="450.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="KING">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
-   </AnchorPane>
-</ScrollPane>
+
+<VBox stylesheets="@MapPanelStyle.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="subMapPane">
+         <Button fx:id="WALT" layoutX="400.0" layoutY="75.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="WALT" AnchorPane.topAnchor="75.0">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="BARN" layoutX="200.0" layoutY="75.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BARN">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="HRGY" layoutX="300.0" layoutY="75.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HRGY">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="ENFI" layoutX="350.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="ENFI" AnchorPane.topAnchor="0.0">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="HRRW" layoutX="50.0" layoutY="150.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HRRW">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="BREN" layoutX="150.0" layoutY="150.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BREN">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="CAMD" layoutX="250.0" layoutY="150.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="CAMD">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="ISLI" layoutX="350.0" layoutY="150.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="ISLI">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button layoutX="500.0" layoutY="75.0" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="VOID" visible="false">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="HACK" layoutX="450.0" layoutY="150.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HACK">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="EALI" layoutX="100.0" layoutY="225.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="EALI">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="HILL" layoutY="225.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HILL">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="KENS" layoutX="200.0" layoutY="225.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="KENS">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="WSTM" layoutX="300.0" layoutY="225.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="WSTM">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="TOWH" layoutX="400.0" layoutY="225.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="TOWH">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="HOUN" layoutX="50.0" layoutY="300.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HOUN">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="HAMM" layoutX="150.0" layoutY="300.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HAMM">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="WAND" layoutX="250.0" layoutY="300.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="WAND">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="CITY" layoutX="350.0" layoutY="300.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="CITY">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="GWCH" layoutX="450.0" layoutY="300.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="GWCH">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="REDB" layoutX="550.0" layoutY="150.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="REDB">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="NEWH" layoutX="500.0" layoutY="225.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="NEWH">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="HAVE" layoutX="650.0" layoutY="150.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="HAVE">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="BARK" layoutX="600.0" layoutY="225.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BARK">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="BEXL" layoutX="550.0" layoutY="300.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BEXL">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="RICH" layoutX="100.0" layoutY="375.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="RICH">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="MERT" layoutX="200.0" layoutY="375.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="MERT">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="LAMB" layoutX="300.0" layoutY="375.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="LAMB">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="STHW" layoutX="400.0" layoutY="375.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="STHW">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="LEWS" layoutX="500.0" layoutY="375.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="LEWS">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="BROM" layoutX="450.0" layoutY="450.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="BROM">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="CROY" layoutX="350.0" layoutY="450.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="CROY">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="SUTT" layoutX="250.0" layoutY="450.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="SUTT">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+         <Button fx:id="KING" layoutX="150.0" layoutY="450.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="KING">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
+      </AnchorPane>
+   </children>
+</VBox>
