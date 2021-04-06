@@ -11,9 +11,6 @@
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" styleClass="label" stylesheets="@StatisticsPanelStyle.css" xmlns:xsi="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.StatisticsController">
     <children>
         <BorderPane prefHeight="201.0" prefWidth="640.0">
-            <bottom>
-                <BorderPane BorderPane.alignment="CENTER" />
-            </bottom>
             <center>
                 <GridPane BorderPane.alignment="CENTER">
                     <columnConstraints>
