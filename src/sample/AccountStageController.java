@@ -79,6 +79,12 @@ public class AccountStageController extends AccountController
         accountDetailsController.reloadFavouritesAndBookings();
     }
 
+    @FXML
+    protected void closeAllAccountWindows()
+    {
+        super.closeAllAccountWindows();
+    }
+
     public BorderPane getAccountPanel() {
         return accountPanel;
     }

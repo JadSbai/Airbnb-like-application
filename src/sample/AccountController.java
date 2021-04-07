@@ -1,11 +1,13 @@
  package sample;
 
 
+import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +35,20 @@ import java.util.regex.Pattern;
          if(accountStage != null){
              this.accountPanel = (BorderPane) accountStage.getScene().getRoot();
          }
+
+
+     }
+
+     protected void closeAllAccountWindows() {
+         for (PropertyPreviewController propertyPreviewController : controllerComponents.getAccount().getListOfPropertyPreviewControllers()) {
+             if (propertyPreviewController.getPropertyStage() != null && propertyPreviewController.getPropertyStage().isShowing()) {
+                 propertyPreviewController.getPropertyStage().close();
+             }
+         }
+         for(Stage stage : controllerComponents.getAccount().getListOfBookingDetailsStages()){
+             stage.close();
+         }
+         accountStage.close();
      }
 
      public Stage getAccountStage(){
