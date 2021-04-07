@@ -46,7 +46,7 @@
 <?import javafx.stage.Stage?>
 
 
-<Stage title="Airbnb London" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainControllerRefactored">
+<Stage title="Airbnb London" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainController">
    <scene>
       <Scene>
          <root>

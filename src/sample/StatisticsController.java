@@ -424,4 +424,85 @@ public class StatisticsController {
         return averagePricePerNight;
     }
 
+    /**
+     * Eight buttons: one back button and one forward button for each of the 4 displayed statistics
+     */
+    public Button getBackButtonStatistics1() {
+        return backButtonStatistics1;
+    }
+
+    public Button getForwardButtonStatistics1() {
+        return forwardButtonStatistics1;
+    }
+
+    public Button getBackButtonStatistics2() {
+        return backButtonStatistics2;
+    }
+
+    public Button getForwardButtonStatistics2() {
+        return forwardButtonStatistics2;
+    }
+
+    public Button getBackButtonStatistics3() {
+        return backButtonStatistics3;
+    }
+
+    public Button getForwardButtonStatistics3() {
+        return forwardButtonStatistics3;
+    }
+
+    public Button getBackButtonStatistics4() {
+        return backButtonStatistics4;
+    }
+
+    public Button getForwardButtonStatistics4() {
+        return forwardButtonStatistics4;
+    }
+
+    /**
+     * Four labels representing each of the statistic currently being shown on the panel
+     */
+    public Label getStatistic1() {
+        return statistic1;
+    }
+
+    public Label getStatistic2() {
+        return statistic2;
+    }
+
+    public Label getStatistic3() {
+        return statistic3;
+    }
+
+    public Label getStatistic4() {
+        return statistic4;
+    }
+
+    public HashMap<String, Boolean> getStatistics() {
+        return statistics;
+    }
+
+    public ArrayList<AirbnbListing> getProperties() {
+        return propertiesAtPriceRange;
+    }
+
+    public HashMap<String, Integer> getBoroughs() {
+        return boroughs;
+    }
+
+    /**
+     * A HashMap that maps all hosts to their total price
+     */
+    public HashMap<String, Integer> getHostsPrice() {
+        return hostsPrice;
+    }
+
+    public HashMap<String, Integer> getHostsNumberOfProperties() {
+        return hostsNumberOfProperties;
+    }
+
+    public HashMap<Button, Label> getButtonToLabelMap() {
+        return buttonToLabelMap;
+    }
+
 }
