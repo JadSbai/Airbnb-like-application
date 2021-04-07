@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,41 +28,119 @@ import java.util.ArrayList;
 public class MainController
 {
     private ControllerComponents  controllerComponents;
+    
+    /**
+    * The main pane of the panel consists of a BorderPane
+    */
     @FXML
     private BorderPane mainPane;
+    
+    /**
+    * The left and right buttons, which switch between the current panel to the previous/next one
+    */
     @FXML
     private Button leftButton, rightButton;
+    
+    /**
+     * A label to display the current selected price range
+     */
     @FXML
     private Label currentPriceRangeLabel;
+    
+    /**
+     * The account bar consists of a BorderPane
+     */
     @FXML
     private BorderPane accountBar;
+    
+    /**
+     * The 2 ComboBoxes where the minimum and maximum price are selected
+     */  
     @FXML
     private ComboBox<Integer> minimumPrice, maximumPrice;
+    
+    /**
+     * The search button
+     */
     @FXML
     private Button searchButton;
 
-    private Pane welcomeRoot, mapRoot, statisticsRoot;
+    /**
+     * The welcome root pane
+     */
+    private Pane welcomeRoot;
+    
+    /**
+     * The map root pane
+     */
+    private Pane mapRoot;
+    
+    /**
+     * The statistics root pane
+     */
+    private Pane statisticsRoot;
 
+    /**
+    * The minimum and maximum prices that can be set in the price range, as shown in the
+    * drop-down menu of the ComboBoxes
+    */
     private static final int MIN_VALUE = 0, MAX_VALUE = 500;
 
+    /**
+    * The minimum and maximum prices selected in order to set the price range
+    */
     private int minPrice, maxPrice;
 
+    /**
+    * Keeps track of whether the search button should be disabled or not
+    */
     private boolean isSearched;
+
+    /**
+     * Keeps track of whether a new search has been made
+     */
     private boolean isNewSearch;
 
+    /**
+     * A list of all the roots
+     */
     private ArrayList<Pane> listOfRoots;
 
+    /**
+     *  The drop-down root
+     */
     private VBox dropDownRoot;
 
+    /**
+     * The signed out bar pane
+     */
     private Pane signedOutBar;
 
+    /**
+     * The indexes of each of the panels, in order
+     */
     private static final int welcomeIndex = 0, mapIndex = 1, statisticsIndex = 2;
 
+    /**
+     * The index to keep track of the current panel
+     */
     private int trackingIndex;
 
+    /**
+    * A MapController object
+    */
     private MapController mapController;
+
+    /**
+    * A StatisticsController object
+    */
     private StatisticsController statisticsController;
 
+    /**
+     * A method to initialize the way the GUI should first appear when the application is run
+     * @param primaryStage
+     * @throws IOException
+     */
     public void initialize(Stage primaryStage) throws IOException
     {
         controllerComponents = new ControllerComponents(null);
@@ -148,7 +227,9 @@ public class MainController
         trackingIndex = welcomeIndex;
     }
 
-
+    /**
+    * When the right button is pressed, the next panel is displayed.
+    */
     @FXML
     private void rightButtonAction(ActionEvent e)
     {
@@ -157,6 +238,9 @@ public class MainController
         mainPane.setCenter(nextPane);
     }
 
+    /**
+    * When the left button is pressed, the previous panel is displayed.
+    */
     @FXML
     private void leftButtonAction()
     {
@@ -168,6 +252,9 @@ public class MainController
         mainPane.setCenter(previousPane);
     }
 
+    /**
+    * The search button is pressed, after a valid price range has been introduced.
+    */
     @FXML
     private void searchAction(ActionEvent e){
 
@@ -216,20 +303,30 @@ public class MainController
         }
     }
 
+    /**
+    * Checks whether a value has been selected for each ComboBox: a minimum or maximum price
+    * from the drop-down menu
+    * @return  true if a value has been selected, false otherwise
+    */
     private boolean isIntInBoxValid(ComboBox<Integer> box) {
         return (box.getValue() != null);
     }
 
+    /**
+     * A method to show the map panel
+     */
     private void jumpToNewMap()
     {
         mapController.closeAllMapStages();
         mapController.setColor();
         trackingIndex = mapIndex;
         mainPane.setCenter(mapRoot);
-        BorderPane.setAlignment(mapRoot, Pos.CENTER);
-
     }
 
+    /**
+     * This method computes the list of prices the user can select from when selecting the price range
+     * @return the list of prices the user can select from when selecting the price range
+     */
     private ArrayList<Integer> getPriceRange() {
         ArrayList<Integer> priceRange = new ArrayList<>();
         for (int i = MIN_VALUE; i <= MAX_VALUE; i = (int) (i + ((MAX_VALUE - MIN_VALUE)) * 0.1)) {
@@ -238,6 +335,11 @@ public class MainController
         return priceRange;
     }
 
+    /**
+     *  An error window is displayed
+     * @param error
+     * @param errorTitle
+     */
     protected void invalidOptions(String error, String errorTitle)
     {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -247,6 +349,9 @@ public class MainController
         alert.showAndWait();
     }
 
+    /**
+     * Sets the status of the search button (if it should be disabled or not) * @param searched
+     */
     private void setSearched(boolean searched) {
         isSearched = searched;
     }

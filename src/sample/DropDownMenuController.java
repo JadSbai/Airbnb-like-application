@@ -12,7 +12,14 @@ import java.io.IOException;
 
 public class DropDownMenuController extends AccountController
 {
+    /**
+     * Common instance of ControllerComponents held by all classes containing common elements like the account.
+     */
     private ControllerComponents controllerComponents;
+
+    /**
+    *   Label that displays the accounts's current username
+    */
     @FXML
     private Label accountUsernameLabel;
 
@@ -25,6 +32,9 @@ public class DropDownMenuController extends AccountController
     @FXML
     private Pane dropDownPane;
 
+    /**
+    * An AccountStageController object
+    */
     private AccountStageController accountStageController;
 
 
@@ -55,6 +65,11 @@ public class DropDownMenuController extends AccountController
 
     }
 
+    /**
+    *   Opens the accountStage and sets the accountDetails pane to the center of
+    * the accountPane.
+    * @throws IOException {@link IOException} in some circumstance
+    */
     @FXML
     public void openAccountDetails() throws IOException
     {
@@ -67,29 +82,23 @@ public class DropDownMenuController extends AccountController
     }
 
     /**
-     * This method sets both the profile pictures to the one specified
-     */
-   // public void setProfileCircles() {
-    //    profileCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
-    //    profileCircle2.setFill(new ImagePattern(getAccount().getProfilePicture()));
-   // }
-
-    /**
      * This method sets a comfortable margin between the account's drop-down menu and the main frame border
      */
     public void formatDropDownMenu() {
         StackPane.setMargin(getDropDownPane(), new Insets(70,20,0,0));
     }
 
-
-
     /**
      * Label situated in the account's drop down menu (i.e., the subPane field) that displays the account's username
+     * @return accountUsernameLabel
      */
     public Label getAccountUsernameLabel() {
         return accountUsernameLabel;
     }
-
+    /**
+     * Pane representing the account's drop down menu
+     * @return dropDownPane
+     */
     public Pane getDropDownPane() {
         return dropDownPane;
     }

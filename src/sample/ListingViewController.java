@@ -19,41 +19,75 @@ import java.io.File;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
-public class PropertyViewController extends ListingController {
+/**
+ * This class is the controller for the window that views a listing. Displays infortion for the property in a visual manner
+ * and includes interactive ways to save as favourite or book the property within a set date range if an account is defined.
+ * @author Jacqueline Ilie, Liam Clark Gutiérrez, Dexter Trower and Jad Sbaï
+ * @version 07/04/2021
+ */
+public class ListingViewController extends ListingController {
 
+    /**
+     * Common instance of ControllerComponents held by all classes containing common elements like the account.
+     */
     private final ControllerComponents controllerComponents;
+    /**
+     * Labels that contain information of the viewed listing like number of reviews or room type.
+     */
     @FXML
-    private Label nameAndHost, reviews, propertyType, priceAndNights, subtotal, serviceFeeValue, totalPriceLabel, availability, availabilityText;
+    private Label nameAndHost, reviews, propertyType, priceAndNights, subtotal, serviceFeeValue, totalPriceLabel, availability, availabilityText, favouriteTextLabel;
 
+    /**
+     * Icon that represents the availability of the listing.
+     */
     @FXML
     private ImageView availabilityIcon;
-
+    /**
+     * Button to reserve the listing within a certain date range if logged in.
+     */
     @FXML
     private Button reserveButton;
-
+    /**
+     * Heart shaped checkbox to save the property to favourites if logged in.
+     */
     @FXML
     private CheckBox saveBox;
-
+    /**
+     * Pane that holds the information and Nodes related to browsing and viewing the reservation of a listing.
+     */
     @FXML
     private GridPane dateSelectPane;
-
+    /**
+     * Date selection nodes to choose the in and out dates for a reservation.
+     */
     @FXML
     private DatePicker inDatePicker, outDatePicker;
-
+    /**
+     * Valid set of dates currently selected in the date pickers.
+     */
     private LocalDate inDate, outDate;
-
-    @FXML
-    private Label favouriteTextLabel;
-    
+    /**
+     * Controller for the details panel in the account. Updated instantly when a property is saved.
+     */
     private final AccountDetailsController accountDetailsController;
 
-    public PropertyViewController(ControllerComponents controllerComponents, AirbnbListing listing, AccountDetailsController accountDetailsController)
+    /**
+     * Contructor for PropertyViewController. Calls the super constructor for it's super class LisitingController
+     * @param controllerComponents common instance of ControllerComponents held by all classes containing common elements like the account.
+     * @param listing listing being displayed
+     * @param accountDetailsController controller for the details panel in the account.
+     */
+    public ListingViewController(ControllerComponents controllerComponents, AirbnbListing listing, AccountDetailsController accountDetailsController)
     {
         super(listing);
         this.controllerComponents = controllerComponents;
         this.accountDetailsController = accountDetailsController;
     }
 
+    /**
+     * Iniitalizes PropertyViewController setting all the labels in accordance to the listing's details.
+     */
+    @FXML
     public void initialize() throws IOException
     {
         favouriteTextLabel.setText("");
@@ -125,6 +159,9 @@ public class PropertyViewController extends ListingController {
         }
     }
 
+    /**
+     * Sets the favourite checkbox and favourite boolean field when openning the view.
+     */
     private void initializeFavourites()
     {
         boolean isFavourite = false;
@@ -137,19 +174,6 @@ public class PropertyViewController extends ListingController {
             }
         }
         saveBox.setSelected(isFavourite);
-    }
-
-    @FXML
-    public void reserveProperty() throws IOException
-    {
-        if(controllerComponents.getAccount() == null){
-            warningAlert("If you want to book this property, you must be signed in. If you don't have an account, create one", "Not signed in");
-        } else if(controllerComponents.getAccount().isAlreadyBooked(getListing())) {
-            warningAlert("You have already booked this property. View or cancel your booking in \"Account details\"", "Property already booked !");
-        }
-        else{
-            addToBookings();
-        }
     }
 
     /**
@@ -178,11 +202,11 @@ public class PropertyViewController extends ListingController {
         if(yesterday.isBefore(inDate) && outDate!=null && outDate.isAfter(inDate)) {
             calculatePrice();
         } else if (outDate!=null && outDate.isBefore(inDate)) {
-            invalidOptions("Check-in date must be before check-out date", "Invalid date");
+            warningAlert("Check-in date must be before check-out date", "Invalid date");
         } else if (yesterday.isAfter(inDate)){
-            invalidOptions("Check-in date must be later than yesterday", "Invalid date");
+            warningAlert("Check-in date must be later than yesterday", "Invalid date");
         } else if (outDate!= null && outDate.equals(inDate)) {
-            invalidOptions("Check-in date must be different to check-out date", "Invalid date");
+            warningAlert("Check-in date must be different to check-out date", "Invalid date");
         }
     }
 
@@ -197,14 +221,55 @@ public class PropertyViewController extends ListingController {
         if(today.isBefore(outDate) && inDate!=null && inDate.isBefore(outDate)) {
             calculatePrice();
         } else if (today.isAfter(outDate)) {
-            invalidOptions("Check-out date must be later than today", "Invalid date");
+            warningAlert("Check-out date must be later than today", "Invalid date");
         } else if (inDate!=null && inDate.isAfter(outDate)){
-            invalidOptions("Check-out date must be after check-in date", "Invalid date");
+            warningAlert("Check-out date must be after check-in date", "Invalid date");
         } else if (inDate!= null && inDate.equals(outDate)) {
-            invalidOptions("Check-out date must be different to check-in date", "Invalid date");
+            warningAlert("Check-out date must be different to check-in date", "Invalid date");
         }
     }
+    
+    /**
+     * Reserve a property once valid dates have been selected.
+     * @throws IOException {@link IOException} in some circumstance
+     */
+    @FXML
+    public void reserveProperty(ActionEvent event) throws IOException
+    {
+        if(controllerComponents.getAccount() == null){
+            warningAlert("If you want to book this property, you must be signed in. If you don't have an account, create one", "Not signed in");
+        } else if(controllerComponents.getAccount().isAlreadyBooked(getListing())) {
+            warningAlert("You have already booked this property. View or cancel your booking in \"Account details\"", "Property already booked !");
+        }
+        else{
+            addToBookings();
+        }
+    }
+    /**
+     * Adds the listing to listing to bookings in the account.
+     * @throws IOException {@link IOException} in some circumstance
+     */
+    private void addToBookings() throws IOException
+    {
+        FXMLLoader bookingLoader = new FXMLLoader(getClass().getResource("BookingPane.fxml"));
+        bookingLoader.setController(accountDetailsController);
+        BorderPane bookingPane = bookingLoader.load();
+        controllerComponents.getAccount().addToBookings(getListing(), bookingPane, accountDetailsController);
+        accountDetailsController.loadBookings();
 
+        FXMLLoader bookingDetailsLoader = new FXMLLoader(getClass().getResource("BookingDetailsWindow.fxml"));
+        Stage bookingDetailsStage = bookingDetailsLoader.load();
+        BookingDetailsController bookingDetailsController = bookingDetailsLoader.getController();
+        bookingDetailsController.initialize(getListing(), inDate, outDate);
+        controllerComponents.getAccount().addToBookingDetailsMap(getListing(), bookingDetailsStage);
+
+        reserveButton.setDisable(true);
+    }
+
+    /**
+     * Saves or unsaves the listing as favourite when checking the heart shaped box.
+     * @throws IOException {@link IOException} in some circumstance
+     */
     @FXML
     public void saveFavourites() throws IOException
     {
@@ -222,6 +287,10 @@ public class PropertyViewController extends ListingController {
         }
     }
 
+    /**
+     *  Adds the listing to favourites of the account when checking the unchecked save choicebox
+     * @throws IOException {@link IOException} in some circumstance
+     */
     private void addToFavourites() throws IOException {
         controllerComponents.getAccount().addToFavouriteProperties(getListing(), accountDetailsController);
         setFavouriteTextLabel("This property has been added to your favourites");
@@ -229,6 +298,10 @@ public class PropertyViewController extends ListingController {
         accountDetailsController.loadFavourites();
     }
 
+    /**
+     * Removes the listing from favourites of the account when checking the checked save choicebox
+     * @throws IOException {@link IOException} in some circumstance
+     */
     private void removeFromFavourites() throws IOException {
         controllerComponents.getAccount().removeFromFavourites(getListing());
         setFavouriteTextLabel("This property has been removed from your favourites");
@@ -237,14 +310,15 @@ public class PropertyViewController extends ListingController {
     }
 
     /**
-     * Method called when a correct set of dates has been chosen. Sets price of labels considering the
+     * Method called when a correct set of dates has been chosen. Sets price of labels considering the in and out dates
+     * and actives the reserve button to allow the property to be reserved.
      */
     private void calculatePrice(){
         int numberOfNights = (int) DAYS.between(inDate, outDate);
         int minNumberOfNights = getListing().getMinimumNights();
 
         if(numberOfNights < minNumberOfNights){
-            invalidOptions("Minimum number of nights for this property is " + minNumberOfNights + " you selected " + numberOfNights, "Insufficient nights");
+            warningAlert("Minimum number of nights for this property is " + minNumberOfNights + " you selected " + numberOfNights, "Insufficient nights");
         } else {
             int price = getListing().getPrice();
             int subTotalPrice = price*numberOfNights;
@@ -259,18 +333,10 @@ public class PropertyViewController extends ListingController {
             reserveButton.setDisable(false);
         }
     }
-
-    private void invalidOptions(String error, String errorTitle)
-    {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(errorTitle);
-        alert.setHeaderText(null);
-        alert.setContentText(error);
-
-        alert.showAndWait();
-    }
-
-    
+    /**
+     * Reload the listing. Called when something changes the listing elsewhere like in the accountDetailsController a
+     * listing has been unsaved.
+     */
     public void reload()
     {
         if(controllerComponents.getAccount() == null){
@@ -281,7 +347,6 @@ public class PropertyViewController extends ListingController {
             initializeFavourites();
         }
     }
-
     /**
      * Sets the a label that indicates that the property has been saved to favourites.
      * @param text New text to be set for the favourite label
@@ -289,7 +354,6 @@ public class PropertyViewController extends ListingController {
     public void setFavouriteTextLabel(String text) {
         favouriteTextLabel.setText(text);
     }
-
     /**
      * This method creates and displays an alert of type WARNING
      * @param warning The warning to be displayed
@@ -303,23 +367,5 @@ public class PropertyViewController extends ListingController {
         alert.setContentText(warning);
         alert.showAndWait();
 
-    }
-
-
-    private void addToBookings() throws IOException
-    {
-        FXMLLoader bookingLoader = new FXMLLoader(getClass().getResource("BookingPane.fxml"));
-        bookingLoader.setController(accountDetailsController);
-        BorderPane booking = bookingLoader.load();
-        controllerComponents.getAccount().addToBookings(getListing(), booking, accountDetailsController);
-        accountDetailsController.loadBookings();
-
-        FXMLLoader bookingDetailsLoader = new FXMLLoader(getClass().getResource("BookingDetailsWindow.fxml"));
-        Stage bookingDetailsStage = bookingDetailsLoader.load();
-        BookingDetailsController bookingDetailsController = bookingDetailsLoader.getController();
-        bookingDetailsController.initialize(getListing(), inDate, outDate);
-        controllerComponents.getAccount().addToBookingDetailsMap(getListing(), bookingDetailsStage);
-
-        reserveButton.setDisable(true);
     }
 }

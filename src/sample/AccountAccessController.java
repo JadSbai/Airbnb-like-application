@@ -16,16 +16,15 @@ import java.util.regex.Pattern;
 
 
 /**
- * This class is in charge of all the GUI's containers and controls related to the creation and usage of an AirBnB account.
+ * this class inherits fields and methods from the AccountController class.
+ * This class is in charge of all the GUI's containers and controls related to the account access
  * It tracks the text fields' values and updates the main window's top part according to the current state of the account (signed in or signed out)
  * It also manages all secondary window's meant for signing in or creating an AirBnB account
- * It also manages the different accounts created so far in the app
  * @author Jacqueline Ilie, Liam Clark Gutiérrez, Dexter Trower and Jad Sbaï
  * @version 29/03/2021
  */
 public class AccountAccessController extends AccountController
 {
-    private ControllerComponents controllerComponents;
     // FXML fields:
     // FXML fields are tracking the different FXML controls or containers used for manipulating or displaying account data. Their IDs and the methods they call on action are set in the fxml files:
 
@@ -107,47 +106,91 @@ public class AccountAccessController extends AccountController
     @FXML
     private Label passwordSignInErrorLabel;
 
+    /**
+     * The account access scene (nested inside the account access stage)
+     */
     @FXML
     private Scene accountAccessScene;
 
-    private Stage accountAccessStage;
-
-    private Pane signedOutBar;
-
-    private Pane signedInBar;
-
-    private Pane signInPanel;
-
-    private Pane createAccountPanel;
-
-    private Pane dropDownPane;
-
-    private BorderPane accountBar;
-
-    private Label userNameLabel;
-
-    private MapController mapController;
-
+    /**
+     * The top right profile circle
+     */
     @FXML
     private Circle profileCircle;
 
+
+    /**
+     ** The common ControllerComponents instance
+     */
+    private ControllerComponents controllerComponents;
+
+    /**
+     * The account access stage where the user signs in or creates an account
+     */
+    private Stage accountAccessStage;
+
+    /**
+     * The bar loaded in the account bar when the user is signed out
+     */
+    private Pane signedOutBar;
+
+    /**
+     * The bar loaded in the account bar when the user is signed in
+     */
+    private Pane signedInBar;
+
+    /**
+     * The panel loaded in the account access scene when the user wants to sign in
+     */
+    private Pane signInPanel;
+
+    /**
+     * The panel loaded in the account access scene when the user wants to create an account
+     */
+    private Pane createAccountPanel;
+
+    /**
+     * The pane displayed when the top right profile picture is clicked
+     */
+    private Pane dropDownPane;
+
+    /**
+     * The bar displaying the appropriate buttons based on the user's state (signed in or signed out)
+     */
+    private BorderPane accountBar;
+
+    /**
+     * The username label displayed in the drop down pane
+     */
+    private Label userNameLabel;
+
+    /**
+     * The MapController instance used to update map-related elements when changing account
+     */
+    private MapController mapController;
+
+
+    /**
+     * The constructor calls the AccountController's constructor and initializes the ControllerComponents instance
+     * @param controllerComponents
+     * @param accountStage
+     */
     public AccountAccessController(ControllerComponents controllerComponents, Stage accountStage)
     {
         super(controllerComponents, accountStage);
         this.controllerComponents = controllerComponents;
     }
 
-    /**
-     * The constructor initializes all the non-FXML fields, loads all the account related fxml files, sets their controller and displays the resulting stage.
-     * @throws IOException if the designated files are not loaded successfully
-     */
 
+    /**
+     * This method is called when the fxml file is loaded.
+     * @throws IOException {@link IOException} in some circumstance
+     */
     @FXML
     public void initialize() throws IOException
     {
 
     }
-
 
     /**
      * This method opens a new window for the user to sign in into their account unless an "account window" is already open (either "sign in"  or "create account")
@@ -208,9 +251,11 @@ public class AccountAccessController extends AccountController
      * The account stage is closed
      * If a price range has been entered, then it closes all previously opened windows and loads the account's specific map view GUI elements.
      * @param e The event (button click) that triggers the method call
+     * @throws IOException {@link IOException} in some circumstance
      */
     @FXML
-    private void createAccountAction(ActionEvent e) throws IOException {
+    private void createAccountAction(ActionEvent e) throws IOException 
+    {
         String username = createAccountUsername.getText();
         String email = createAccountEmail.getText();
         String password = createAccountPassword.getText();
@@ -219,7 +264,7 @@ public class AccountAccessController extends AccountController
         if(checkValidityOfCreateAccountFields(username, email, password, confirmPassword)) {
             Account newAccount = new Account(username, email, password, controllerComponents);
             getListOfAccounts().add(newAccount);
-            getAccountsMap().put(email, newAccount);
+            getEmailToAccountMap().put(email, newAccount);
 
             controllerComponents.setCurrentAccount(newAccount);
             updateProfilePictures();
@@ -232,7 +277,6 @@ public class AccountAccessController extends AccountController
             closeAllPropertyWindows();
             loadAccount();
         }
-
     }
 
     /**
@@ -242,6 +286,7 @@ public class AccountAccessController extends AccountController
      * The stage is then closed
      * If a price range has been entered, then it closes all previously opened windows and loads the account's specific map view GUI elements.
      * @param e The event (button click) that triggers the method call
+     * @throws IOException {@link IOException} in some circumstance
      */
     @FXML
     private void signInAction(ActionEvent e) throws IOException {
@@ -266,11 +311,12 @@ public class AccountAccessController extends AccountController
     /**
      * This method saves all data and settings of the current account and signs it out
      * It then sets the top of the main frame to the "signed out" layout and makes the account's drop-down menu invisible (i.e., the subPane)
-     * If a price range has been entered, then it loads the default map view GUI elements
+     * If a price range has been entered, then it loads the default map view GUI element
+     * @throws IOException {@link IOException} in some circumstance
      */
     @FXML
-    protected void signOutAction() throws IOException {
-
+    protected void signOutAction() throws IOException 
+    {
         closeAllAccountWindows();
 
         controllerComponents.setCurrentAccount(null);
@@ -293,6 +339,18 @@ public class AccountAccessController extends AccountController
     private void whatIsAStrongPasswordAction(ActionEvent e)
     {
         infoAlert(" Passwords must contain a lowercase letter, capital letter, number, symbol and must be at least 8 characters. It cannot contain any spaces.", "What is a strong password?");
+    }
+
+    /**
+     * This method displays or hides the account's drop-down menu each time the profile circle is clicked (the one at the top right of the main frame)
+     * @param e The mouse event that triggers the method call
+     */
+    @FXML
+    private void profileClicked(MouseEvent e)
+    {
+        if (e.getButton() == MouseButton.PRIMARY) {
+            dropDownPane.setVisible(!dropDownPane.isVisible());
+        }
     }
 
     /**
@@ -471,21 +529,6 @@ public class AccountAccessController extends AccountController
     }
 
     /**
-     * This method displays or hides the account's drop-down menu each time the profile circle is clicked (the one at the top right of the main frame)
-     * @param e The mouse event that triggers the method call
-     */
-    @FXML
-    private void profileClicked(MouseEvent e)
-    {
-        if (e.getButton() == MouseButton.PRIMARY) {
-            dropDownPane.setVisible(!dropDownPane.isVisible());
-        }
-    }
-
-
-
-
-    /**
      * This method returns whether the username entered in the "create account" window is valid or not, i.e., if it is not already taken by another account
      * If it is not valid, prints an error in the corresponding error label
      * @param username The username entered
@@ -527,16 +570,13 @@ public class AccountAccessController extends AccountController
     /**
      * This method sets all the settings and data of the account to default values
      * It also loads the default map view GUI elements
+     * @throws IOException {@link IOException} in some circumstance
      */
     private void setDefaultSettingsAndData() throws IOException
     {
         controllerComponents.setCurrentAccount(null);
         loadAccount();
     }
-
-
-
-
 
     /**
      * This method closes all windows opened when consulting AirBnB properties
@@ -552,42 +592,71 @@ public class AccountAccessController extends AccountController
      */
     private Account getAccount(String email)
     {
-        return getAccountsMap().get(email);
+        return getEmailToAccountMap().get(email);
     }
 
+    /**
+     * @param signedInBar
+     */
     public void setSignedInBar(Pane signedInBar) {
         this.signedInBar = signedInBar;
         AccountComponents.getInstance().getAccountCircles().add(profileCircle);
     }
 
+    /**
+     * @param signInPanel
+     */
     public void setSignInPanel(Pane signInPanel) {
         this.signInPanel = signInPanel;
     }
 
+    /**
+     * @param createAccountPanel
+     */
     public void setCreateAccountPanel(Pane createAccountPanel) {
         this.createAccountPanel = createAccountPanel;
     }
 
+    /**
+     * @param accountAccessStage
+     */
     public void setAccountAccessStage(Stage accountAccessStage) {
         this.accountAccessStage = accountAccessStage;
     }
 
+    /**
+     * @param signedOutBar
+     */
     public void setSignedOutBar(Pane signedOutBar) {
         this.signedOutBar = signedOutBar;
     }
 
+    /**
+     * @param dropDownPane
+     */
     public void setDropDownPane(Pane dropDownPane) {
         this.dropDownPane = dropDownPane;
     }
 
+    /**
+     * @param accountBar
+     */
     public void setAccountBar(BorderPane accountBar) {
         this.accountBar = accountBar;
     }
 
+    /**
+     * Sets the username label
+     * @param userNameLabel userNameLabel
+     */
     public void setUserNameLabel(Label userNameLabel) {
         this.userNameLabel = userNameLabel;
     }
 
+    /**
+     * Sets the map controller
+     * @param mapController mapController
+     */
     public void setMapControllerRefactored(MapController mapController) {
         this.mapController = mapController;
     }

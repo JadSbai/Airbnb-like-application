@@ -13,51 +13,84 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.util.*;
+/**
+ * This class is the controller for the window that shows a list of previews that represent listings in a certain
+ * borough. It can be sorted by price, host name or number of reviews.
+ * @author Jacqueline Ilie, Liam Clark Gutiérrez, Dexter Trower and Jad Sbaï
+ * @version 07/04/2021
+ */
+public class ListingListController {
 
-public class PropertyListController {
-
+    /**
+     * Common instance of ControllerComponents held by all classes containing common elements like the account.
+     */
     private ControllerComponents controllerComponents;
 
-    private ArrayList<PropertyPreviewController> listOfPropertyPreviewControllers;
+    /**
+     * List of previewControllers
+     */
+    private ArrayList<ListingPreviewController> listOfListingPreviewControllers;
 
-    private static final String hostNameOrderString = "Name of host";
-    private static final String priceLowestOrderString = "Lowest to highest price";
-    private static final String priceHighestOrderString = "Highest to lowest price";
-    private static final String reviewOrderString = "Number of reviews";
+    /**
+     * Static Strings that define the options for sorting the list of previews.
+     */
+    private static final String hostNameOrderString = "Name of host", priceLowestOrderString = "Lowest to highest price", priceHighestOrderString = "Highest to lowest price", reviewOrderString = "Number of reviews";
 
+    /**
+     * List of previews being displayed
+     */
     @FXML
     private ListView<Pane> listView;
+    /**
+     * ChoiceBox to sort the previews
+     */
     @FXML
     private ChoiceBox<String> sortByChoiceBox;
 
+    /**
+     * Ordered lists by name, price or reviews
+     */
     private List<EntryString> hostNameOrder;
-    private List<EntryInteger> priceOrder;
-    private List<EntryInteger> invertedPriceOrder;
-    private List<EntryInteger> numberOfReviewsOrder;
+    private List<EntryInteger> priceOrder, invertedPriceOrder, numberOfReviewsOrder;
 
+    /**
+     * Controller for AccountDetailsController used to reload the panel if favourites or bookings change.
+     */
     AccountDetailsController accountDetailsController;
 
+    /**
+     * List of listings being displayed
+     */
     private ArrayList<AirbnbListing> boroughListings;
 
-    public PropertyListController(ControllerComponents controllerComponents, AccountDetailsController accountDetailsController) {
+    /**
+     * @param controllerComponents common instance of ControllerComponents held by all classes containing common elements like the account.
+     * @param accountDetailsController controller for AccountDetailsController used to reload the panel if favourites or bookings change.
+     */
+    public ListingListController(ControllerComponents controllerComponents, AccountDetailsController accountDetailsController) {
         this.controllerComponents = controllerComponents;
         this.accountDetailsController = accountDetailsController;
     }
-    
+
+    /**
+     * Initializes the list by creting a preview for each listing and adding to each of the ordered lists.
+     * @param boroughListings list of listings
+     * @throws IOException {@link IOException} in some circumstance
+     */
     public void initialize(ArrayList<AirbnbListing> boroughListings) throws IOException
     {
         this.boroughListings = boroughListings;
-        listOfPropertyPreviewControllers = new ArrayList<>();
+        listOfListingPreviewControllers = new ArrayList<>();
         createChoiceBoxOptions();
         createSortedLists();
 
         for (AirbnbListing listing : boroughListings) {
-            FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
-            PropertyPreviewController propertyPreviewController = new PropertyPreviewController(controllerComponents, listing, accountDetailsController);
-            preview.setController(propertyPreviewController);
+            FXMLLoader preview = new FXMLLoader(getClass().getResource("ListingPreview.fxml"));
+            ListingPreviewController listingPreviewController = new ListingPreviewController(controllerComponents, listing, accountDetailsController);
+            preview.setController(listingPreviewController);
             Pane propertyPreviewPane = preview.load();
 
-            listOfPropertyPreviewControllers.add(propertyPreviewController);
+            listOfListingPreviewControllers.add(listingPreviewController);
 
             listView.getItems().add(propertyPreviewPane);
             addToSortedLists(listing, propertyPreviewPane);
@@ -68,25 +101,28 @@ public class PropertyListController {
         if (boroughListings.isEmpty()){ emptyListSettings(); }
     }
 
+    /**
+     * Reloads the viewController when something changes in the AccountDetailsController.
+     * @throws IOException {@link IOException} in some circumstance
+     */
     public void reload() throws IOException {
-        for(PropertyPreviewController propertyPreviewController: listOfPropertyPreviewControllers){
-            if(propertyPreviewController != null){
-                 propertyPreviewController.reload();
+        for(ListingPreviewController listingPreviewController : listOfListingPreviewControllers){
+            if(listingPreviewController != null){
+                 listingPreviewController.reload();
             }
         }
     }
 
+    /**
+     * Closes all open stages of views when closing the list
+     */
     public void closePropertyStages()
     {
-        for(PropertyPreviewController propertyPreviewController : listOfPropertyPreviewControllers){
-            if(propertyPreviewController.getPropertyStage() != null && propertyPreviewController.getPropertyStage().isShowing()){
-                propertyPreviewController.getPropertyStage().close();
+        for(ListingPreviewController listingPreviewController : listOfListingPreviewControllers){
+            if(listingPreviewController.getPropertyViewStage() != null && listingPreviewController.getPropertyViewStage().isShowing()){
+                listingPreviewController.getPropertyViewStage().close();
             }
         }
-    }
-
-    public ArrayList<PropertyPreviewController> getListOfPropertyPreviewControllers() {
-        return listOfPropertyPreviewControllers;
     }
 
     /**

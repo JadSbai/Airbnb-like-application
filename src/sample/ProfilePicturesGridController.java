@@ -15,19 +15,39 @@ import java.io.IOException;
 
 public class ProfilePicturesGridController extends AccountController
 {
+    /**
+    * common instance of ControllerComponents held by all classes containing common elements like the account.
+    */
     private ControllerComponents controllerComponents;
-    
+
+    /**
+    * The controller which controls the components of the accountSettings pane.
+    */
     private AccountSettingsController accountSettingsController;
 
+    /**
+    * The tilepane that contains the images of the sample avatars that
+    * the user can set as their profile picture.
+    */
     @FXML
     private TilePane pfpGrid;
 
+    /**
+     * @param controllerComponents common instance of ControllerComponents held by all classes containing common elements like the account.
+     * @param accountStage The stage that contains the accountPanel where the accountSettings and accountDetails are displayed.
+     * @param accountSettingsController The controller for the accountSettings panel.
+     */
     public ProfilePicturesGridController(ControllerComponents controllerComponents, Stage accountStage, AccountSettingsController accountSettingsController) {
         super(controllerComponents, accountStage);
         this.controllerComponents = controllerComponents;
         this.accountSettingsController = accountSettingsController;
     }
 
+    /**
+     * Initializes the pfp grid and loads the basic avatars into the grid from
+     * src/sample/pfp.
+     * @throws IOException {@link IOException;} in some circumstance
+     */
     public void initialize() throws IOException
     {
         pfpGrid.setVgap(20);
@@ -36,6 +56,10 @@ public class ProfilePicturesGridController extends AccountController
         loadBasicAvatars();
     }
 
+    /**
+     *  Sets the center of the accountPanel back to the accountSettings pane and
+     *  resets some elemets where necessary.
+     */
     @FXML
     private void exitAvatarMenu()
    {
@@ -45,6 +69,10 @@ public class ProfilePicturesGridController extends AccountController
         getAccountStage().sizeToScene();
     }
 
+    /**
+     *  Sets the bufferImage to the selected avatar so that it can be set to the
+     *  user's profile picture if they save changes. Exits the avatar menu.
+     */
     @FXML
     private void confirmAvatarAction()
     {
@@ -58,7 +86,10 @@ public class ProfilePicturesGridController extends AccountController
         exitAvatarMenu();
     }
 
-    @FXML
+    /**
+     * Loads all the basic avatars into the tile pane from the
+     * src/sample/pfp directory.
+     */
     private void loadBasicAvatars() {
 
         File dir = new File("src/sample/pfp/");
@@ -84,6 +115,10 @@ public class ProfilePicturesGridController extends AccountController
         }
     }
 
+    /**
+     * Selects an avatar provided an image
+     * @param image new avatar image
+     */
     private void selectBasicAvatar(Image image)
     {
         accountSettingsController.setBufferedBasicAvatar(image);

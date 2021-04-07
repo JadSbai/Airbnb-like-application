@@ -17,17 +17,32 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class BookingDetailsController
 {
 
+    /**
+    * The labels for the booking description, subtotal, serviceFee, totalPrice, dateRange, roomType
+    */
     @FXML
     private Label bookingDescription, subtotal, serviceFee, totalPrice, dateRange, roomType;
 
+    /**
+    * The booking details scene
+    */
     @FXML
     private Scene bookingDetailsScene;
 
+    /**
+    * The booking details stage
+    */
     @FXML
     private Stage bookingDetailsStage;
 
+    /**
+    * An AirbnbListing object
+    */
     private AirbnbListing listing;
-    
+
+    /**
+    * The dates of the check-in and check-out of the booking
+    */
     private LocalDate inDate, outDate;
 
 
@@ -36,12 +51,13 @@ public class BookingDetailsController
         this.listing = listing;
         this.inDate = inDate;
         this.outDate = outDate;
-        
-        
 
         setLabels();
     }
 
+    /**
+    * A method to initialize the labels
+    */
     private void setLabels() {
         int numberOfNights = (int) DAYS.between(inDate, outDate);
         int price = listing.getPrice()*numberOfNights;
