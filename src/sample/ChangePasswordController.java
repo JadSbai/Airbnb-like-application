@@ -37,6 +37,7 @@ public class ChangePasswordController extends AccountController
     private void exitChangePasswordMenu()
     {
         getAccountPanel().setCenter(accountSettingsController.getAccountSettingsPanel());
+        getAccountStage().sizeToScene();
     }
 
     @FXML
