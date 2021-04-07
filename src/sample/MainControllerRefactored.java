@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -29,9 +30,7 @@ public class MainControllerRefactored
     @FXML
     private BorderPane mainPane;
     @FXML
-    private Button leftButton;
-    @FXML
-    private Button rightButton;
+    private Button leftButton, rightButton;
     @FXML
     private Label currentPriceRangeLabel;
     @FXML
@@ -43,15 +42,11 @@ public class MainControllerRefactored
 
     private Pane mainRoot;
 
-    private Pane welcomeRoot;
-    private Pane mapRoot;
-    private Pane statisticsRoot;
+    private Pane welcomeRoot, mapRoot, statisticsRoot;
 
-    private static final int MAX_VALUE = 500;
-    private static final int MIN_VALUE = 0;
+    private static final int MIN_VALUE = 0, MAX_VALUE = 500;
 
-    private int minPrice;
-    private int maxPrice;
+    private int minPrice, maxPrice;
 
     private boolean isSearched;
     private boolean isNewSearch;
@@ -62,30 +57,21 @@ public class MainControllerRefactored
 
     private Pane signedOutBar;
 
-    private static final int welcomeIndex = 0;
-    private static final int mapIndex = 1;
-    private static final int statisticsIndex = 2;
+    private static final int welcomeIndex = 0, mapIndex = 1, statisticsIndex = 2;
 
     private int trackingIndex;
 
     private MapControllerRefactored mapController;
     private StatisticsController statisticsController;
 
-    public MainControllerRefactored()
-    {
-
-    }
-
     public void initialize() throws IOException
     {
         controllerComponents = new ControllerComponents(null);
 
-        WelcomeControllerRefactored welcomeController = new WelcomeControllerRefactored(controllerComponents);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("WelcomeRefactored.fxml"));
-        loader.setController(welcomeController);
         welcomeRoot = loader.load();
-
-        welcomeController.setWelcomeRoot(welcomeRoot);
+        WelcomeControllerRefactored welcomeController = loader.getController();
+        welcomeController.initialize(mainPane);
 
         mapController = new MapControllerRefactored(controllerComponents);
         loader = new FXMLLoader(getClass().getResource("Map.fxml"));
@@ -154,7 +140,7 @@ public class MainControllerRefactored
         mainPane.setCenter(welcomeRoot);
 
         // This code of block has to be improved
-        listOfRoots = new CircularList<Pane>(){};
+        listOfRoots = new CircularList<>(){};
         listOfRoots.add(welcomeIndex, welcomeRoot);
         listOfRoots.add(mapIndex, mapRoot);
         listOfRoots.add(statisticsIndex, statisticsRoot);
@@ -173,7 +159,6 @@ public class MainControllerRefactored
         trackingIndex++;
         Pane nextPane = listOfRoots.get(trackingIndex);
         mainPane.setCenter(nextPane);
-
     }
 
     @FXML
@@ -240,7 +225,9 @@ public class MainControllerRefactored
         mapController.closeAllMapStages();
         mapController.setColor();
         trackingIndex = mapIndex;
+        BorderPane.setAlignment(mapRoot, Pos.CENTER);
         mainPane.setCenter(mapRoot);
+
     }
 
     protected ArrayList<Integer> getPriceRange() {

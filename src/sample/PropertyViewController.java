@@ -21,7 +21,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 public class PropertyViewController extends ListingController {
 
-    private ControllerComponents controllerComponents;
+    private final ControllerComponents controllerComponents;
     @FXML
     private Label nameAndHost, reviews, propertyType, priceAndNights, subtotal, serviceFeeValue, totalPriceLabel, availability, availabilityText;
 
@@ -48,7 +48,7 @@ public class PropertyViewController extends ListingController {
     @FXML
     private Label favouriteTextLabel;
     
-    private AccountDetailsController accountDetailsController;
+    private final AccountDetailsController accountDetailsController;
 
     public PropertyViewController(ControllerComponents controllerComponents, AirbnbListing listing, AccountDetailsController accountDetailsController)
     {
@@ -79,7 +79,11 @@ public class PropertyViewController extends ListingController {
     @FXML
     public void reserveProperty() throws IOException
     {
-        addToBookings();
+        if(controllerComponents.getAccount() == null){
+            warningAlert("If you want to book this property, you must be signed in. If you don't have an account, create one", "Not signed in");
+        } else {
+            addToBookings();
+        }
     }
 
     /**
@@ -139,8 +143,7 @@ public class PropertyViewController extends ListingController {
     public void saveFavourites() throws IOException
     {
         if(controllerComponents.getAccount() == null){
-            setSaveBox(false);
-            warningAlert("If you want to save this property into your favourites, you must first sign in to your account. If you don't have an account, create one", "Not signed in");
+            warningAlert("If you want to save this property into your favourites, you must you must be signed in. If you don't have an account, create one", "Not signed in");
         }
         else {
             getListing().setFavourite(!getListing().isFavourite());

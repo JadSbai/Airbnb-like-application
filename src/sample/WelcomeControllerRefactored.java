@@ -2,56 +2,36 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
 public class WelcomeControllerRefactored
 {
-    private ControllerComponents controllerComponents;
     @FXML
-    private VBox welcomeVBox;
+    private Pane welcomePane;
 
+    private Pane instructionsPane;
+
+    private BorderPane mainPane;
+
+    public void initialize(BorderPane mainPane) throws IOException
+    {
+        this.mainPane = mainPane;
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Instructions.fxml"));
+        instructionsPane = loader.load();
+        InstructionsController instructionsController = loader.getController();
+        instructionsController.initialize(mainPane, welcomePane);
+    }
     @FXML
-    private Label welcomeLabel;
-
-    private VBox infoBox;
-
-    private Pane welcomeRoot;
-    
-    public WelcomeControllerRefactored(ControllerComponents controllerComponents){
-        this.controllerComponents = controllerComponents;
+    private void showInstructions(ActionEvent e) {
+        mainPane.setCenter(instructionsPane);
     }
 
-    public void initialize() throws IOException
-    {
-        Label instructionsLabel = new Label();
-        instructionsLabel.setText("Instructions...");
-        Button okButton = new Button("OK");
-        okButton.setOnAction(this::okAction);
-        okButton.getStyleClass().add("buttons"); // This piece of styling shouldn't be here I guess ?
-        infoBox = new VBox(instructionsLabel, okButton);
-        infoBox.getStyleClass().add("vboxes");
-    }
-    
-    public void setWelcomeRoot(Pane root)
-        {
-            this.welcomeRoot = root;
-        }
+    public void setPane(Pane welcomePane) {
 
-    @FXML
-    private void printInstructions(ActionEvent e)
-    {
-        welcomeRoot.getChildren().clear();
-        welcomeRoot.getChildren().add(infoBox);
-    }
-
-    private void okAction(ActionEvent e)
-    {
-        welcomeRoot.getChildren().clear();
-        welcomeRoot.getChildren().add(welcomeVBox);
     }
 }
