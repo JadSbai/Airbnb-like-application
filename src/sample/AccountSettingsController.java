@@ -207,9 +207,9 @@ public class AccountSettingsController extends AccountController
 
     private void resetPasswordFields()
     {
-        currentPasswordField.setText("");
-        newPasswordField.setText("");
-        confirmPasswordField.setText("");
+        //currentPasswordField.setText("");
+        //newPasswordField.setText("");
+        //confirmPasswordField.setText("");
         //changePasswordErrorField.setText("");
     }
 
@@ -224,8 +224,8 @@ public class AccountSettingsController extends AccountController
          resetPasswordFields();
 
          changeUsernameField.setPromptText(controllerComponents.getAccount().getUsername());
-         emailField.setPromptText(controllerComponents.getAccount().getUsername());
-         currentUsernameLabel.setText(controllerComponents.getAccount().getUsername());
+         emailField.setPromptText(controllerComponents.getAccount().getEmail());
+         //currentUsernameLabel.setText(controllerComponents.getAccount().getUsername());
      }
 
     public TextField getCurrentPasswordField() {

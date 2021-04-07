@@ -42,11 +42,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane alignment="TOP_RIGHT" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainControllerRefactored">
+<StackPane alignment="TOP_RIGHT" prefHeight="700.0" prefWidth="1000.0" stylesheets="@MainWindowStyle.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainControllerRefactored">
    <children>
       <BorderPane fx:id="mainPane">
          <top>
-            <VBox alignment="TOP_CENTER" style="-fx-border-color: black;" BorderPane.alignment="TOP_RIGHT">
+            <VBox alignment="TOP_CENTER" styleClass="only-bottom-border-pane" BorderPane.alignment="TOP_RIGHT">
                <children>
                   <BorderPane>
                      <bottom>
@@ -54,7 +54,7 @@
                            <right>
                               <VBox alignment="CENTER" spacing="5.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Price range:" textAlignment="CENTER">
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Price range:" textAlignment="CENTER" underline="true">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -83,9 +83,9 @@
                         </BorderPane>
                      </bottom>
                      <top>
-                        <VBox style="-fx-border-color: black;" BorderPane.alignment="CENTER">
+                        <VBox BorderPane.alignment="CENTER">
                            <children>
-                              <BorderPane fx:id="accountBar" />
+                              <BorderPane fx:id="accountBar" styleClass="only-bottom-border-pane" />
                            </children>
                         </VBox>
                      </top>
@@ -94,7 +94,7 @@
             </VBox>
          </top>
          <bottom>
-            <VBox alignment="CENTER" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" styleClass="only-top-border-pane" BorderPane.alignment="CENTER">
                <children>
                   <BorderPane>
                      <left>

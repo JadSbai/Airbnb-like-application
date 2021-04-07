@@ -57,12 +57,16 @@ public class MainControllerRefactored
     private boolean isNewSearch;
 
     private ArrayList<Pane> listOfRoots;
-    private int trackingIndex;
-    private int mapRootIndex;
 
     private VBox dropDownRoot;
 
     private Pane signedOutBar;
+
+    private static final int welcomeIndex = 0;
+    private static final int mapIndex = 1;
+    private static final int statisticsIndex = 2;
+
+    private int trackingIndex;
 
     private MapControllerRefactored mapController;
     private StatisticsController statisticsController;
@@ -150,11 +154,11 @@ public class MainControllerRefactored
         mainPane.setCenter(welcomeRoot);
 
         // This code of block has to be improved
-        listOfRoots.add(0, welcomeRoot);
-        listOfRoots.add(1, mapRoot);
-        mapRootIndex = 1;
-        listOfRoots.add(2, statisticsRoot);
-        trackingIndex = 0;
+        listOfRoots = new CircularList<Pane>(){};
+        listOfRoots.add(welcomeIndex, welcomeRoot);
+        listOfRoots.add(mapIndex, mapRoot);
+        listOfRoots.add(statisticsIndex, statisticsRoot);
+        trackingIndex = welcomeIndex;
     }
 
     public void setMainRoot(Pane root)
@@ -166,7 +170,7 @@ public class MainControllerRefactored
     @FXML
     private void rightButtonAction(ActionEvent e)
     {
-        trackingIndex = (trackingIndex + 1) % (listOfRoots.size());
+        trackingIndex++;
         Pane nextPane = listOfRoots.get(trackingIndex);
         mainPane.setCenter(nextPane);
 
@@ -175,7 +179,10 @@ public class MainControllerRefactored
     @FXML
     private void leftButtonAction()
     {
-        trackingIndex = (trackingIndex - 1) % (listOfRoots.size());
+        trackingIndex--;
+        if(trackingIndex == -1){
+            trackingIndex = listOfRoots.size() - 1;
+        }
         Pane previousPane = listOfRoots.get(trackingIndex);
         mainPane.setCenter(previousPane);
     }
@@ -232,7 +239,7 @@ public class MainControllerRefactored
     {
         mapController.closeAllMapStages();
         mapController.setColor();
-        trackingIndex = mapRootIndex;
+        trackingIndex = mapIndex;
         mainPane.setCenter(mapRoot);
     }
 

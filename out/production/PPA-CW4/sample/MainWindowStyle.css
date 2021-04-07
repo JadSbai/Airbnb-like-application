@@ -1,0 +1,11 @@
+.only-top-border-pane {
+    -fx-border-color: black;
+    -fx-background-insets: 0, 0 1 1 0 ;
+    -fx-border-style: solid hidden hidden hidden;
+}
+
+.only-bottom-border-pane {
+    -fx-border-color: black;
+    -fx-background-insets: 0, 0 1 1 0 ;
+    -fx-border-style: hidden hidden solid hidden;
+}

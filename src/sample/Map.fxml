@@ -3,11 +3,11 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.BorderPane?>
 
 
-<VBox stylesheets="@MapPanelStyle.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
+<BorderPane stylesheets="@MapPanelStyle.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
       <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="subMapPane">
          <Button fx:id="WALT" layoutX="400.0" layoutY="75.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="WALT" AnchorPane.topAnchor="75.0">
             <opaqueInsets>
@@ -180,5 +180,5 @@
             </opaqueInsets>
          </Button>
       </AnchorPane>
-   </children>
-</VBox>
+   </center>
+</BorderPane>

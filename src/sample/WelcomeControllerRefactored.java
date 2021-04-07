@@ -30,7 +30,7 @@ public class WelcomeControllerRefactored
     {
         Label instructionsLabel = new Label();
         instructionsLabel.setText("Instructions...");
-        Button okButton = new Button();
+        Button okButton = new Button("OK");
         okButton.setOnAction(this::okAction);
         okButton.getStyleClass().add("buttons"); // This piece of styling shouldn't be here I guess ?
         infoBox = new VBox(instructionsLabel, okButton);
