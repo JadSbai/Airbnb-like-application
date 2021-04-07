@@ -30,10 +30,10 @@ public class Main extends Application {
         primaryStage = loader.load();
         MainController mainController = loader.getController();
         mainController.initialize(primaryStage);
-
+        
         primaryStage.getIcons().add(new Image("sample/Images/AirbnbLogo.png"));
         primaryStage.show();
-
+        
         primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));
 
     }
