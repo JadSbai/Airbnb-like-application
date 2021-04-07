@@ -42,6 +42,7 @@ public class ProfilePicturesGridController extends AccountController
         accountSettingsController.getAccountStageProfileCircle().setFill(new ImagePattern(controllerComponents.getAccount().getProfilePicture()));
         accountSettingsController.setBufferedBasicAvatar(null);
         getAccountPanel().setCenter(accountSettingsController.getAccountSettingsPanel());
+        getAccountStage().sizeToScene();
     }
 
     @FXML
