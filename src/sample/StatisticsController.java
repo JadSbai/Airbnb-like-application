@@ -76,12 +76,19 @@ public class StatisticsController {
      */
     private ArrayList<AirbnbListing> propertiesAtPriceRange;
 
+    /**
+     * The minimum and maximum price selected for the properties
+     */
     private int minPrice, maxPrice;
 
+    /**
+     * A HashMap that maps each button to its corresponding statistic label
+     */
     private HashMap<Button, Label> buttonToLabelMap;
 
     /**
-     * The constructor creates the statistics HashMap and loads all the properties from the CSV file
+     * The constructor creates the statistics HashMap, loads all of the properties, creates a new ArrayList for the
+     * properties within the specified price range and a HashMap to map each button to its statistic label.
      */
     public StatisticsController(ControllerComponents controllerComponents) {
         this.controllerComponents = controllerComponents;
@@ -90,7 +97,12 @@ public class StatisticsController {
         propertiesAtPriceRange = new ArrayList<>();
         buttonToLabelMap = new HashMap<>();
     }
-    
+        
+    /**
+    * The minimum and maximum price for the properties to be selected are being set.
+    * All of the statistics are being computed based on the price range and the  four initial statistics are being
+    * assigned to the labels. This method is called each time the price range is changed.
+    */
     public void setPriceRange(int minPrice, int maxPrice)
     {
         this.minPrice = minPrice;
@@ -120,14 +132,10 @@ public class StatisticsController {
         buttonToLabelMap.put(forwardButtonStatistics4, statistic4);
     }
 
-
-    // !!! resize + price range
-    // each time the price range is changed, setTextToInitialLabels and addToStatisticsArray are called; currently they
-    // are called in the constructor
-    // ==> everytime the price range is changed, the string is reinitialized and computated again
-
-
-    // create list of properties within the price range
+    /**
+     * The list of properties within the specified price range is being computed. Each time the price range is changed,
+     * the list of properties is cleared and computed again.
+     */
     private void setPriceRangeProperties() {
         propertiesAtPriceRange.clear();
         for(AirbnbListing p: allProperties)
@@ -148,7 +156,8 @@ public class StatisticsController {
     /**
      * The other four statistics are being computed and all of the eight statistics are being put
      * in the statistics HashMap. Each of the statistic' HashMap value is set to true if the statistic
-     * is currently held in one of the labels and being shown, false otherwise
+     * is currently held in one of the labels and being shown, false otherwise. Each time the price range is changed,
+     * the statistics HashMap is cleared and computed again in order to show the corresponding results.
      */
     public void addToStatisticsArray(){
         statistics.clear();
@@ -164,6 +173,11 @@ public class StatisticsController {
         statistics.put("Average price per night" + '\n' + '\n' + getAveragePricePerNight(), false);
     }
 
+    /**
+     * The back and forward buttons of each statistic both have the same functionality. Each pair of back and forward 
+     * buttons are mapped to their corresponding statistic label. The method iterates through the statistics HashMap
+     * to look for an available (not currently being displayed on the panel) statistic to change its label to.
+     */
     @FXML
     private void statisticsButtonPressed(ActionEvent event)
     {

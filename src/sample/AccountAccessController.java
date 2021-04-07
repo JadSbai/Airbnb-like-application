@@ -7,7 +7,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
@@ -224,7 +223,7 @@ public class AccountAccessController extends AccountController
 
             controllerComponents.setCurrentAccount(newAccount);
             updateProfilePictures();
-            userNameLabel.setText(controllerComponents.getAccount().getUsername());
+            changeUsername(username);
 
             accountBar.setRight(signedInBar);
 
@@ -251,7 +250,6 @@ public class AccountAccessController extends AccountController
 
         if(checkValidityOfSignInFields(email, password)){
             controllerComponents.setCurrentAccount(getAccount(email));
-            userNameLabel.setText(controllerComponents.getAccount().getUsername());
 
             accountBar.setRight(signedInBar);
 
@@ -482,58 +480,7 @@ public class AccountAccessController extends AccountController
         }
     }
 
-    /**
-     * This method returns whether the password entered in the "create account" window is valid or not, i.e., if it is strong enough
-     * and is equal to the confirmation password
-     * If it is empty, prints an error (in the corresponding error label)
-     * @param password The password entered
-     * @param confirmPassword the confirmation password entered
-     * @return true if the password entered is strong and is equal to the confirmation password, false otherwise
-     */
-    public boolean checkPassword(String password, String confirmPassword, Label label) {
-        label.setText("");
-        if (password.length() == 0) {
-            label.setText("Please enter a password");
-            return false;
-        } else {
-            return checkPasswordStrength(password, label) && checkPasswordEquality(password, confirmPassword, label);
-        }
-    }
-    /**
-     * This method returns whether the password entered in the "create account" window is valid or not, i.e., if it follows the right pattern to be strong enough
-     * If it is not valid, it throws an alert and prints an error (in the corresponding error label)
-     * @param password The password entered
-     * @return true if the password entered is deemed strong and false otherwise
-     */
-    private boolean checkPasswordStrength(String password, Label label) {
-        label.setText("");
-        String regex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!?.><:;])(?=\\S+$).{8,}";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(password);
-        if (!matcher.matches()) {
-            label.setText("This password is too weak.");
-            return false;
-        } else {
-            return true;
-        }
-    }
 
-    /**
-     * This method returns whether the password and confirmation password are equal or not. Prints an error (in the corresponding error label) if not.
-     * If it is not valid, prints an error in the corresponding error label
-     * @param password The password entered
-     * @param confirmPassword The confirmation password entered
-     * @return true if the password and confirmation password match, false otherwise
-     */
-    private boolean checkPasswordEquality(String password, String confirmPassword, Label label) {
-        label.setText("");
-        if (!password.equals(confirmPassword)) {
-            label.setText("Passwords do not match");
-            return false;
-        } else {
-            return true;
-        }
-    }
 
 
     /**
@@ -560,7 +507,7 @@ public class AccountAccessController extends AccountController
     }
 
     /**
-     * This method loads all GUI-related elements that are proper to the account (state of the save button ...)
+     * This method loads (or reloads) all GUI-related elements of the listing views that are proper to the account (state of the save button ...)
      */
     protected void loadAccount() throws IOException
     {
@@ -615,7 +562,7 @@ public class AccountAccessController extends AccountController
 
     public void setSignedInBar(Pane signedInBar) {
         this.signedInBar = signedInBar;
-        AccountCircles.getInstance().getAccountCircles().add(profileCircle);
+        AccountComponents.getInstance().getAccountCircles().add(profileCircle);
     }
 
     public void setSignInPanel(Pane signInPanel) {

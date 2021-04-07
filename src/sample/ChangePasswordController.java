@@ -1,58 +1,82 @@
-// package sample;
-// 
-// import javafx.fxml.FXML;
-// import javafx.scene.control.Label;
-// import javafx.scene.control.TextField;
-// import javafx.stage.Stage;
-// 
-// import java.io.IOException;
-// 
-// public class ChangePasswordController extends AccountController
-// {
-//     public ChangePasswordController(Stage accountStage) throws IOException {
-//         super(accountStage);
-//     }
-// 
-//     public void initialize()
-//     {
-//     }
-// 
-//     @FXML
-//     private void exitChangePasswordMenu()
-//     {
-//         getAccountPanel().setCenter(getAccountSettings());
-//     }
-// 
-//     @FXML
-//     private void confirmNewPassword()
-//     {
-//         String currentPassword = getCurrentPasswordField().getText();
-//         String newPassword = getNewPasswordField().getText();
-//         String confirmPassword = getConfirmPasswordField().getText();
-// 
-//         if (checkValidityOfCurrentPassword(currentPassword, newPassword) && checkPassword(newPassword, confirmPassword, getChangePasswordErrorField()))
-//         {
-//             getAccount().setPassword(newPassword);
-//             getPasswordFeedbackLabel().setText("Password changed successfully");
-//             exitChangePasswordMenu();
-//         }
-//     }
-//     private boolean checkValidityOfCurrentPassword(String currentPassword, String newPassword)
-//     {
-//         boolean valid = false;
-//         String password = getAccount().getPassword();
-// 
-//         if (!currentPassword.equals(password))
-//         {
-//             getChangePasswordErrorField().setText("Current password is incorrect");
-//         } else if (newPassword.equals(password))
-//         {
-//             getChangePasswordErrorField().setText("New password is the same as current");
-//         } else
-//         {
-//             valid = true;
-//         }
-// 
-//         return valid;
-//     }
-// }
+package sample;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+
+public class ChangePasswordController extends AccountController
+
+{
+
+    @FXML
+    private TextField currentPasswordField, newPasswordField, confirmPasswordField;
+
+    @FXML
+    private Label changePasswordErrorField;
+
+    private AccountSettingsController accountSettingsController;
+
+    private ControllerComponents controllerComponents;
+
+    public ChangePasswordController(ControllerComponents controllerComponents, Stage accountStage, AccountSettingsController accountSettingsController) throws IOException
+    {
+        super(controllerComponents, accountStage);
+        this.controllerComponents = controllerComponents;
+        this.accountSettingsController = accountSettingsController;
+    }
+
+    public void initialize()
+    {
+    }
+
+    @FXML
+    private void exitChangePasswordMenu()
+    {
+        getAccountPanel().setCenter(accountSettingsController.getAccountSettingsPanel());
+    }
+
+    @FXML
+    private void confirmNewPassword()
+    {
+        String currentPassword = currentPasswordField.getText();
+        String newPassword = newPasswordField.getText();
+        String confirmPassword = confirmPasswordField.getText();
+
+        if (checkValidityOfCurrentPassword(currentPassword, newPassword) && checkPassword(newPassword, confirmPassword, changePasswordErrorField))
+        {
+            controllerComponents.getAccount().setPassword(newPassword);
+            accountSettingsController.getPasswordFeedbackLabel().setText("Password changed successfully");
+            exitChangePasswordMenu();
+        }
+    }
+    private boolean checkValidityOfCurrentPassword(String currentPassword, String newPassword)
+    {
+        boolean valid = false;
+        String password = controllerComponents.getAccount().getPassword();
+
+        if (!currentPassword.equals(password))
+        {
+            changePasswordErrorField.setText("Current password is incorrect");
+        } else if (newPassword.equals(password))
+        {
+            changePasswordErrorField.setText("New password is the same as current");
+        } else
+        {
+            valid = true;
+        }
+
+        return valid;
+    }
+
+        public void resetPasswordFields()
+        {
+            currentPasswordField.setText("");
+            newPasswordField.setText("");
+            confirmPasswordField.setText("");
+            changePasswordErrorField.setText("");
+        }
+}

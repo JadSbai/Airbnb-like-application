@@ -34,6 +34,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -81,7 +82,7 @@
                   <Image url="@Images/LondonWelcomePicture.jpg" />
                </image>
             </ImageView>
-            <Label text="by JJDL" translateX="10.0" translateY="-18.0" />
+            <Hyperlink onAction="#openJJDL" text="by JJDL" translateX="10.0" translateY="-22.0" />
          </children>
       </VBox>
       <GridPane GridPane.rowIndex="2">
@@ -93,8 +94,16 @@
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <VBox alignment="BOTTOM_RIGHT" GridPane.columnIndex="1">
+            <HBox alignment="BOTTOM_RIGHT" GridPane.columnIndex="1">
                <children>
+                  <Label text="Need help? We'll show you around --&gt;">
+                     <padding>
+                        <Insets bottom="13.0" right="8.0" />
+                     </padding>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
                   <Button mnemonicParsing="false" onAction="#showInstructions" prefHeight="48.0" prefWidth="114.0" text="Instructions">
                      <font>
                         <Font size="17.0" />
@@ -104,7 +113,7 @@
                <padding>
                   <Insets bottom="5.0" right="15.0" />
                </padding>
-            </VBox>
+            </HBox>
             <VBox />
          </children>
       </GridPane>

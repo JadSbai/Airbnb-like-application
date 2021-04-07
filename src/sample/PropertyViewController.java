@@ -144,8 +144,8 @@ public class PropertyViewController extends ListingController {
     {
         if(controllerComponents.getAccount() == null){
             warningAlert("If you want to save this property into your favourites, you must you must be signed in. If you don't have an account, create one", "Not signed in");
-        }
-        else {
+            saveBox.setSelected(false);
+        } else {
             getListing().setFavourite(!getListing().isFavourite());
             if (getListing().isFavourite()) {
                 addToFavourites();

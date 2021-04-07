@@ -31,9 +31,6 @@ public class AccountSettingsController extends AccountController
     @FXML
     private Label saveFeedbackLabel;
 
-    @FXML
-    private Label currentUsernameLabel;
-
     private Pane changePasswordMenu;
 
     private Image bufferImage, bufferedBasicAvatar;
@@ -46,18 +43,12 @@ public class AccountSettingsController extends AccountController
     @FXML
     private Label imagePathLabel;
 
-    @FXML
-    private TextField currentPasswordField, newPasswordField, confirmPasswordField;
-
-    @FXML
-    private Label changePasswordErrorField;
+    private Label currentUsernameLabel;
 
     private Circle accountStageProfileCircle;
 
     @FXML
     private Label passwordFeedbackLabel;
-
-
 
     @FXML
     public static final String IMAGE_PATH_DEFAULT = "No file chosen";
@@ -66,11 +57,14 @@ public class AccountSettingsController extends AccountController
 
     private BorderPane accountPanel;
 
-    public AccountSettingsController(ControllerComponents controllerComponents, Stage accountStage, Pane accountSettingsPanel, Circle accountStageProfileCircle) throws IOException {
+    private ChangePasswordController changePasswordController;
+
+    public AccountSettingsController(ControllerComponents controllerComponents, Stage accountStage, Pane accountSettingsPanel, Circle accountStageProfileCircle, Label currentUsernameLabel) throws IOException {
         super(controllerComponents, accountStage);
+        this.controllerComponents = controllerComponents;
         this.accountSettingsPanel = accountSettingsPanel;
         this.accountStageProfileCircle = accountStageProfileCircle;
-        this.controllerComponents = controllerComponents;
+        this.currentUsernameLabel = currentUsernameLabel;
     }
 
 
@@ -81,9 +75,10 @@ public class AccountSettingsController extends AccountController
         pfpGridLoader.setController(profilePicturesGridController);
         chooseAvatarMenu = pfpGridLoader.load();
 
-        //ChangePasswordController changePasswordController = new ChangePasswordController(getAccountStage());
-        //FXMLLoader changePasswordLoader = new FXMLLoader(getClass().getResource("ChangePassword.fxml"));
-        //changePasswordMenu = changePasswordLoader.load();
+        changePasswordController = new ChangePasswordController(controllerComponents, getAccountStage(), this);
+        FXMLLoader changePasswordLoader = new FXMLLoader(getClass().getResource("ChangePassword.fxml"));
+        changePasswordLoader.setController(changePasswordController);
+        changePasswordMenu = changePasswordLoader.load();
 
         chooseFileButton.setOnAction(e-> {
             try {
@@ -93,7 +88,7 @@ public class AccountSettingsController extends AccountController
             }
         });
 
-        AccountCircles.getInstance().getAccountCircles().add(changeAvatarCircle);
+        AccountComponents.getInstance().getAccountCircles().add(changeAvatarCircle);
 
         Image cursor = new Image("/sample/crossout.png");
         emailField.setCursor(new ImageCursor(cursor, cursor.getWidth()/2, cursor.getHeight()/2));
@@ -173,7 +168,7 @@ public class AccountSettingsController extends AccountController
     public void changeUsername(String username)
     {
         controllerComponents.getAccount().setUsername(username);
-        //setAccountUsername(username);
+        currentUsernameLabel.setText(username);
     }
 
     private boolean checkUsername(String newUsername, Label label)
@@ -201,48 +196,25 @@ public class AccountSettingsController extends AccountController
     @FXML
     private void changePasswordMenuAction()
     {
-        resetPasswordFields();
+        changePasswordController.resetPasswordFields();
         accountPanel.setCenter(changePasswordMenu);
-    }
-
-    private void resetPasswordFields()
-    {
-        //currentPasswordField.setText("");
-        //newPasswordField.setText("");
-        //confirmPasswordField.setText("");
-        //changePasswordErrorField.setText("");
     }
 
     public void resetAccountSettings()
      {
          getSaveFeedbackLabel().setText("");
-         //getChangePasswordErrorField().setText("");
          getChangeUsernameErrorLabel().setText("");
          updateProfilePictures();
+         updateProfileLabels();
          setBufferImage(null);
          getImagePathLabel().setText(IMAGE_PATH_DEFAULT);
-         resetPasswordFields();
+         changePasswordController.resetPasswordFields();
+         passwordFeedbackLabel.setText("");
 
          changeUsernameField.setPromptText(controllerComponents.getAccount().getUsername());
          emailField.setPromptText(controllerComponents.getAccount().getEmail());
-         //currentUsernameLabel.setText(controllerComponents.getAccount().getUsername());
+         currentUsernameLabel.setText(controllerComponents.getAccount().getUsername());
      }
-
-    public TextField getCurrentPasswordField() {
-        return currentPasswordField;
-    }
-
-    public TextField getNewPasswordField() {
-        return newPasswordField;
-    }
-
-    public TextField getConfirmPasswordField() {
-        return confirmPasswordField;
-    }
-
-    public Label getChangePasswordErrorField() {
-        return changePasswordErrorField;
-    }
 
     public Label getPasswordFeedbackLabel() {
         return passwordFeedbackLabel;

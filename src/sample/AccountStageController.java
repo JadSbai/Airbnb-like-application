@@ -2,6 +2,7 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
@@ -21,6 +22,8 @@ public class AccountStageController extends AccountController
 
     @FXML
     private Circle accountStageProfileCircle;
+    @FXML
+    private Label currentUsernameLabel;
 
     private AccountSettingsController accountSettingsController;
 
@@ -38,12 +41,13 @@ public class AccountStageController extends AccountController
 
     public void initialize()
     {
-        AccountCircles.getInstance().getAccountCircles().add(accountStageProfileCircle);
+        AccountComponents.getInstance().getAccountCircles().add(accountStageProfileCircle);
+        AccountComponents.getInstance().getUsernameLabels().add(currentUsernameLabel);
     }
 
     public void initializeControllers() throws IOException
     {
-        accountSettingsController = new AccountSettingsController(controllerComponents, getAccountStage(), null, accountStageProfileCircle);
+        accountSettingsController = new AccountSettingsController(controllerComponents, getAccountStage(), null, accountStageProfileCircle, currentUsernameLabel);
         FXMLLoader accountSettingsLoader = new FXMLLoader(getClass().getResource("AccountSettings.fxml"));
         accountSettingsLoader.setController(accountSettingsController);
         accountSettingsPanel = accountSettingsLoader.load();

@@ -38,7 +38,8 @@ public class DropDownMenuController extends AccountController
     public void initialize() throws IOException
     {
         formatDropDownMenu();
-        AccountCircles.getInstance().getAccountCircles().add(profileCircle2);
+        AccountComponents.getInstance().getAccountCircles().add(profileCircle2);
+        AccountComponents.getInstance().getUsernameLabels().add(accountUsernameLabel);
     }
 
     @FXML
@@ -63,14 +64,6 @@ public class DropDownMenuController extends AccountController
             getAccountStage().close();
         }
         getAccountStage().show();
-    }
-
-
-
-    public void changeUsername(String username)
-    {
-        controllerComponents.getAccount().setUsername(username);
-        accountUsernameLabel.setText(username);
     }
 
     /**

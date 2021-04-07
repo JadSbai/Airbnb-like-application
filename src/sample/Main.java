@@ -2,9 +2,8 @@ package sample;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.scene.layout.*;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -28,15 +27,11 @@ public class Main extends Application {
 
         // We use the FXMLLoader class to load the fxml files created with the SceneBuilder
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainRefactored.fxml"));
-        StackPane root = loader.load();
+        primaryStage = loader.load();
         MainControllerRefactored mainControllerRefactored = loader.getController();
-        mainControllerRefactored.setMainRoot(root);
-        primaryStage.setTitle("Airbnb London");
-        // The scene is set with the retrieved root
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        scene.getStylesheets().add(getClass().getResource("WelcomePanelStyle.css").toURI().toString());
+        mainControllerRefactored.initialize(primaryStage);
 
+        primaryStage.getIcons().add(new Image("sample/Images/AirbnbLogo.png"));
         primaryStage.show();
 
         primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));

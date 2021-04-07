@@ -40,8 +40,6 @@ public class MainControllerRefactored
     @FXML
     private Button searchButton;
 
-    private Pane mainRoot;
-
     private Pane welcomeRoot, mapRoot, statisticsRoot;
 
     private static final int MIN_VALUE = 0, MAX_VALUE = 500;
@@ -64,7 +62,7 @@ public class MainControllerRefactored
     private MapControllerRefactored mapController;
     private StatisticsController statisticsController;
 
-    public void initialize() throws IOException
+    public void initialize(Stage primaryStage) throws IOException
     {
         controllerComponents = new ControllerComponents(null);
 
@@ -104,6 +102,9 @@ public class MainControllerRefactored
         loader.setController(accountAccessController);
         signedOutBar = loader.load();
         accountAccessController.setSignedOutBar(signedOutBar);
+
+        StackPane mainRoot = ((StackPane) primaryStage.getScene().getRoot());
+        mainRoot.getChildren().add(dropDownRoot);
 
         FXMLLoader signedInLoader = new FXMLLoader(getClass().getResource("SignedInBar.fxml"));
         signedInLoader.setController(accountAccessController);
@@ -147,11 +148,6 @@ public class MainControllerRefactored
         trackingIndex = welcomeIndex;
     }
 
-    public void setMainRoot(Pane root)
-    {
-        this.mainRoot = root;
-        mainRoot.getChildren().add(dropDownRoot);
-    }
 
     @FXML
     private void rightButtonAction(ActionEvent e)
@@ -230,7 +226,7 @@ public class MainControllerRefactored
 
     }
 
-    protected ArrayList<Integer> getPriceRange() {
+    private ArrayList<Integer> getPriceRange() {
         ArrayList<Integer> priceRange = new ArrayList<>();
         for (int i = MIN_VALUE; i <= MAX_VALUE; i = (int) (i + ((MAX_VALUE - MIN_VALUE)) * 0.1)) {
             priceRange.add(i);
@@ -247,55 +243,11 @@ public class MainControllerRefactored
         alert.showAndWait();
     }
 
-    protected boolean getIntFromBox(ComboBox<Integer> box) {
+    private boolean getIntFromBox(ComboBox<Integer> box) {
         return (box.getValue() != null);
     }
-    protected boolean isSearched() {
-        return isSearched;
-    }
 
-    protected void setSearched(boolean searched) {
+    private void setSearched(boolean searched) {
         isSearched = searched;
-    }
-
-    protected boolean isNewSearch() {
-        return isNewSearch;
-    }
-
-    protected void setNewSearch(boolean newSearch) {
-        isNewSearch = newSearch;
-    }
-
-    protected int getMinPrice() {
-        return minPrice;
-    }
-
-    protected int getMaxPrice() {
-        return maxPrice;
-    }
-
-
-    protected Pane getMainRoot() {
-        return mainRoot;
-    }
-
-    protected Pane getWelcomeRoot() {
-        return welcomeRoot;
-    }
-
-    protected Pane getMapRoot() {
-        return mapRoot;
-    }
-
-    protected Pane getStatisticsRoot() {
-        return statisticsRoot;
-    }
-
-    public BorderPane getAccountBar() {
-        return accountBar;
-    }
-
-    public MapControllerRefactored getMapControllerRefactored() {
-        return mapController;
     }
 }

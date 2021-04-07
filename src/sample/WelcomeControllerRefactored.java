@@ -7,6 +7,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class WelcomeControllerRefactored
 {
@@ -29,6 +31,12 @@ public class WelcomeControllerRefactored
     @FXML
     private void showInstructions(ActionEvent e) {
         mainPane.setCenter(instructionsPane);
+    }
+
+    @FXML
+    private void openJJDL(ActionEvent event) throws IOException, URISyntaxException {
+        URI uri = new URI("https://github.kcl.ac.uk/k20020900/PPA-CW4");
+        java.awt.Desktop.getDesktop().browse(uri);
     }
 
     public void setPane(Pane welcomePane) {
