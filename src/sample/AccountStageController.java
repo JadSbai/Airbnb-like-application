@@ -63,6 +63,7 @@ public class AccountStageController extends AccountController
         accountSettingsController.setAccountPanel(accountPanel);
     }
 
+    // test comment
     @FXML
     public void goToAccountSettings()
     {
