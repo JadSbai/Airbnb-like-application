@@ -23,7 +23,7 @@
     <RowConstraints maxHeight="592.0" minHeight="10.0" prefHeight="447.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <padding>
-      <Insets bottom="15.0" left="40.0" right="40.0" />
+      <Insets bottom="10.0" left="40.0" right="40.0" />
    </padding>
    <children>
       <Label text="Instructions" underline="true">
@@ -71,7 +71,7 @@
                         <Insets bottom="5.0" />
                      </padding>
                   </Label>
-                  <Label prefWidth="450.0" text="View your saved and booked listins in account details." wrapText="true">
+                  <Label prefWidth="450.0" text="View your saved and booked listings in account details." wrapText="true">
                      <graphic>
                         <SVGPath content="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285zM20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" scaleX="0.7" scaleY="0.7" />
                      </graphic>
@@ -97,7 +97,7 @@
                   <Button mnemonicParsing="false" onAction="#goBackToWelcomePanel" prefHeight="34.0" prefWidth="75.0" text="Back" />
                </children>
                <padding>
-                  <Insets left="10.0" />
+                  <Insets left="10.0" top="10.0" />
                </padding>
             </VBox>
          </children>
@@ -111,10 +111,10 @@
          </columnConstraints>
          <rowConstraints>
             <RowConstraints maxHeight="420.0" minHeight="10.0" prefHeight="167.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="436.0" minHeight="10.0" prefHeight="309.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="436.0" minHeight="10.0" prefHeight="287.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox prefHeight="164.0" prefWidth="460.0">
                <children>
                   <Label prefWidth="401.0" text="Search for Airbnb's by selecting a price range and pressing &quot;Search!&quot; and navigate through the panes using arrows." wrapText="true">
                      <graphic>
@@ -148,7 +148,7 @@
                         <Insets bottom="5.0" />
                      </padding>
                   </Label>
-                  <Label layoutX="10.0" layoutY="121.0" prefWidth="450.0" text="Save a listing to favourites or reserve it , they will be saved if you log out" wrapText="true">
+                  <Label layoutX="10.0" layoutY="121.0" prefWidth="450.0" text="Save a listing to favourites or reserve it , they will be saved if you log out." wrapText="true">
                      <graphic>
                         <SVGPath content="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285zM20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" scaleX="0.7" scaleY="0.7" />
                      </graphic>

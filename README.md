@@ -67,7 +67,9 @@ We used SceneBuilder to design the project and css for optimal styling and aesth
 
 When clicking the instructions button on the welcome panel you can find the workings of the application:
 
-<img src="src/sample/Images/Instructions.png" width="80" height="90">
+<img src="src/sample/Images/Instructions.png" width="300" height="175">
+
+
 
 <!-- ROADMAP -->
 ## Roadmap
