@@ -75,7 +75,7 @@ public class Account {
         this.email = email;
         this.username = username.trim();
         this.password = password;
-        profilePicture = new Image("/sample/nopfp.png");
+        profilePicture = new Image("/sample/Images/nopfp.png");
         listOfFavouritePanes = new ArrayList<>();
         listOfBookingPanes = new ArrayList<>();
         favouritePropertyToPropertyPreviewPaneMap = new HashMap<>();
