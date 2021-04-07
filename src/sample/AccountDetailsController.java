@@ -83,7 +83,7 @@ public class AccountDetailsController
         BorderPane booking = getBookingFromButton(e);
         controllerComponents.getAccount().removeFromBookings(booking);
         Stage bookingDetailsStage = bookingToBookingDetailsMap.get(booking);
-        if(bookingDetailsStage.isShowing()){
+        if(bookingDetailsStage != null && bookingDetailsStage.isShowing()){
             bookingDetailsStage.close();
         }
         loadBookings();

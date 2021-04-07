@@ -146,7 +146,10 @@ public class PropertyViewController extends ListingController {
     {
         if(controllerComponents.getAccount() == null){
             warningAlert("If you want to book this property, you must be signed in. If you don't have an account, create one", "Not signed in");
-        } else {
+        } else if(controllerComponents.getAccount().isAlreadyBooked(getListing())) {
+            warningAlert("You have already booked this property. View or cancel your booking in \"Account details\"", "Property already booked !");
+        }
+        else{
             addToBookings();
         }
     }

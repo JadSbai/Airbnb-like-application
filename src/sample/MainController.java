@@ -225,6 +225,7 @@ public class MainController
         mapController.closeAllMapStages();
         mapController.setColor();
         trackingIndex = mapIndex;
+        mainPane.setCenter(mapRoot);
         BorderPane.setAlignment(mapRoot, Pos.CENTER);
 
     }

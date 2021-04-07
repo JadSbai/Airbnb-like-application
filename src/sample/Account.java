@@ -278,5 +278,10 @@ public class Account {
     public ArrayList<Stage> getListOfBookingDetailsStages() {
         return listOfBookingDetailsStages;
     }
+
+    public boolean isAlreadyBooked(AirbnbListing listing)
+    {
+        return listingToBookingDetailsMap.get(listing) != null;
+    }
 }
 
