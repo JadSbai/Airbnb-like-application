@@ -11,7 +11,7 @@ import java.net.URISyntaxException;
 /**
  * This class is the main class of the project. It sets up the application and launches it.
  * @author Jacqueline Ilie, Liam Clark Gutiérrez, Dexter Trower and Jad Sbaï
- * @version 29/03/2021
+ * @version 07/04/2021
  */
 public class Main extends Application {
 

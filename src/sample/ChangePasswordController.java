@@ -12,14 +12,26 @@ public class ChangePasswordController extends AccountController
 
 {
 
+    /**
+    * The text fields for the current password, new password and confirm password
+    */
     @FXML
     private TextField currentPasswordField, newPasswordField, confirmPasswordField;
 
+    /**
+    * A label to hold the error text in case the password fails to be changed
+    */
     @FXML
     private Label changePasswordErrorField;
 
+    /**
+    * An AccountSettingsController object
+    */
     private AccountSettingsController accountSettingsController;
 
+    /**
+    * A ControllerComponents object
+    */
     private ControllerComponents controllerComponents;
 
     public ChangePasswordController(ControllerComponents controllerComponents, Stage accountStage, AccountSettingsController accountSettingsController) throws IOException
@@ -33,6 +45,9 @@ public class ChangePasswordController extends AccountController
     {
     }
 
+    /**
+    * Exits the change password menu
+    */
     @FXML
     private void exitChangePasswordMenu()
     {
@@ -40,6 +55,9 @@ public class ChangePasswordController extends AccountController
         getAccountStage().sizeToScene();
     }
 
+    /**
+    * Confirms the new password
+    */
     @FXML
     private void confirmNewPassword()
     {
@@ -54,6 +72,10 @@ public class ChangePasswordController extends AccountController
             exitChangePasswordMenu();
         }
     }
+
+    /**
+    * Checks the validity of the current password
+    */
     private boolean checkValidityOfCurrentPassword(String currentPassword, String newPassword)
     {
         boolean valid = false;
@@ -73,6 +95,9 @@ public class ChangePasswordController extends AccountController
         return valid;
     }
 
+    /**
+    * Resets the password fields: current password, new password and confirm password
+    */
         public void resetPasswordFields()
         {
             currentPasswordField.setText("");
