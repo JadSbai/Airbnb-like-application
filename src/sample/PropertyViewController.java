@@ -43,8 +43,6 @@ public class PropertyViewController extends ListingController {
     private LocalDate inDate, outDate;
 
     @FXML
-    private Hyperlink locationLink;
-    @FXML
     private Label favouriteTextLabel;
     
     private final AccountDetailsController accountDetailsController;
