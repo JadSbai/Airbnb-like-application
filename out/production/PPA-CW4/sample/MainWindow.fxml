@@ -39,22 +39,20 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.stage.Stage?>
 
-
-<Stage title="Airbnb London" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainController">
+<Stage title="Airbnb London" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainController">
    <scene>
       <Scene>
          <root>
             <StackPane alignment="TOP_RIGHT" prefHeight="730.0" prefWidth="1000.0" stylesheets="@MainWindowStyle.css">
                <children>
-                  <BorderPane fx:id="mainPane">
+                  <BorderPane fx:id="mainPane" StackPane.alignment="CENTER">
                      <top>
-                        <VBox alignment="TOP_CENTER" styleClass="only-bottom-border-pane" BorderPane.alignment="TOP_RIGHT">
+                        <VBox alignment="TOP_CENTER" styleClass="only-bottom-border-pane" BorderPane.alignment="CENTER">
                            <children>
                               <BorderPane>
                                  <bottom>
@@ -129,9 +127,6 @@
                            </children>
                         </VBox>
                      </bottom>
-                     <center>
-                        <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-                     </center>
                   </BorderPane>
                </children>
             </StackPane>

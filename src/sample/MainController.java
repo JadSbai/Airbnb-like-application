@@ -75,6 +75,7 @@ public class MainController
         loader = new FXMLLoader(getClass().getResource("MapPanel.fxml"));
         loader.setController(mapController);
         mapRoot = loader.load();
+        BorderPane.setAlignment(mapRoot, Pos.CENTER);
 
         statisticsController = new StatisticsController(controllerComponents);
         loader = new FXMLLoader(getClass().getResource("StatisticsPanel.fxml"));
@@ -94,6 +95,8 @@ public class MainController
         dropDownRoot = loader.load();
 
         StackPane.setMargin(dropDownRoot, new Insets(147,0,0,0));
+        StackPane mainRoot = ((StackPane) primaryStage.getScene().getRoot());
+        mainRoot.getChildren().add(dropDownRoot);
 
         Label usernameLabel = dropDownMenuController.getAccountUsernameLabel();
 
@@ -102,9 +105,6 @@ public class MainController
         loader.setController(accountAccessController);
         signedOutBar = loader.load();
         accountAccessController.setSignedOutBar(signedOutBar);
-
-        StackPane mainRoot = ((StackPane) primaryStage.getScene().getRoot());
-        mainRoot.getChildren().add(dropDownRoot);
 
         FXMLLoader signedInLoader = new FXMLLoader(getClass().getResource("SignedInBar.fxml"));
         signedInLoader.setController(accountAccessController);
@@ -140,7 +140,7 @@ public class MainController
 
         mainPane.setCenter(welcomeRoot);
 
-        // This code of block has to be improved
+
         listOfRoots = new CircularList<>(){};
         listOfRoots.add(welcomeIndex, welcomeRoot);
         listOfRoots.add(mapIndex, mapRoot);
@@ -171,7 +171,7 @@ public class MainController
     @FXML
     private void searchAction(ActionEvent e){
 
-        boolean valid = (getIntFromBox(minimumPrice) && getIntFromBox(maximumPrice));
+        boolean valid = (isIntInBoxValid(minimumPrice) && isIntInBoxValid(maximumPrice));
         boolean isNewPrice = false;
 
         if (valid)
@@ -216,13 +216,16 @@ public class MainController
         }
     }
 
+    private boolean isIntInBoxValid(ComboBox<Integer> box) {
+        return (box.getValue() != null);
+    }
+
     private void jumpToNewMap()
     {
         mapController.closeAllMapStages();
         mapController.setColor();
         trackingIndex = mapIndex;
         BorderPane.setAlignment(mapRoot, Pos.CENTER);
-        mainPane.setCenter(mapRoot);
 
     }
 
@@ -241,10 +244,6 @@ public class MainController
         alert.setHeaderText(null);
         alert.setContentText(error);
         alert.showAndWait();
-    }
-
-    private boolean getIntFromBox(ComboBox<Integer> box) {
-        return (box.getValue() != null);
     }
 
     private void setSearched(boolean searched) {
