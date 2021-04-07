@@ -11,6 +11,7 @@ import java.io.IOException;
 
 public class AccountStageController extends AccountController
 {
+    private ControllerComponents controllerComponents;
     @FXML
     private BorderPane accountPanel;
 
@@ -28,9 +29,10 @@ public class AccountStageController extends AccountController
     MapControllerRefactored mapController;
 
 
-    public AccountStageController(Account account, Stage accountStage, MapControllerRefactored mapController)
+    public AccountStageController(ControllerComponents controllerComponents, Stage accountStage, MapControllerRefactored mapController)
     {
-        super(account, accountStage);
+        super(controllerComponents, accountStage);
+        this.controllerComponents = controllerComponents;
         this.mapController = mapController;
     }
 
@@ -41,12 +43,13 @@ public class AccountStageController extends AccountController
 
     public void initializeControllers() throws IOException
     {
-        accountSettingsController = new AccountSettingsController(getAccount(), getAccountStage(), accountSettingsPanel, accountStageProfileCircle);
+        accountSettingsController = new AccountSettingsController(controllerComponents, getAccountStage(), null, accountStageProfileCircle);
         FXMLLoader accountSettingsLoader = new FXMLLoader(getClass().getResource("AccountSettings.fxml"));
         accountSettingsLoader.setController(accountSettingsController);
         accountSettingsPanel = accountSettingsLoader.load();
+        accountSettingsController.setAccountSettingsPanel(accountSettingsPanel);
 
-        accountDetailsController = new AccountDetailsController(getAccount());
+        accountDetailsController = new AccountDetailsController(controllerComponents);
         FXMLLoader accountDetailsLoader = new FXMLLoader(getClass().getResource("AccountDetails.fxml"));
         accountDetailsLoader.setController(accountDetailsController);
         accountDetailsPanel = accountDetailsLoader.load();
@@ -57,18 +60,19 @@ public class AccountStageController extends AccountController
     }
 
     @FXML
-    private void goToAccountSettings()
+    public void goToAccountSettings()
     {
         accountPanel.setCenter(accountSettingsPanel);
+        accountSettingsController.resetAccountSettings();
         getAccountStage().sizeToScene();
         getAccountStage().show();
     }
 
     @FXML
-    private void goToAccountDetails() throws IOException {
+    public void goToAccountDetails() throws IOException {
         accountPanel.setCenter(accountDetailsPanel);
         getAccountStage().sizeToScene();
-        accountDetailsController.loadFavAndBook();
+        accountDetailsController.reloadFavouritesAndBookings();
     }
 
     public BorderPane getAccountPanel() {
@@ -83,5 +87,8 @@ public class AccountStageController extends AccountController
         return accountDetailsPanel;
     }
 
+    public AccountDetailsController getAccountDetailsController(){
+        return accountDetailsController;
+    }
 
 }

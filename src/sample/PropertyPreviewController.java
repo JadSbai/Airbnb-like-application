@@ -10,6 +10,7 @@ import java.io.IOException;
 
 public class PropertyPreviewController extends ListingController {
 
+    private ControllerComponents controllerComponents;
     @FXML
     private Label hostName, price, reviews, minimumNights;
 
@@ -21,9 +22,10 @@ public class PropertyPreviewController extends ListingController {
     
     private AccountDetailsController accountDetailsController;
 
-    public PropertyPreviewController(Account account, AirbnbListing listing, AccountDetailsController accountDetailsController)
+    public PropertyPreviewController(ControllerComponents controllerComponents, AirbnbListing listing, AccountDetailsController accountDetailsController)
     {
-        super(account, listing);
+        super(listing);
+        this.controllerComponents = controllerComponents;
         this.accountDetailsController = accountDetailsController;
     }
 
@@ -41,7 +43,7 @@ public class PropertyPreviewController extends ListingController {
     {
         if(!isPropertyWindowOpen) {
 
-            PropertyViewController propertyViewController = new PropertyViewController(getAccount(), getListing(), accountDetailsController);
+            PropertyViewController propertyViewController = new PropertyViewController(controllerComponents, getListing(), accountDetailsController);
             FXMLLoader property = new FXMLLoader(getClass().getResource("AirbnbView.fxml"));
             property.setController(propertyViewController);
             viewController = propertyViewController;
@@ -64,7 +66,7 @@ public class PropertyPreviewController extends ListingController {
     }
 
     public void reload() throws IOException {
-        PropertyViewController propertyViewController = new PropertyViewController(getAccount(), getListing(), accountDetailsController);
+        PropertyViewController propertyViewController = new PropertyViewController(controllerComponents, getListing(), accountDetailsController);
         FXMLLoader property = new FXMLLoader(getClass().getResource("AirbnbView.fxml"));
         property.setController(propertyViewController);
         propertyStage = property.load();

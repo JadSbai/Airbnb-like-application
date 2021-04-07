@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class DropDownMenuController extends AccountController
 {
-
+    private ControllerComponents controllerComponents;
     @FXML
     private Label accountUsernameLabel;
 
@@ -28,8 +28,9 @@ public class DropDownMenuController extends AccountController
     private AccountStageController accountStageController;
 
 
-    public DropDownMenuController(Account account, Stage accountStage, AccountStageController accountStageController) {
-        super(account, accountStage);
+    public DropDownMenuController(ControllerComponents controllerComponents, Stage accountStage, AccountStageController accountStageController) {
+        super(controllerComponents, accountStage);
+        this.controllerComponents = controllerComponents;
         this.accountStageController = accountStageController;
     }
 
@@ -37,13 +38,14 @@ public class DropDownMenuController extends AccountController
     public void initialize() throws IOException
     {
         formatDropDownMenu();
-        AccountCircles.getInstance().getAccountCircles().add(profileCircle);
+        AccountCircles.getInstance().getAccountCircles().add(profileCircle2);
     }
 
     @FXML
     public void openAccountSettings() throws IOException
     {
-        accountStageController.getAccountPanel().setCenter(accountStageController.getAccountSettingsPanel());
+        accountStageController.goToAccountSettings();
+
         dropDownPane.setVisible(false);
         if(getAccountStage().isShowing()){
             getAccountStage().close();
@@ -53,9 +55,9 @@ public class DropDownMenuController extends AccountController
     }
 
     @FXML
-    public void openAccountDetails() throws IOException {
-        //loadFavourites();
-        accountStageController.getAccountPanel().setCenter(accountStageController.getAccountDetailsPanel());
+    public void openAccountDetails() throws IOException
+    {
+        accountStageController.goToAccountDetails();
         dropDownPane.setVisible(false);
         if(getAccountStage().isShowing()){
             getAccountStage().close();
@@ -67,7 +69,7 @@ public class DropDownMenuController extends AccountController
 
     public void changeUsername(String username)
     {
-        getAccount().setUsername(username);
+        controllerComponents.getAccount().setUsername(username);
         accountUsernameLabel.setText(username);
     }
 

@@ -15,13 +15,16 @@ import java.io.IOException;
 
 public class ProfilePicturesGridController extends AccountController
 {
+    private ControllerComponents controllerComponents;
+    
     private AccountSettingsController accountSettingsController;
 
     @FXML
     private TilePane pfpGrid;
 
-    public ProfilePicturesGridController(Account account, Stage accountStage, AccountSettingsController accountSettingsController) {
-        super(account, accountStage);
+    public ProfilePicturesGridController(ControllerComponents controllerComponents, Stage accountStage, AccountSettingsController accountSettingsController) {
+        super(controllerComponents, accountStage);
+        this.controllerComponents = controllerComponents;
         this.accountSettingsController = accountSettingsController;
     }
 
@@ -36,7 +39,7 @@ public class ProfilePicturesGridController extends AccountController
     @FXML
     private void exitAvatarMenu()
    {
-        accountSettingsController.getAccountStageProfileCircle().setFill(new ImagePattern(getAccount().getProfilePicture()));
+        accountSettingsController.getAccountStageProfileCircle().setFill(new ImagePattern(controllerComponents.getAccount().getProfilePicture()));
         accountSettingsController.setBufferedBasicAvatar(null);
         getAccountPanel().setCenter(accountSettingsController.getAccountSettingsPanel());
     }

@@ -20,8 +20,9 @@ import java.util.*;
  * @version 05/04/2021
  */
 
-public class StatisticsController extends Controller {
+public class StatisticsController {
 
+    private ControllerComponents controllerComponents;
     /**
      * The GUI elements
      */
@@ -30,33 +31,19 @@ public class StatisticsController extends Controller {
      * Eight buttons: one back button and one forward button for each of the 4 displayed statistics
      */
     @FXML
-    private Button backButtonStatistics1;
+    private Button backButtonStatistics1, forwardButtonStatistics1;
     @FXML
-    private Button forwardButtonStatistics1;
+    private Button backButtonStatistics2, forwardButtonStatistics2;
     @FXML
-    private Button backButtonStatistics2;
+    private Button backButtonStatistics3, forwardButtonStatistics3;
     @FXML
-    private Button forwardButtonStatistics2;
-    @FXML
-    private Button backButtonStatistics3;
-    @FXML
-    private Button forwardButtonStatistics3;
-    @FXML
-    private Button backButtonStatistics4;
-    @FXML
-    private Button forwardButtonStatistics4;
+    private Button backButtonStatistics4, forwardButtonStatistics4;
 
     /**
      * Four labels representing each of the statistic currently being shown on the panel
      */
     @FXML
-    public Label statistic1;
-    @FXML
-    private Label statistic2;
-    @FXML
-    private Label statistic3;
-    @FXML
-    private Label statistic4;
+    public Label statistic1, statistic2, statistic3, statistic4;
 
     /**
      * A HashMap that contains all of the statistics and keeps track whether the statistics are being
@@ -89,19 +76,17 @@ public class StatisticsController extends Controller {
      */
     private ArrayList<AirbnbListing> propertiesAtPriceRange;
 
-    private int minPrice;
-    
-    private int maxPrice;
+    private int minPrice, maxPrice;
 
     private HashMap<Button, Label> buttonToLabelMap;
 
     /**
      * The constructor creates the statistics HashMap and loads all the properties from the CSV file
      */
-    public StatisticsController(Account account) {
-        super(account);
+    public StatisticsController(ControllerComponents controllerComponents) {
+        this.controllerComponents = controllerComponents;
         statistics = new HashMap<>();
-        allProperties = getDataLoader().getListings();
+        allProperties = ControllerComponents.getDataLoader().getListings();
         propertiesAtPriceRange = new ArrayList<>();
         buttonToLabelMap = new HashMap<>();
     }

@@ -9,9 +9,9 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-public class WelcomeControllerRefactored extends Controller
+public class WelcomeControllerRefactored
 {
-
+    private ControllerComponents controllerComponents;
     @FXML
     private VBox welcomeVBox;
 
@@ -22,8 +22,8 @@ public class WelcomeControllerRefactored extends Controller
 
     private Pane welcomeRoot;
     
-    public WelcomeControllerRefactored(Account account){
-        super(account);
+    public WelcomeControllerRefactored(ControllerComponents controllerComponents){
+        this.controllerComponents = controllerComponents;
     }
 
     public void initialize() throws IOException

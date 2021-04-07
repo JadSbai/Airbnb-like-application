@@ -10,12 +10,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import sample.ListingController;
 
 import java.io.IOException;
 import java.util.*;
 
-public class PropertyListController extends Controller{
+public class PropertyListController {
+
+    private ControllerComponents controllerComponents;
 
     private ArrayList<PropertyPreviewController> listOfPropertyPreviewControllers;
 
@@ -38,12 +39,11 @@ public class PropertyListController extends Controller{
 
     private ArrayList<AirbnbListing> boroughListings;
 
-    public PropertyListController(Account account, AccountDetailsController accountDetailsController) {
-        super(account);
+    public PropertyListController(ControllerComponents controllerComponents, AccountDetailsController accountDetailsController) {
+        this.controllerComponents = controllerComponents;
         this.accountDetailsController = accountDetailsController;
     }
-
-
+    
     public void initialize(ArrayList<AirbnbListing> boroughListings) throws IOException
     {
         this.boroughListings = boroughListings;
@@ -53,7 +53,7 @@ public class PropertyListController extends Controller{
 
         for (AirbnbListing listing : boroughListings) {
             FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
-            PropertyPreviewController propertyPreviewController = new PropertyPreviewController(getAccount(), listing, accountDetailsController);
+            PropertyPreviewController propertyPreviewController = new PropertyPreviewController(controllerComponents, listing, accountDetailsController);
             preview.setController(propertyPreviewController);
             Pane propertyPreviewPane = preview.load();
 

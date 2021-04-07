@@ -23,9 +23,9 @@ import java.util.ArrayList;
  * @author Jacqueline Ilie, Liam Clark Gutiérrez, Dexter Trower and Jad Sbaï
  * @version 29/03/2021
  */
-public class MainControllerRefactored extends Controller
+public class MainControllerRefactored
 {
-
+    private ControllerComponents  controllerComponents;
     @FXML
     private BorderPane mainPane;
     @FXML
@@ -67,37 +67,40 @@ public class MainControllerRefactored extends Controller
     private MapControllerRefactored mapController;
     private StatisticsController statisticsController;
 
-    public MainControllerRefactored(Account account) {
-        super(account);
+    public MainControllerRefactored()
+    {
+
     }
 
     public void initialize() throws IOException
     {
-        WelcomeControllerRefactored welcomeController = new WelcomeControllerRefactored(getAccount());
+        controllerComponents = new ControllerComponents(null);
+
+        WelcomeControllerRefactored welcomeController = new WelcomeControllerRefactored(controllerComponents);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("WelcomeRefactored.fxml"));
         loader.setController(welcomeController);
         welcomeRoot = loader.load();
 
         welcomeController.setWelcomeRoot(welcomeRoot);
 
-        mapController = new MapControllerRefactored(getAccount());
+        mapController = new MapControllerRefactored(controllerComponents);
         loader = new FXMLLoader(getClass().getResource("Map.fxml"));
         loader.setController(mapController);
         mapRoot = loader.load();
 
-        statisticsController = new StatisticsController(getAccount());
+        statisticsController = new StatisticsController(controllerComponents);
         loader = new FXMLLoader(getClass().getResource("Statistics.fxml"));
         loader.setController(statisticsController);
         statisticsRoot = loader.load();
 
-        AccountStageController accountStageController = new AccountStageController(getAccount(), null, mapController);
+        AccountStageController accountStageController = new AccountStageController(controllerComponents, null, mapController);
         loader = new FXMLLoader(getClass().getResource("AccountStage.fxml"));
         loader.setController(accountStageController);
         Stage accountStage = loader.load();
         accountStageController.setAccountStage(accountStage);
         accountStageController.initializeControllers();
 
-        DropDownMenuController dropDownMenuController = new DropDownMenuController(getAccount(), accountStage, accountStageController);
+        DropDownMenuController dropDownMenuController = new DropDownMenuController(controllerComponents, accountStage, accountStageController);
         loader = new FXMLLoader(getClass().getResource("AccountDropDownMenu.fxml"));
         loader.setController(dropDownMenuController);
         dropDownRoot = loader.load();
@@ -106,7 +109,7 @@ public class MainControllerRefactored extends Controller
 
         Label usernameLabel = dropDownMenuController.getAccountUsernameLabel();
 
-        AccountAccessController accountAccessController = new AccountAccessController(getAccount(), accountStage);
+        AccountAccessController accountAccessController = new AccountAccessController(controllerComponents, accountStage);
         loader = new FXMLLoader(getClass().getResource("SignedOutBar.fxml"));
         loader.setController(accountAccessController);
         signedOutBar = loader.load();
@@ -134,7 +137,6 @@ public class MainControllerRefactored extends Controller
         accountAccessController.setMapControllerRefactored(mapController);
 
         accountBar.setRight(signedOutBar);
-        setCurrentAccount(null);
 
         rightButton.setDisable(true);
         leftButton.setDisable(true);

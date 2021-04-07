@@ -1,15 +1,18 @@
  package sample;
 
- import javafx.scene.layout.BorderPane;
- import javafx.scene.layout.Pane;
- import javafx.scene.shape.Circle;
+
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.shape.Circle;
  import javafx.stage.Stage;
 
  import java.util.ArrayList;
  import java.util.HashMap;
 
- public abstract class AccountController extends Controller
+ public abstract class AccountController
  {
+     private ControllerComponents controllerComponents;
+     
      private Stage accountStage;
 
      private BorderPane accountPanel;
@@ -18,15 +21,15 @@
 
      private HashMap<String, Account> accountsMap;
 
-     public AccountController(Account account, Stage accountStage){
-         super(account);
+     public AccountController(ControllerComponents controllerComponents, Stage accountStage)
+     {
+         this.controllerComponents = controllerComponents;
          listOfAccounts = new ArrayList<>();
          accountsMap = new HashMap<>();
          this.accountStage = accountStage;
          if(accountStage != null){
              this.accountPanel = (BorderPane) accountStage.getScene().getRoot();
          }
-
      }
 
      public Stage getAccountStage(){
@@ -55,11 +58,15 @@
          return accountPanel;
      }
 
-//     public void updateProfilePictures()
-//     {
-//         ArrayList<Circle> accountCircles = AccountCircles.getInstance();
-//
-//         for(Circle circle : )
-//     }
+    public void updateProfilePictures()
+    {
+        ArrayList<Circle> accountCircles = AccountCircles.getInstance().getAccountCircles();
+
+        for (Circle circle : accountCircles)
+        {
+            circle.setFill(new ImagePattern(controllerComponents.getAccount().getProfilePicture()));
+        }
+
+    }
 
  }

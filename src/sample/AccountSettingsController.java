@@ -17,6 +17,7 @@ import java.io.IOException;
 
 public class AccountSettingsController extends AccountController
 {
+    private ControllerComponents controllerComponents;
 
     @FXML
     private Button chooseFileButton;
@@ -25,10 +26,7 @@ public class AccountSettingsController extends AccountController
     private Label changeUsernameErrorLabel;
 
     @FXML
-    private TextField changeUsernameField;
-
-    @FXML
-    private TextField emailField;
+    private TextField changeUsernameField, emailField;
 
     @FXML
     private Label saveFeedbackLabel;
@@ -38,9 +36,7 @@ public class AccountSettingsController extends AccountController
 
     private Pane changePasswordMenu;
 
-    private Image bufferImage;
-
-    private Image bufferedBasicAvatar;
+    private Image bufferImage, bufferedBasicAvatar;
 
     private Pane chooseAvatarMenu;
 
@@ -51,13 +47,7 @@ public class AccountSettingsController extends AccountController
     private Label imagePathLabel;
 
     @FXML
-    private TextField currentPasswordField;
-
-    @FXML
-    private TextField newPasswordField;
-
-    @FXML
-    private TextField confirmPasswordField;
+    private TextField currentPasswordField, newPasswordField, confirmPasswordField;
 
     @FXML
     private Label changePasswordErrorField;
@@ -68,6 +58,7 @@ public class AccountSettingsController extends AccountController
     private Label passwordFeedbackLabel;
 
 
+
     @FXML
     public static final String IMAGE_PATH_DEFAULT = "No file chosen";
 
@@ -75,16 +66,17 @@ public class AccountSettingsController extends AccountController
 
     private BorderPane accountPanel;
 
-    public AccountSettingsController(Account account, Stage accountStage, Pane accountSettingsPanel, Circle accountStageProfileCircle) throws IOException {
-        super(account, accountStage);
+    public AccountSettingsController(ControllerComponents controllerComponents, Stage accountStage, Pane accountSettingsPanel, Circle accountStageProfileCircle) throws IOException {
+        super(controllerComponents, accountStage);
         this.accountSettingsPanel = accountSettingsPanel;
         this.accountStageProfileCircle = accountStageProfileCircle;
+        this.controllerComponents = controllerComponents;
     }
 
 
     public void initialize() throws IOException
     {
-        ProfilePicturesGridController profilePicturesGridController = new ProfilePicturesGridController(getAccount(), getAccountStage(), this);
+        ProfilePicturesGridController profilePicturesGridController = new ProfilePicturesGridController(controllerComponents, getAccountStage(), this);
         FXMLLoader pfpGridLoader = new FXMLLoader(getClass().getResource("ProfilePicturesGrid.fxml"));
         pfpGridLoader.setController(profilePicturesGridController);
         chooseAvatarMenu = pfpGridLoader.load();
@@ -164,9 +156,8 @@ public class AccountSettingsController extends AccountController
         }
         if (bufferImage != null)
         {
-            getAccount().setProfilePicture(bufferImage);
-            setProfileCircles();
-            setCircles();
+            controllerComponents.getAccount().setProfilePicture(bufferImage);
+            updateProfilePictures();
             changes = true;
         }
         bufferImage = null;
@@ -181,7 +172,7 @@ public class AccountSettingsController extends AccountController
 
     public void changeUsername(String username)
     {
-        getAccount().setUsername(username);
+        controllerComponents.getAccount().setUsername(username);
         //setAccountUsername(username);
     }
 
@@ -204,7 +195,7 @@ public class AccountSettingsController extends AccountController
 
     private boolean checkChangeUsernameValidity(String newUsername)
     {
-        return (!newUsername.equals("") && !newUsername.equals(getAccount().getUsername()));
+        return (!newUsername.equals("") && !newUsername.equals(controllerComponents.getAccount().getUsername()));
     }
 
     @FXML
@@ -218,34 +209,24 @@ public class AccountSettingsController extends AccountController
     {
         currentPasswordField.setText("");
         newPasswordField.setText("");
-//         confirmPasswordField.setText("");
-        changePasswordErrorField.setText("");
-    }
-
-    private void setCircles()
-    {
-        //profileCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
-        changeAvatarCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
+        confirmPasswordField.setText("");
+        //changePasswordErrorField.setText("");
     }
 
     public void resetAccountSettings()
      {
          getSaveFeedbackLabel().setText("");
-         getChangePasswordErrorField().setText("");
+         //getChangePasswordErrorField().setText("");
          getChangeUsernameErrorLabel().setText("");
-         getChangeAvatarCircle().setFill(new ImagePattern(getAccount().getProfilePicture()));
+         updateProfilePictures();
          setBufferImage(null);
          getImagePathLabel().setText(IMAGE_PATH_DEFAULT);
+         resetPasswordFields();
+
+         changeUsernameField.setPromptText(controllerComponents.getAccount().getUsername());
+         emailField.setPromptText(controllerComponents.getAccount().getUsername());
+         currentUsernameLabel.setText(controllerComponents.getAccount().getUsername());
      }
-
-    /**
-     * This method sets both the profile pictures to the one specified
-     */
-    public void setProfileCircles() {
-        //profileCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
-       //profileCircle2.setFill(new ImagePattern(getAccount().getProfilePicture()));
-    }
-
 
     public TextField getCurrentPasswordField() {
         return currentPasswordField;
@@ -282,10 +263,6 @@ public class AccountSettingsController extends AccountController
     public Circle getChangeAvatarCircle() {
         return changeAvatarCircle;
     }
-
-//     public Circle getProfileCircle() {
-//         return profileCircle;
-//     }
 
     public void setBufferImage(Image bufferImage) {
         this.bufferImage = bufferImage;
@@ -326,5 +303,10 @@ public class AccountSettingsController extends AccountController
     public Circle getAccountStageProfileCircle()
     {
         return accountStageProfileCircle;
+    }
+
+    public void setAccountSettingsPanel(Pane accountSettingsPanel)
+    {
+        this.accountSettingsPanel = accountSettingsPanel;
     }
 }

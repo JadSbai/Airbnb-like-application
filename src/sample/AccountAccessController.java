@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
  */
 public class AccountAccessController extends AccountController
 {
+    private ControllerComponents controllerComponents;
     // FXML fields:
     // FXML fields are tracking the different FXML controls or containers used for manipulating or displaying account data. Their IDs and the methods they call on action are set in the fxml files:
 
@@ -128,12 +129,13 @@ public class AccountAccessController extends AccountController
 
     private MapControllerRefactored mapControllerRefactored;
 
-
     @FXML
     private Circle profileCircle;
 
-    public AccountAccessController(Account account, Stage accountStage) {
-        super(account, accountStage);
+    public AccountAccessController(ControllerComponents controllerComponents, Stage accountStage)
+    {
+        super(controllerComponents, accountStage);
+        this.controllerComponents = controllerComponents;
     }
 
     /**
@@ -141,8 +143,10 @@ public class AccountAccessController extends AccountController
      * @throws IOException if the designated files are not loaded successfully
      */
 
+    @FXML
     public void initialize() throws IOException
     {
+
     }
 
 
@@ -214,13 +218,13 @@ public class AccountAccessController extends AccountController
         String confirmPassword = createAccountConfirmPassword.getText();
 
         if(checkValidityOfCreateAccountFields(username, email, password, confirmPassword)) {
-            Account newAccount = new Account(username, email, password);
+            Account newAccount = new Account(username, email, password, controllerComponents);
             getListOfAccounts().add(newAccount);
             getAccountsMap().put(email, newAccount);
 
-            setCurrentAccount(newAccount);
-            profileCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
-            userNameLabel.setText(getAccount().getUsername());
+            controllerComponents.setCurrentAccount(newAccount);
+            updateProfilePictures();
+            userNameLabel.setText(controllerComponents.getAccount().getUsername());
 
             accountBar.setRight(signedInBar);
 
@@ -246,11 +250,9 @@ public class AccountAccessController extends AccountController
         String password = signInPassword.getText();
 
         if(checkValidityOfSignInFields(email, password)){
-            setCurrentAccount(getAccount(email));
-            userNameLabel.setText(getAccount().getUsername());
+            controllerComponents.setCurrentAccount(getAccount(email));
+            userNameLabel.setText(controllerComponents.getAccount().getUsername());
 
-            profileCircle.setFill(new ImagePattern(getAccount().getProfilePicture()));
-            
             accountBar.setRight(signedInBar);
 
             accountAccessStage.close();
@@ -271,7 +273,7 @@ public class AccountAccessController extends AccountController
 
         closeAllAccountWindows();
 
-        setCurrentAccount(null);
+        controllerComponents.setCurrentAccount(null);
         userNameLabel.setText("");
 
         accountBar.setRight(signedOutBar);
@@ -579,12 +581,12 @@ public class AccountAccessController extends AccountController
      */
     private void setDefaultSettingsAndData() throws IOException
     {
-        setCurrentAccount(null);
+        controllerComponents.setCurrentAccount(null);
         loadAccount();
     }
 
     private void closeAllAccountWindows() {
-        for (PropertyPreviewController propertyPreviewController : getAccount().getListOfPropertyPreviewControllers()) {
+        for (PropertyPreviewController propertyPreviewController : controllerComponents.getAccount().getListOfPropertyPreviewControllers()) {
             if (propertyPreviewController.getPropertyStage() != null && propertyPreviewController.getPropertyStage().isShowing()) {
                 propertyPreviewController.getPropertyStage().close();
             }
@@ -613,6 +615,7 @@ public class AccountAccessController extends AccountController
 
     public void setSignedInBar(Pane signedInBar) {
         this.signedInBar = signedInBar;
+        AccountCircles.getInstance().getAccountCircles().add(profileCircle);
     }
 
     public void setSignInPanel(Pane signInPanel) {

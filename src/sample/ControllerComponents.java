@@ -2,13 +2,13 @@ package sample;
 
 import java.io.IOException;
 
-public abstract class Controller
+public class ControllerComponents
 {
     private static final AirbnbDataLoader dataLoader = new AirbnbDataLoader();
 
     private Account currentAccount;
     
-    public Controller(Account account){
+    public ControllerComponents(Account account){
         this.currentAccount = account;
     }
 

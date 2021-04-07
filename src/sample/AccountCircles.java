@@ -26,17 +26,12 @@ public class AccountCircles
        return instance;
    }
 
-   public void addCircle(Circle circle)
-   {
-       accountCircles.add(circle);
-   }
-
    public ArrayList<Circle> getAccountCircles()
    {
        return accountCircles;
    }
 
-   }
+}
 
 
 
