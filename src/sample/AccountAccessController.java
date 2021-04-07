@@ -534,14 +534,7 @@ public class AccountAccessController extends AccountController
         loadAccount();
     }
 
-    private void closeAllAccountWindows() {
-        for (PropertyPreviewController propertyPreviewController : controllerComponents.getAccount().getListOfPropertyPreviewControllers()) {
-            if (propertyPreviewController.getPropertyStage() != null && propertyPreviewController.getPropertyStage().isShowing()) {
-                propertyPreviewController.getPropertyStage().close();
-            }
-        }
-        getAccountStage().close();
-    }
+
 
 
 

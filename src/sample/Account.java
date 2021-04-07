@@ -55,6 +55,8 @@ public class Account {
 
     private HashMap<AirbnbListing, Stage> listingToBookingDetailsMap;
 
+    private ArrayList<Stage> listOfBookingDetailsStages;
+
     /**
      * The account's profile picture
      */
@@ -83,6 +85,7 @@ public class Account {
         bookingToListingMap = new HashMap<>();
         listingToBookingDetailsMap = new HashMap<>();
         this.controllerComponents = controllerComponents;
+        listOfBookingDetailsStages = new ArrayList<>();
     }
 
     /**
@@ -270,6 +273,10 @@ public class Account {
 
     public HashMap<AirbnbListing, Stage> getListingToBookingDetailsMap() {
         return listingToBookingDetailsMap;
+    }
+
+    public ArrayList<Stage> getListOfBookingDetailsStages() {
+        return listOfBookingDetailsStages;
     }
 }
 
