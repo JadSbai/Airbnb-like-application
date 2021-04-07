@@ -300,7 +300,6 @@ public class StatisticsController {
         }
     }
 
-
     /**
      * This method returns the host with most properties
      * @return the host id and name with most properties
@@ -365,7 +364,6 @@ public class StatisticsController {
         }
         return cheapestHost;
     }
-
     /**
      * This method computes the total price of all the properties owned by each host
      */
@@ -421,6 +419,7 @@ public class StatisticsController {
             totalPrice = totalPrice + p.getPrice();
             numberOfProperties ++;
         }
+
         averagePricePerNight = totalPrice/numberOfProperties;
         return averagePricePerNight;
     }
