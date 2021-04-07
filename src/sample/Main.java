@@ -26,10 +26,10 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException, URISyntaxException {
 
         // We use the FXMLLoader class to load the fxml files created with the SceneBuilder
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainRefactored.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
         primaryStage = loader.load();
-        MainControllerRefactored mainControllerRefactored = loader.getController();
-        mainControllerRefactored.initialize(primaryStage);
+        MainController mainController = loader.getController();
+        mainController.initialize(primaryStage);
 
         primaryStage.getIcons().add(new Image("sample/Images/AirbnbLogo.png"));
         primaryStage.show();

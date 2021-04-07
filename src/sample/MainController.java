@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * @author Jacqueline Ilie, Liam Clark Gutiérrez, Dexter Trower and Jad Sbaï
  * @version 29/03/2021
  */
-public class MainControllerRefactored
+public class MainController
 {
     private ControllerComponents  controllerComponents;
     @FXML
@@ -59,25 +59,25 @@ public class MainControllerRefactored
 
     private int trackingIndex;
 
-    private MapControllerRefactored mapController;
+    private MapController mapController;
     private StatisticsController statisticsController;
 
     public void initialize(Stage primaryStage) throws IOException
     {
         controllerComponents = new ControllerComponents(null);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("WelcomeRefactored.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("WelcomePanel.fxml"));
         welcomeRoot = loader.load();
-        WelcomeControllerRefactored welcomeController = loader.getController();
+        WelcomeController welcomeController = loader.getController();
         welcomeController.initialize(mainPane);
 
-        mapController = new MapControllerRefactored(controllerComponents);
-        loader = new FXMLLoader(getClass().getResource("Map.fxml"));
+        mapController = new MapController(controllerComponents);
+        loader = new FXMLLoader(getClass().getResource("MapPanel.fxml"));
         loader.setController(mapController);
         mapRoot = loader.load();
 
         statisticsController = new StatisticsController(controllerComponents);
-        loader = new FXMLLoader(getClass().getResource("Statistics.fxml"));
+        loader = new FXMLLoader(getClass().getResource("StatisticsPanel.fxml"));
         loader.setController(statisticsController);
         statisticsRoot = loader.load();
 

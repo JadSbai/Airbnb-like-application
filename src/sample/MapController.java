@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 
-public class MapControllerRefactored
+public class MapController
 {
     private ControllerComponents controllerComponents;
     @FXML
@@ -30,7 +30,7 @@ public class MapControllerRefactored
 
     private AccountDetailsController accountDetailsController;
 
-    public MapControllerRefactored(ControllerComponents controllerComponents){
+    public MapController(ControllerComponents controllerComponents){
         this.controllerComponents = controllerComponents;
     }
 

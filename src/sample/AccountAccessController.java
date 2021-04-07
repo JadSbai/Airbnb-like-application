@@ -126,7 +126,7 @@ public class AccountAccessController extends AccountController
 
     private Label userNameLabel;
 
-    private MapControllerRefactored mapControllerRefactored;
+    private MapController mapController;
 
     @FXML
     private Circle profileCircle;
@@ -511,7 +511,7 @@ public class AccountAccessController extends AccountController
      */
     protected void loadAccount() throws IOException
     {
-        mapControllerRefactored.loadCurrentAccount();
+        mapController.loadCurrentAccount();
     }
 
     /**
@@ -548,7 +548,7 @@ public class AccountAccessController extends AccountController
      */
     protected void closeAllPropertyWindows()
     {
-        mapControllerRefactored.closeAllMapStages();
+        mapController.closeAllMapStages();
     }
 
     /**
@@ -593,7 +593,7 @@ public class AccountAccessController extends AccountController
         this.userNameLabel = userNameLabel;
     }
 
-    public void setMapControllerRefactored(MapControllerRefactored mapControllerRefactored) {
-        this.mapControllerRefactored = mapControllerRefactored;
+    public void setMapControllerRefactored(MapController mapController) {
+        this.mapController = mapController;
     }
 }

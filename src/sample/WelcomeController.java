@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class WelcomeControllerRefactored
+public class WelcomeController
 {
     @FXML
     private Pane welcomePane;

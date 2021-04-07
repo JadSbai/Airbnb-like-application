@@ -29,10 +29,10 @@ public class AccountStageController extends AccountController
 
     private AccountDetailsController accountDetailsController;
 
-    MapControllerRefactored mapController;
+    MapController mapController;
 
 
-    public AccountStageController(ControllerComponents controllerComponents, Stage accountStage, MapControllerRefactored mapController)
+    public AccountStageController(ControllerComponents controllerComponents, Stage accountStage, MapController mapController)
     {
         super(controllerComponents, accountStage);
         this.controllerComponents = controllerComponents;

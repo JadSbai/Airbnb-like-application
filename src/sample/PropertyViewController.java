@@ -316,13 +316,13 @@ public class PropertyViewController extends ListingController {
     private void addToBookings() throws IOException
     {
 
-        FXMLLoader bookingLoader = new FXMLLoader(getClass().getResource("Booking.fxml"));
+        FXMLLoader bookingLoader = new FXMLLoader(getClass().getResource("BookingPane.fxml"));
         bookingLoader.setController(accountDetailsController);
         BorderPane booking = bookingLoader.load();
         controllerComponents.getAccount().addToBookings(getListing(), booking, accountDetailsController);
         accountDetailsController.loadBookings();
 
-        FXMLLoader bookingDetailsLoader = new FXMLLoader(getClass().getResource("BookingDetails.fxml"));
+        FXMLLoader bookingDetailsLoader = new FXMLLoader(getClass().getResource("BookingDetailsWindow.fxml"));
         Stage bookingDetailsStage = bookingDetailsLoader.load();
         BookingDetailsController bookingDetailsController = bookingDetailsLoader.getController();
         bookingDetailsController.initialize(getListing(), inDate, outDate);
