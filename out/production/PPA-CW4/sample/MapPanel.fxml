@@ -3,9 +3,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
 
-<VBox alignment="CENTER" stylesheets="@MapPanelStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane alignment="TOP_LEFT" stylesheets="@MapPanelStyle.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="subMapPane">
          <Button fx:id="WALT" layoutX="400.0" layoutY="75.0" onAction="#boroughSearch" prefHeight="100.0" prefWidth="100.0" styleClass="hexagon-button" text="WALT" AnchorPane.topAnchor="75.0">
@@ -178,6 +178,9 @@
                <Insets />
             </opaqueInsets>
          </Button>
+         <StackPane.margin>
+            <Insets bottom="80.0" left="80.0" right="80.0" top="80.0" />
+         </StackPane.margin>
       </AnchorPane>
    </children>
-</VBox>
+</StackPane>
