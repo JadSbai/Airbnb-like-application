@@ -65,6 +65,7 @@ public class AccountDetailsController
         BorderPane bookingPane = getBookingFromButton(e);
         AirbnbListing listing = controllerComponents.getAccount().getBookingToListingMap().get(bookingPane);
         Stage bookingDetailsStage = controllerComponents.getAccount().getListingToBookingDetailsMap().get(listing);
+        controllerComponents.getAccount().getListOfBookingDetailsStages().add(bookingDetailsStage);
 
         bookingToBookingDetailsMap.put(bookingPane, bookingDetailsStage);
 

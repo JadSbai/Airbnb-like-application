@@ -63,6 +63,7 @@ public class AccountStageController extends AccountController
         accountSettingsController.setAccountPanel(accountPanel);
     }
 
+    // test comment
     @FXML
     public void goToAccountSettings()
     {
@@ -77,6 +78,12 @@ public class AccountStageController extends AccountController
         accountPanel.setCenter(accountDetailsPanel);
         getAccountStage().sizeToScene();
         accountDetailsController.reloadFavouritesAndBookings();
+    }
+
+    @FXML
+    protected void closeAllAccountWindows()
+    {
+        super.closeAllAccountWindows();
     }
 
     public BorderPane getAccountPanel() {
