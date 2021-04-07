@@ -223,7 +223,7 @@ public class AccountAccessController extends AccountController
 
             controllerComponents.setCurrentAccount(newAccount);
             updateProfilePictures();
-            changeUsername(username);
+            updateProfileLabels();
 
             accountBar.setRight(signedInBar);
 
@@ -250,6 +250,8 @@ public class AccountAccessController extends AccountController
 
         if(checkValidityOfSignInFields(email, password)){
             controllerComponents.setCurrentAccount(getAccount(email));
+            updateProfilePictures();
+            updateProfileLabels();
 
             accountBar.setRight(signedInBar);
 
