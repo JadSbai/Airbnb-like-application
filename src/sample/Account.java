@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 
 /**
@@ -19,6 +19,7 @@ import javafx.scene.layout.Pane;
  */
 public class Account {
 
+    private ControllerComponents controllerComponents;
     /**
      * The account's email
      */
@@ -42,17 +43,17 @@ public class Account {
 
     private ArrayList<AirbnbListing> listOfFavouriteProperties;
 
-    private ListView<Pane> listViewOfFavourites;
+    private ArrayList<Pane> listOfFavouritePanes;
 
-    private HashMap<AirbnbListing, BorderPane> propertyToBookingMap;
-
-    private ListView<BorderPane> listViewOfBookings;
-
-    private ArrayList<AirbnbListing> listOfBookings;
+    private ArrayList<BorderPane> listOfBookingPanes;
 
     private ArrayList<PropertyPreviewController> listOfPropertyPreviewControllers;
 
     private HashMap<Pane, PropertyPreviewController> paneToPropertyPreviewControllerMap;
+
+    private HashMap<BorderPane, AirbnbListing> bookingToListingMap;
+
+    private HashMap<AirbnbListing, Stage> listingToBookingDetailsMap;
 
     /**
      * The account's profile picture
@@ -67,20 +68,21 @@ public class Account {
      * @param username the account's username
      * @param password the account's password
      */
-    public Account(String username, String email, String password) {
+    public Account(String username, String email, String password, ControllerComponents controllerComponents)
+    {
         this.email = email;
         this.username = username.trim();
         this.password = password;
         profilePicture = new Image("/sample/nopfp.png");
-        listViewOfFavourites = new ListView<>();
-        listOfBookings = new ArrayList<>();
-        listViewOfBookings = new ListView<>();
+        listOfFavouritePanes = new ArrayList<>();
+        listOfBookingPanes = new ArrayList<>();
         favouritePropertyToPropertyPreviewPaneMap = new HashMap<>();
         listOfFavouriteProperties = new ArrayList<>();
-        propertyToBookingMap = new HashMap<>();
         listOfPropertyPreviewControllers = new ArrayList<>();
         paneToPropertyPreviewControllerMap = new HashMap<>();
-
+        bookingToListingMap = new HashMap<>();
+        listingToBookingDetailsMap = new HashMap<>();
+        this.controllerComponents = controllerComponents;
     }
 
     /**
@@ -161,16 +163,18 @@ public class Account {
      *
      * @param listing The property to be added
      */
-    public void addToFavouriteProperties(AirbnbListing listing) throws IOException {
-        FXMLLoader preview  = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
+    public void addToFavouriteProperties(AirbnbListing listing, AccountDetailsController accountDetailsController) throws IOException
+    {
+        FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
+        PropertyPreviewController propertyPreviewController = new PropertyPreviewController(controllerComponents, listing, accountDetailsController);
+        preview.setController(propertyPreviewController);
         Pane propertyPreviewPane = preview.load();
-        PropertyPreviewController propertyPreviewController = preview.getController();
-        propertyPreviewController.initialize(listing, this);
+
         listOfPropertyPreviewControllers.add(propertyPreviewController);
         paneToPropertyPreviewControllerMap.put(propertyPreviewPane, propertyPreviewController);
         favouritePropertyToPropertyPreviewPaneMap.put(listing, propertyPreviewPane);
         listOfFavouriteProperties.add(listing);
-        addToListViewOfFavourites(propertyPreviewPane);
+        listOfFavouritePanes.add(propertyPreviewPane);
     }
 
     /**
@@ -191,18 +195,10 @@ public class Account {
         profilePicture = pfp;
     }
 
-    private void addToListViewOfFavourites(Pane pane) {
-        listViewOfFavourites.getItems().add(pane);
-    }
-
-    private void removeFromListViewOfFavourites(Pane pane) {
-        listViewOfFavourites.getItems().remove(pane);
-    }
-
     public void removeFromFavourites(AirbnbListing listing)
     {
         Pane propertyPreviewPane = favouritePropertyToPropertyPreviewPaneMap.get(listing);
-        removeFromListViewOfFavourites(propertyPreviewPane);
+        listOfFavouritePanes.remove(propertyPreviewPane);
         favouritePropertyToPropertyPreviewPaneMap.remove(listing);
         removeFromListOfFavouriteProperties(listing);
         PropertyPreviewController propertyPreviewController = paneToPropertyPreviewControllerMap.get(propertyPreviewPane);
@@ -211,73 +207,35 @@ public class Account {
 
     }
 
-
-    public ListView<Pane> getListViewOfFavourites() {
-        return listViewOfFavourites;
+    public void setListOfBookingPanes(ArrayList<BorderPane> listOfBookingPanes) {
+        this.listOfBookingPanes = listOfBookingPanes;
     }
 
-    public ListView<BorderPane> getListViewOfBookings() {
-        return listViewOfBookings;
-    }
-
-    public void setListViewOfBookings(ListView<BorderPane> listViewOfBookings) {
-        this.listViewOfBookings = listViewOfBookings;
-    }
-
-    public ArrayList<AirbnbListing> getListOfBookings() {
-        return listOfBookings;
-    }
-
-    public void addToBookings(AirbnbListing listing, BorderPane booking) throws IOException
+    public void addToBookings(AirbnbListing listing, BorderPane booking, AccountDetailsController accountDetailsController) throws IOException
     {
-        FXMLLoader preview  = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
+        FXMLLoader preview = new FXMLLoader(getClass().getResource("AirbnbPreview.fxml"));
+        PropertyPreviewController propertyPreviewController = new PropertyPreviewController(controllerComponents, listing, accountDetailsController);
+        preview.setController(propertyPreviewController);
         Pane propertyPreviewPane = preview.load();
-        PropertyPreviewController propertyPreviewController = preview.getController();
+
+        bookingToListingMap.put(booking, listing);
         listOfPropertyPreviewControllers.add(propertyPreviewController);
-        propertyPreviewController.initialize(listing, this);
         booking.setCenter(propertyPreviewPane);
         paneToPropertyPreviewControllerMap.put(booking,propertyPreviewController);
-        propertyToBookingMap.put(listing, booking);
-        listOfBookings.add(listing);
-        addToListViewOfBookings(booking);
+        listOfBookingPanes.add(booking);
     }
 
-    private void addToListViewOfBookings(BorderPane pane) {
-        listViewOfBookings.getItems().add(pane);
+    public void addToBookingDetailsMap(AirbnbListing listing, Stage bookingDetailsStage){
+        listingToBookingDetailsMap.put(listing, bookingDetailsStage);
     }
 
-    public void removeFromBookings(AirbnbListing listing)
+    public void removeFromBookings(BorderPane booking)
     {
-        BorderPane booking = propertyToBookingMap.get(listing);
         PropertyPreviewController propertyPreviewController = paneToPropertyPreviewControllerMap.get(booking);
         removeFromListOfPropertyPreviewControllers(propertyPreviewController);
         paneToPropertyPreviewControllerMap.remove(booking);
-        removeFromListViewOfBookings(booking);
-        propertyToBookingMap.remove(listing);
-        removeFromListOfBookings(listing);
-    }
-
-    private void removeFromListViewOfBookings(BorderPane booking)
-    {
-        listViewOfBookings.getItems().remove(booking);
-    }
-
-    /**
-     * This method removes the specified property from the account's list of favourites
-     *
-     * @param listing The property to be removed from the list
-     */
-    public void removeFromListOfBookings(AirbnbListing listing) {
-        // Use of an iterator object to avoid index errors in the list
-        Iterator<AirbnbListing> iterator = listOfBookings.iterator();
-        AirbnbListing property;
-        while (iterator.hasNext()) {
-            property = iterator.next();
-            if (property == listing) {
-                iterator.remove();
-                break;
-            }
-        }
+        listOfBookingPanes.remove(booking);
+        bookingToListingMap.remove(booking);
     }
 
     public void removeFromListOfPropertyPreviewControllers(PropertyPreviewController propertyPreviewController)
@@ -293,8 +251,25 @@ public class Account {
         }
     }
 
+
     public ArrayList<PropertyPreviewController> getListOfPropertyPreviewControllers() {
         return listOfPropertyPreviewControllers;
+    }
+
+    public ArrayList<Pane> getListOfFavourites() {
+        return listOfFavouritePanes;
+    }
+
+    public ArrayList<BorderPane> getListOfBookingPanes() {
+        return listOfBookingPanes;
+    }
+
+    public HashMap<BorderPane, AirbnbListing> getBookingToListingMap() {
+        return bookingToListingMap;
+    }
+
+    public HashMap<AirbnbListing, Stage> getListingToBookingDetailsMap() {
+        return listingToBookingDetailsMap;
     }
 }
 

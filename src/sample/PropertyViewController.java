@@ -13,15 +13,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 import java.io.File;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
-public class PropertyViewController {
+public class PropertyViewController extends ListingController {
 
-    private AirbnbListing listing;
-
+    private final ControllerComponents controllerComponents;
     @FXML
     private Label nameAndHost, reviews, propertyType, priceAndNights, subtotal, serviceFeeValue, totalPriceLabel, availability, availabilityText;
 
@@ -47,35 +47,43 @@ public class PropertyViewController {
     private Hyperlink locationLink;
     @FXML
     private Label favouriteTextLabel;
+    
+    private final AccountDetailsController accountDetailsController;
+
+    public PropertyViewController(ControllerComponents controllerComponents, AirbnbListing listing, AccountDetailsController accountDetailsController)
+    {
+        super(listing);
+        this.controllerComponents = controllerComponents;
+        this.accountDetailsController = accountDetailsController;
+    }
 
 
-    private Account currentAccount;
-
-
-    public void initialize(AirbnbListing listing, Account account){
+    public void initialize() throws IOException
+    {
         favouriteTextLabel.setText("");
-
-        this.listing = listing;
-        this.currentAccount = account;
 
         setHeader();
         setAvailability();
         setReviews();
 
-        if(currentAccount == null){
-            listing.setFavourite(false);
+        if(controllerComponents.getAccount() == null){
+            getListing().setFavourite(false);
             setSaveBox(false);
         }
         else{
             initializeFavourites();
         }
-        this.priceAndNights.setText("£" + listing.getPrice() + " / night");
+        this.priceAndNights.setText("£" + getListing().getPrice() + " / night");
     }
 
     @FXML
     public void reserveProperty() throws IOException
     {
-        addToBookings();
+        if(controllerComponents.getAccount() == null){
+            warningAlert("If you want to book this property, you must be signed in. If you don't have an account, create one", "Not signed in");
+        } else {
+            addToBookings();
+        }
     }
 
     /**
@@ -85,8 +93,8 @@ public class PropertyViewController {
      */
     @FXML
     public void viewMap(ActionEvent event) throws URISyntaxException, IOException {
-        double latitude = listing.getLatitude();
-        double longitude = listing.getLongitude();
+        double latitude = getListing().getLatitude();
+        double longitude = getListing().getLongitude();
 
         URI uri = new URI("https://www.google.com/maps/place/" + latitude + "," + longitude);
         java.awt.Desktop.getDesktop().browse(uri);
@@ -132,15 +140,14 @@ public class PropertyViewController {
     }
 
     @FXML
-    public void saveFavourites() throws IOException {
-        if(currentAccount == null){
-            setSaveBox(false);
-            warningAlert("If you want to save this property into your favourites, you must first sign in to your account. If you don't have an account, create one", "Not signed in");
-        }
-        else {
-            listing.setFavourite(!listing.isFavourite());
-
-            if (listing.isFavourite()) {
+    public void saveFavourites() throws IOException
+    {
+        if(controllerComponents.getAccount() == null){
+            warningAlert("If you want to save this property into your favourites, you must you must be signed in. If you don't have an account, create one", "Not signed in");
+            saveBox.setSelected(false);
+        } else {
+            getListing().setFavourite(!getListing().isFavourite());
+            if (getListing().isFavourite()) {
                 addToFavourites();
             }
             else {
@@ -152,9 +159,9 @@ public class PropertyViewController {
     private void initializeFavourites()
     {
         boolean isFavourite = false;
-        ArrayList<AirbnbListing> listOfFavourites = currentAccount.getListOfFavouriteProperties();
+        ArrayList<AirbnbListing> listOfFavourites = controllerComponents.getAccount().getListOfFavouriteProperties();
         for(AirbnbListing property : listOfFavourites){
-            if(listing == property){
+            if(getListing() == property){
                 property.setFavourite(true);
                 isFavourite = true;
                 break;
@@ -162,7 +169,6 @@ public class PropertyViewController {
         }
         setSaveBox(isFavourite);
     }
-
 
     public void setSaveBox(boolean isFavourite)
     {
@@ -174,12 +180,12 @@ public class PropertyViewController {
      */
     private void calculatePrice(){
         int numberOfNights = (int) DAYS.between(inDate, outDate);
-        int minNumberOfNights = listing.getMinimumNights();
+        int minNumberOfNights = getListing().getMinimumNights();
 
         if(numberOfNights < minNumberOfNights){
             invalidOptions("Minimum number of nights for this property is " + minNumberOfNights + " you selected " + numberOfNights, "Insufficient nights");
         } else {
-            int price = listing.getPrice();
+            int price = getListing().getPrice();
             int subTotalPrice = price*numberOfNights;
             int serviceFee = (int) Math.round(subTotalPrice*0.2);
             int totalPrice = subTotalPrice+serviceFee;
@@ -213,15 +219,15 @@ public class PropertyViewController {
      * property and host name.
      */
     private void setHeader() {
-        this.propertyType.setText(listing.getRoom_type() + " in " + listing.getNeighbourhood());
-        this.nameAndHost.setText(listing.getName() + " - " + listing.getHost_name());
+        this.propertyType.setText(getListing().getRoom_type() + " in " + getListing().getNeighbourhood());
+        this.nameAndHost.setText(getListing().getName() + " - " + getListing().getHost_name());
     }
 
     /**
      * Set the number of reviews of the property. Shows "review" instead of "reviews" if only 1.
      */
     private void setReviews() {
-        int numberOfReviews = listing.getNumberOfReviews();
+        int numberOfReviews = getListing().getNumberOfReviews();
 
         if (numberOfReviews==1) {
             this.reviews.setText(numberOfReviews + " review");
@@ -235,7 +241,7 @@ public class PropertyViewController {
      * unavailable
      */
     private void setAvailability() {
-        int daysAvailable = listing.getAvailability365();
+        int daysAvailable = getListing().getAvailability365();
 
         if(daysAvailable==0){
             availability.setText("Unavailable");
@@ -263,11 +269,10 @@ public class PropertyViewController {
         }
     }
 
-    public void reload(AirbnbListing listing, Account account)
+    public void reload()
     {
-        currentAccount = account;
-        if(currentAccount == null){
-            listing.setFavourite(false);
+        if(controllerComponents.getAccount() == null){
+            getListing().setFavourite(false);
             setSaveBox(false);
         }
         else{
@@ -295,25 +300,35 @@ public class PropertyViewController {
     }
 
     private void addToFavourites() throws IOException {
-        currentAccount.addToFavouriteProperties(listing);
+        controllerComponents.getAccount().addToFavouriteProperties(getListing(), accountDetailsController);
         setFavouriteTextLabel("This property has been added to your favourites");
         setSaveBox(true);
+        accountDetailsController.loadFavourites();
     }
 
-    private void removeFromFavourites()
-    {
-        currentAccount.removeFromFavourites(listing);
+    private void removeFromFavourites() throws IOException {
+        controllerComponents.getAccount().removeFromFavourites(getListing());
         setFavouriteTextLabel("This property has been removed from your favourites");
         setSaveBox(false);
+        accountDetailsController.loadFavourites();
     }
 
     private void addToBookings() throws IOException
     {
-        FXMLLoader bookingLoader = new FXMLLoader(getClass().getResource("Booking.fxml"));
+
+        FXMLLoader bookingLoader = new FXMLLoader(getClass().getResource("BookingPane.fxml"));
+        bookingLoader.setController(accountDetailsController);
         BorderPane booking = bookingLoader.load();
-        BookingController bookingController = bookingLoader.getController();
-        bookingController.initialize(listing, reserveButton, currentAccount, inDate, outDate);
-        currentAccount.addToBookings(listing, booking);
+        controllerComponents.getAccount().addToBookings(getListing(), booking, accountDetailsController);
+        accountDetailsController.loadBookings();
+
+        FXMLLoader bookingDetailsLoader = new FXMLLoader(getClass().getResource("BookingDetailsWindow.fxml"));
+        Stage bookingDetailsStage = bookingDetailsLoader.load();
+        BookingDetailsController bookingDetailsController = bookingDetailsLoader.getController();
+        bookingDetailsController.initialize(getListing(), inDate, outDate);
+        controllerComponents.getAccount().addToBookingDetailsMap(getListing(), bookingDetailsStage);
+
         reserveButton.setDisable(true);
     }
+
 }

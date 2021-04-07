@@ -1,18 +1,20 @@
 package sample;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
-
+import java.util.ArrayList;
 
 /**
  * This class is in charge of all the GUI's containers and controls related to the creation and usage of an AirBnB account.
@@ -22,104 +24,230 @@ import java.io.IOException;
  * @author Jacqueline Ilie, Liam Clark Gutiérrez, Dexter Trower and Jad Sbaï
  * @version 29/03/2021
  */
-public class MainController {
-
+public class MainController
+{
+    private ControllerComponents  controllerComponents;
     @FXML
     private BorderPane mainPane;
     @FXML
-    private Button leftButton;
-    @FXML
-    private Button rightButton;
+    private Button leftButton, rightButton;
     @FXML
     private Label currentPriceRangeLabel;
     @FXML
     private BorderPane accountBar;
+    @FXML
+    private ComboBox<Integer> minimumPrice, maximumPrice;
+    @FXML
+    private Button searchButton;
 
-    private Pane welcomeRoot;
-    private ScrollPane mapRoot;
-    private Pane statisticsRoot;
+    private Pane welcomeRoot, mapRoot, statisticsRoot;
 
-    private AccountController accountController;
+    private static final int MIN_VALUE = 0, MAX_VALUE = 500;
+
+    private int minPrice, maxPrice;
+
+    private boolean isSearched;
+    private boolean isNewSearch;
+
+    private ArrayList<Pane> listOfRoots;
+
+    private VBox dropDownRoot;
+
+    private Pane signedOutBar;
+
+    private static final int welcomeIndex = 0, mapIndex = 1, statisticsIndex = 2;
+
+    private int trackingIndex;
+
     private MapController mapController;
+    private StatisticsController statisticsController;
 
+    public void initialize(Stage primaryStage) throws IOException
+    {
+        controllerComponents = new ControllerComponents(null);
 
-
-    public void initialize(Pane mainRoot) throws IOException {
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("WelcomePanel.fxml"));
         welcomeRoot = loader.load();
         WelcomeController welcomeController = loader.getController();
-        welcomeController.initialize(leftButton, rightButton, currentPriceRangeLabel, this);
+        welcomeController.initialize(mainPane);
+
+        mapController = new MapController(controllerComponents);
+        loader = new FXMLLoader(getClass().getResource("MapPanel.fxml"));
+        loader.setController(mapController);
+        mapRoot = loader.load();
+
+        statisticsController = new StatisticsController(controllerComponents);
+        loader = new FXMLLoader(getClass().getResource("StatisticsPanel.fxml"));
+        loader.setController(statisticsController);
+        statisticsRoot = loader.load();
+
+        AccountStageController accountStageController = new AccountStageController(controllerComponents, null, mapController);
+        loader = new FXMLLoader(getClass().getResource("AccountStage.fxml"));
+        loader.setController(accountStageController);
+        Stage accountStage = loader.load();
+        accountStageController.setAccountStage(accountStage);
+        accountStageController.initializeControllers();
+
+        DropDownMenuController dropDownMenuController = new DropDownMenuController(controllerComponents, accountStage, accountStageController);
+        loader = new FXMLLoader(getClass().getResource("AccountDropDownMenu.fxml"));
+        loader.setController(dropDownMenuController);
+        dropDownRoot = loader.load();
+
+        StackPane.setMargin(dropDownRoot, new Insets(147,0,0,0));
+
+        Label usernameLabel = dropDownMenuController.getAccountUsernameLabel();
+
+        AccountAccessController accountAccessController = new AccountAccessController(controllerComponents, accountStage);
+        loader = new FXMLLoader(getClass().getResource("SignedOutBar.fxml"));
+        loader.setController(accountAccessController);
+        signedOutBar = loader.load();
+        accountAccessController.setSignedOutBar(signedOutBar);
+
+        StackPane mainRoot = ((StackPane) primaryStage.getScene().getRoot());
+        mainRoot.getChildren().add(dropDownRoot);
+
+        FXMLLoader signedInLoader = new FXMLLoader(getClass().getResource("SignedInBar.fxml"));
+        signedInLoader.setController(accountAccessController);
+        accountAccessController.setSignedInBar(signedInLoader.load());
+
+        FXMLLoader createAccountStage = new FXMLLoader(getClass().getResource("AccountAccessStage.fxml"));
+        createAccountStage.setController(accountAccessController);
+        accountAccessController.setAccountAccessStage(createAccountStage.load());
+
+        FXMLLoader signInPanelLoader = new FXMLLoader(getClass().getResource("SignInPanel.fxml"));
+        signInPanelLoader.setController(accountAccessController);
+        accountAccessController.setSignInPanel(signInPanelLoader.load());
+
+        FXMLLoader createAccountPanelLoader = new FXMLLoader(getClass().getResource("CreateAccountPanel.fxml"));
+        createAccountPanelLoader.setController(accountAccessController);
+        accountAccessController.setCreateAccountPanel(createAccountPanelLoader.load());
+
+        accountAccessController.setDropDownPane(dropDownRoot);
+        accountAccessController.setAccountBar(accountBar);
+        accountAccessController.setUserNameLabel(usernameLabel);
+        accountAccessController.setMapControllerRefactored(mapController);
+
+        accountBar.setRight(signedOutBar);
+
+        rightButton.setDisable(true);
+        leftButton.setDisable(true);
+        listOfRoots = new ArrayList<>();
+
+        isSearched = false;
+
+        minimumPrice.setItems(FXCollections.observableArrayList(getPriceRange()));
+        maximumPrice.setItems(FXCollections.observableArrayList(getPriceRange()));
+
         mainPane.setCenter(welcomeRoot);
 
-        AirbnbDataLoader dataLoader = new AirbnbDataLoader();
-
-        loader = new FXMLLoader(getClass().getResource("map.fxml"));
-        mapRoot = loader.load();
-        mapController = loader.getController();
-        mapController.initialize(welcomeController, dataLoader);
-
-        loader = new FXMLLoader(getClass().getResource("statistics.fxml"));
-        statisticsRoot = loader.load();
-        StatisticsController statisticsController = loader.getController();
-        statisticsController.initialize(dataLoader);
-
-        FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("accountPopUpMenu.fxml"));
-        VBox popUpRoot = popUpLoader.load();
-        accountController = popUpLoader.getController();
-        mainRoot.getChildren().add(popUpRoot);
-
-        loader = new FXMLLoader(getClass().getResource("signed_out.fxml"));
-        loader.setController(accountController);
-        Pane signedOutBar = loader.load();
-        accountController.initialize(this, signedOutBar, mapController);
-        accountBar.setRight(accountController.getSignedOutBar());
-    }
-
-    @FXML
-    private void leftButtonAction(ActionEvent e) throws IOException {
-        if(mainPane.getCenter() == welcomeRoot){
-            mainPane.setCenter(statisticsRoot);
-        }
-        else if(mainPane.getCenter() == mapRoot){
-            mainPane.setCenter(welcomeRoot);
-        }
-        else{
-        mapController.setColor();
-        mainPane.setCenter(mapRoot);
-        if(accountController.getWelcomeController().isNewSearch()){
-            mapController.setColor();
-            accountController.getMapController().closeAllMapStages();
-            }
-        }
-
+        // This code of block has to be improved
+        listOfRoots = new CircularList<>(){};
+        listOfRoots.add(welcomeIndex, welcomeRoot);
+        listOfRoots.add(mapIndex, mapRoot);
+        listOfRoots.add(statisticsIndex, statisticsRoot);
+        trackingIndex = welcomeIndex;
     }
 
 
     @FXML
-    public void rightButtonAction(ActionEvent e) throws IOException {
-        if(mainPane.getCenter() == welcomeRoot){
-            mapController.setColor();
-            mainPane.setCenter(mapRoot);
-            if(accountController.getWelcomeController().isNewSearch()){
-                mapController.setColor();
-                accountController.getMapController().closeAllMapStages();
-            }
-        }
-        else if(mainPane.getCenter() == mapRoot){
-            mainPane.setCenter(statisticsRoot);
-        }
-        else{
-            mainPane.setCenter(welcomeRoot);
-        }
-    }
-
-    public BorderPane getAccountBar()
+    private void rightButtonAction(ActionEvent e)
     {
-        return accountBar;
+        trackingIndex++;
+        Pane nextPane = listOfRoots.get(trackingIndex);
+        mainPane.setCenter(nextPane);
     }
 
-    public AccountController getAccountController() {
-        return accountController;
+    @FXML
+    private void leftButtonAction()
+    {
+        trackingIndex--;
+        if(trackingIndex == -1){
+            trackingIndex = listOfRoots.size() - 1;
+        }
+        Pane previousPane = listOfRoots.get(trackingIndex);
+        mainPane.setCenter(previousPane);
+    }
+
+    @FXML
+    private void searchAction(ActionEvent e){
+
+        boolean valid = (getIntFromBox(minimumPrice) && getIntFromBox(maximumPrice));
+        boolean isNewPrice = false;
+
+        if (valid)
+        {
+            int temp1 = minPrice;
+            int temp2 = maxPrice;
+            minPrice = minimumPrice.getValue();
+            maxPrice = maximumPrice.getValue();
+
+            if(temp1 != minPrice || temp2 != maxPrice){
+                isNewPrice = true;
+            }
+            else{
+                invalidOptions("Please input an new price range before searching", "Same price range !");
+            }
+        }
+        if (valid && maxPrice > minPrice && isNewPrice)
+        {
+            currentPriceRangeLabel.setText("Price range: " + minPrice + "-" + maxPrice);
+            mapController.setPriceRange(minPrice, maxPrice);
+            statisticsController.setPriceRange(minPrice, maxPrice);
+            isNewSearch = true;
+            if(!isSearched){
+                rightButton.setDisable(false);
+                leftButton.setDisable(false);
+                mapController.setColor();
+                rightButtonAction(e);
+                setSearched(true);
+            }
+            else{
+                jumpToNewMap();
+            }
+
+        }
+        else if(valid && isNewPrice)
+        {
+            invalidOptions("Minimum price may not exceed or equal maximum price.", "Invalid price range!");
+        }
+        else if(!valid)
+        {
+            invalidOptions("Please input a price range first.", "Invalid price range!");
+        }
+    }
+
+    private void jumpToNewMap()
+    {
+        mapController.closeAllMapStages();
+        mapController.setColor();
+        trackingIndex = mapIndex;
+        BorderPane.setAlignment(mapRoot, Pos.CENTER);
+        mainPane.setCenter(mapRoot);
+
+    }
+
+    private ArrayList<Integer> getPriceRange() {
+        ArrayList<Integer> priceRange = new ArrayList<>();
+        for (int i = MIN_VALUE; i <= MAX_VALUE; i = (int) (i + ((MAX_VALUE - MIN_VALUE)) * 0.1)) {
+            priceRange.add(i);
+        }
+        return priceRange;
+    }
+
+    protected void invalidOptions(String error, String errorTitle)
+    {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(errorTitle);
+        alert.setHeaderText(null);
+        alert.setContentText(error);
+        alert.showAndWait();
+    }
+
+    private boolean getIntFromBox(ComboBox<Integer> box) {
+        return (box.getValue() != null);
+    }
+
+    private void setSearched(boolean searched) {
+        isSearched = searched;
     }
 }

@@ -2,15 +2,11 @@ package sample;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.scene.layout.*;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Stack;
 
 /**
  * This class is the main class of the project. It sets up the application and launches it.
@@ -30,18 +26,12 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException, URISyntaxException {
 
         // We use the FXMLLoader class to load the fxml files created with the SceneBuilder
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
-        // The root of panel is retrieved from the fxml file
-        StackPane root = loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
+        primaryStage = loader.load();
         MainController mainController = loader.getController();
-        mainController.initialize(root);
+        mainController.initialize(primaryStage);
 
-        primaryStage.setTitle("Airbnb London");
-        // The scene is set with the retrieved root
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        scene.getStylesheets().add(getClass().getResource("WelcomePanelStyle.css").toURI().toString());
-
+        primaryStage.getIcons().add(new Image("sample/Images/AirbnbLogo.png"));
         primaryStage.show();
 
         primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));
@@ -49,7 +39,7 @@ public class Main extends Application {
     }
 
     /**
-     * This is the main method of the project. It launches the application.
+     * Main method of the project. It launches the application.
      */
     public static void main(String[] args) {
         launch(args);
