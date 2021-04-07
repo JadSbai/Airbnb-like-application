@@ -42,7 +42,6 @@ public class PropertyViewController extends ListingController {
 
     private LocalDate inDate, outDate;
 
-
     @FXML
     private Hyperlink locationLink;
     @FXML
@@ -57,7 +56,6 @@ public class PropertyViewController extends ListingController {
         this.accountDetailsController = accountDetailsController;
     }
 
-
     public void initialize() throws IOException
     {
         favouriteTextLabel.setText("");
@@ -68,12 +66,79 @@ public class PropertyViewController extends ListingController {
 
         if(controllerComponents.getAccount() == null){
             getListing().setFavourite(false);
-            setSaveBox(false);
+            saveBox.setSelected(false);
         }
         else{
             initializeFavourites();
         }
         this.priceAndNights.setText("£" + getListing().getPrice() + " / night");
+    }
+    /**
+     * Set the text for the header of the listing's view. Shows room type, neighbourhood, name (description) of the
+     * property and host name.
+     */
+    private void setHeader() {
+        this.propertyType.setText(getListing().getRoom_type() + " in " + getListing().getNeighbourhood());
+        this.nameAndHost.setText(getListing().getName() + " - " + getListing().getHost_name());
+    }
+    /**
+     * Set the number of reviews of the property. Shows "review" instead of "reviews" if only 1.
+     */
+    private void setReviews() {
+        int numberOfReviews = getListing().getNumberOfReviews();
+
+        if (numberOfReviews==1) {
+            this.reviews.setText(numberOfReviews + " review");
+        } else {
+            this.reviews.setText(numberOfReviews + " reviews");
+        }
+    }
+
+    /**
+     * Sets the availability of the property including an icon. Disables the date selector pane if the property is
+     * unavailable
+     */
+    private void setAvailability() {
+        int daysAvailable = getListing().getAvailability365();
+
+        if(daysAvailable==0){
+            availability.setText("Unavailable");
+            availabilityText.setText("This property is unavailable.");
+
+            File file = new File("src/sample/Images/NotAvailable.png");
+            Image image = new Image(file.toURI().toString());
+            availabilityIcon.setImage(image);
+
+            dateSelectPane.setDisable(true);
+        } else if (daysAvailable<30) {
+            availability.setText("Rare find");
+            availabilityText.setText("This property is usually booked.");
+
+            File file = new File("src/sample/Images/RareFind.png");
+            Image image = new Image(file.toURI().toString());
+            availabilityIcon.setImage(image);
+        } else {
+            availability.setText("Available");
+            availabilityText.setText("This property is available.");
+
+            File file = new File("src/sample/Images/Available.png");
+            Image image = new Image(file.toURI().toString());
+            availabilityIcon.setImage(image);
+        }
+    }
+
+    private void initializeFavourites()
+    {
+        boolean isFavourite = false;
+        ArrayList<AirbnbListing> listOfFavourites = controllerComponents.getAccount().getListOfFavouriteProperties();
+        for(AirbnbListing property : listOfFavourites){
+            if(getListing() == property){
+                property.setFavourite(true);
+                isFavourite = true;
+                break;
+            }
+        }
+        saveBox.setSelected(isFavourite);
     }
 
     @FXML
@@ -156,23 +221,18 @@ public class PropertyViewController extends ListingController {
         }
     }
 
-    private void initializeFavourites()
-    {
-        boolean isFavourite = false;
-        ArrayList<AirbnbListing> listOfFavourites = controllerComponents.getAccount().getListOfFavouriteProperties();
-        for(AirbnbListing property : listOfFavourites){
-            if(getListing() == property){
-                property.setFavourite(true);
-                isFavourite = true;
-                break;
-            }
-        }
-        setSaveBox(isFavourite);
+    private void addToFavourites() throws IOException {
+        controllerComponents.getAccount().addToFavouriteProperties(getListing(), accountDetailsController);
+        setFavouriteTextLabel("This property has been added to your favourites");
+        saveBox.setSelected(true);
+        accountDetailsController.loadFavourites();
     }
 
-    public void setSaveBox(boolean isFavourite)
-    {
-        saveBox.setSelected(isFavourite);
+    private void removeFromFavourites() throws IOException {
+        controllerComponents.getAccount().removeFromFavourites(getListing());
+        setFavouriteTextLabel("This property has been removed from your favourites");
+        saveBox.setSelected(false);
+        accountDetailsController.loadFavourites();
     }
 
     /**
@@ -209,77 +269,22 @@ public class PropertyViewController extends ListingController {
         alert.showAndWait();
     }
 
-
-    public CheckBox getSaveBox() {
-        return saveBox;
-    }
-
-    /**
-     * Set the text for the header of the listing's view. Shows room type, neighbourhood, name (description) of the
-     * property and host name.
-     */
-    private void setHeader() {
-        this.propertyType.setText(getListing().getRoom_type() + " in " + getListing().getNeighbourhood());
-        this.nameAndHost.setText(getListing().getName() + " - " + getListing().getHost_name());
-    }
-
-    /**
-     * Set the number of reviews of the property. Shows "review" instead of "reviews" if only 1.
-     */
-    private void setReviews() {
-        int numberOfReviews = getListing().getNumberOfReviews();
-
-        if (numberOfReviews==1) {
-            this.reviews.setText(numberOfReviews + " review");
-        } else {
-            this.reviews.setText(numberOfReviews + " reviews");
-        }
-    }
-
-    /**
-     * Sets the availability of the property including an icon. Disables the date selector pane if the property is
-     * unavailable
-     */
-    private void setAvailability() {
-        int daysAvailable = getListing().getAvailability365();
-
-        if(daysAvailable==0){
-            availability.setText("Unavailable");
-            availabilityText.setText("This property is unavailable.");
-
-            File file = new File("src/sample/Images/NotAvailable.png");
-            Image image = new Image(file.toURI().toString());
-            availabilityIcon.setImage(image);
-
-            dateSelectPane.setDisable(true);
-        } else if (daysAvailable<30) {
-            availability.setText("Rare find");
-            availabilityText.setText("This property is usually booked.");
-
-            File file = new File("src/sample/Images/RareFind.png");
-            Image image = new Image(file.toURI().toString());
-            availabilityIcon.setImage(image);
-        } else {
-            availability.setText("Available");
-            availabilityText.setText("This property is available.");
-
-            File file = new File("src/sample/Images/Available.png");
-            Image image = new Image(file.toURI().toString());
-            availabilityIcon.setImage(image);
-        }
-    }
-
+    
     public void reload()
     {
         if(controllerComponents.getAccount() == null){
             getListing().setFavourite(false);
-            setSaveBox(false);
+            saveBox.setSelected(false);
         }
         else{
             initializeFavourites();
         }
     }
 
+    /**
+     * Sets the a label that indicates that the property has been saved to favourites.
+     * @param text New text to be set for the favourite label
+     */
     public void setFavouriteTextLabel(String text) {
         favouriteTextLabel.setText(text);
     }
@@ -299,23 +304,9 @@ public class PropertyViewController extends ListingController {
 
     }
 
-    private void addToFavourites() throws IOException {
-        controllerComponents.getAccount().addToFavouriteProperties(getListing(), accountDetailsController);
-        setFavouriteTextLabel("This property has been added to your favourites");
-        setSaveBox(true);
-        accountDetailsController.loadFavourites();
-    }
-
-    private void removeFromFavourites() throws IOException {
-        controllerComponents.getAccount().removeFromFavourites(getListing());
-        setFavouriteTextLabel("This property has been removed from your favourites");
-        setSaveBox(false);
-        accountDetailsController.loadFavourites();
-    }
 
     private void addToBookings() throws IOException
     {
-
         FXMLLoader bookingLoader = new FXMLLoader(getClass().getResource("BookingPane.fxml"));
         bookingLoader.setController(accountDetailsController);
         BorderPane booking = bookingLoader.load();
@@ -330,5 +321,4 @@ public class PropertyViewController extends ListingController {
 
         reserveButton.setDisable(true);
     }
-
 }

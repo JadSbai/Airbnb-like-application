@@ -146,7 +146,7 @@ public class AccountSettingsController extends AccountController
         if (checkChangeUsernameValidity(newUsername) && checkUsername(newUsername, changeUsernameErrorLabel)) {
             changeUsername(newUsername);
             changeUsernameField.setPromptText(newUsername);
-            currentUsernameLabel.setText(newUsername);
+            updateProfileLabels();
             changes = true;
         }
         if (bufferImage != null)
@@ -211,6 +211,7 @@ public class AccountSettingsController extends AccountController
          changePasswordController.resetPasswordFields();
          passwordFeedbackLabel.setText("");
 
+         changeUsernameField.setText("");
          changeUsernameField.setPromptText(controllerComponents.getAccount().getUsername());
          emailField.setPromptText(controllerComponents.getAccount().getEmail());
          currentUsernameLabel.setText(controllerComponents.getAccount().getUsername());

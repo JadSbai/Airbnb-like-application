@@ -263,8 +263,4 @@ public class StatisticsControllerTest {
             assert cheapestHost.equals(supposedCheapestHost);
         }
     }
-
-
-
-
 }
