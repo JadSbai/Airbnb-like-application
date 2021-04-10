@@ -18,7 +18,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label fx:id="emptyListLabel" text="Label" />
+                  <Label fx:id="emptyListOfFavouritesLabel" text="Label" />
                   <ScrollPane fitToHeight="true" fitToWidth="true">
                      <content>
                         <ListView fx:id="listOfFavourites" prefWidth="400.0" />
@@ -33,7 +33,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label fx:id="emptyListLabel2" text="Label" />
+                  <Label fx:id="emptyListOfBookingsLabel" text="Label" />
                   <ScrollPane fitToHeight="true" fitToWidth="true">
                      <content>
                         <ListView fx:id="listOfBookings" prefWidth="400.0" />

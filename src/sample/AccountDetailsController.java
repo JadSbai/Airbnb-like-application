@@ -49,7 +49,7 @@ public class AccountDetailsController
      * The label displayed when the list of bookings is empty
      */
     @FXML
-    private Label emptyListLabel2;
+    private Label emptyListOfBookingsLabel;
 
     /**
      * HashMap that maps the bookings to their booking details window
@@ -102,9 +102,9 @@ public class AccountDetailsController
         listOfBookings.setItems(FXCollections.observableArrayList(controllerComponents.getAccount().getListOfBookingPanes()));
 
         if(listOfBookings.getItems().isEmpty()){
-            emptyListLabel2.setText("You currently have no bookings. Click on the \"Reserve\" button to add a booking.");
+            emptyListOfBookingsLabel.setText("You currently have no bookings. Click on the \"Reserve\" button to add a booking.");
         } else {
-            emptyListLabel2.setText("");
+            emptyListOfBookingsLabel.setText("");
         }
     }
 
